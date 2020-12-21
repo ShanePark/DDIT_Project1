@@ -13,15 +13,8 @@ import java.util.Map;
 
 public class JDBCUtil {
 
-	// 싱글 톤 패턴 : 인스턴스의 생성을 제한하여 하나의 인스턴스만 사용하는 디자인 패턴
-	private JDBCUtil(){
-
-	}
-
-	//인스턴스를 보관할 변수
+	private JDBCUtil(){}
 	private static JDBCUtil instance;
-
-	//인스턴스를 빌려주는 메서드
 
 	public static JDBCUtil getInstance(){
 		if(instance == null){
