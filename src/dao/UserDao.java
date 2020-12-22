@@ -19,7 +19,7 @@ public class UserDao {
 		return instance;
 	}
 	
-	public int userSignUp(Map<String, Object> param){	// 작성 필요
+	public int userSignUp(Map<String, Object> param){	
 		
 		String sql = "INSERT INTO USERS(USER_ID,PASSWORD,NICKNAME) VALUES (?,?,?)";
 		
@@ -32,8 +32,8 @@ public class UserDao {
 		
 	}
 	
-	public Map<String, Object> userSignIn(String userId, String password){	//작성 필요
-		String sql = "SELECT USER_ID, PASSWORD"
+	public Map<String, Object> userSignIn(String userId, String password){	
+		String sql = "SELECT USER_ID, PASSWORD, NICKNAME"
 				+ " FROM USERS"
 				+ " WHERE USER_ID = ?"
 				+ " AND PASSWORD = ?";
