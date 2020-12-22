@@ -34,7 +34,7 @@ public class UserDao {
 	
 	public Map<String, Object> userSignIn(String userId, String password){	//작성 필요
 		String sql = "SELECT USER_ID, PASSWORD"
-				+ " FROM USER"
+				+ " FROM USERS"
 				+ " WHERE USER_ID = ?"
 				+ " AND PASSWORD = ?";
 		List<Object> param = new ArrayList<>();

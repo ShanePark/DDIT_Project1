@@ -34,8 +34,10 @@ public class UserService {
 			System.out.println("아이디 혹은 비밀번호를 잘못 입력했습니다.");
 		}else{
 			System.out.println("로그인 성공");
-			
 			Controller.user = user;
+			
+			if(user.get("USER_ID").equals("admin"))	//	로그인한 계정이 admin일 경우 관리화면으로 갑니다
+					return View.ADMIN_MAIN;
 			
 			return View.USER_MAIN;
 		}
@@ -68,7 +70,31 @@ public class UserService {
 			System.out.println("회원가입 실패");
 			return View.MAIN;		// 가입에 실패하면 MAIN 화면으로 돌아갑니다.
 		}
+	}
+	
+	public int userMain(){
+		System.out.println("USER MAIN");
+		ScanUtil.nextLine();
 		
+		return View.MAIN;
+		
+	}
+	
+	public int guestMode(){	
+		
+		Map<String, Object> user = userDao.userSignIn("guest","guest");
+		
+		if(user.size() ==0){	//user == null
+			System.out.println("아이디 혹은 비밀번호를 잘못 입력했습니다.");
+		}else{
+			Controller.user = user;
+			System.out.println("비회원으로 이용합니다.");
+			
+			return View.USER_MAIN;
+		}
+		
+		
+		return View.SIGNIN;
 	}
 
 }
