@@ -41,9 +41,8 @@ public class Controller {
 		
 		int select = 2;
 		main:while(true){
-			System.out.println("=========================================");
-			System.out.println("                                 오늘 뭐먹지?");
-			System.out.println("=========================================\n");
+			System.out.println("□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■");
+			System.out.println("\n                                    🍽️ 오늘 뭐먹지? 🍽️\n");
 			if(select ==1)
 				System.out.print("           ■");
 			else
@@ -64,7 +63,8 @@ public class Controller {
 			else
 				System.out.print("           □");
 			System.out.print(" 종료\n");
-			System.out.print("                                       방향키 입력 (2)↓ (5)↑ (⏎)확인 \n>");
+			System.out.print("\n                           (2)↓ (5)↑ (⏎)확인 \n");
+			System.out.print("□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■\n>");
 			
 			switch(ScanUtil.nextLine()){
 			case "5":
