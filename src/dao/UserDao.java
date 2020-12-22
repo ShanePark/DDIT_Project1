@@ -21,15 +21,27 @@ public class UserDao {
 	
 	public int userSignUp(Map<String, Object> param){	// 작성 필요
 		
+		String sql = "INSERT INTO USERS(USER_ID,PASSWORD,NICKNAME) VALUES (?,?,?)";
 		
-		return 0;
+		List<Object> p = new ArrayList<>();
+		p.add(param.get("USER_ID"));
+		p.add(param.get("PASSWORD"));
+		p.add(param.get("NICKNAME"));
+		
+		return jdbc.update(sql,p);
+		
 	}
 	
 	public Map<String, Object> userSignIn(String userId, String password){	//작성 필요
+		String sql = "SELECT USER_ID, PASSWORD"
+				+ " FROM USER"
+				+ " WHERE USER_ID = ?"
+				+ " AND PASSWORD = ?";
 		List<Object> param = new ArrayList<>();
 		param.add(userId);
 		param.add(password);
-		return jdbc.SelectOne("sql", param);
+		
+		return jdbc.SelectOne(sql, param);
 	}
 
 }
