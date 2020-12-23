@@ -13,10 +13,10 @@ public class Controller {
 
 	public static void main(String[] args) {
 		
-//		new Controller().start();
+		new Controller().start();
 		
 //		new Controller().userTesting();
-		new Controller().adminTesting();
+//		new Controller().adminTesting();
 		
 	}
 	

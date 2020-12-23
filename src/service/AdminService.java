@@ -1,6 +1,5 @@
 package service;
 
-import controller.Controller;
 import util.ScanUtil;
 import util.View;
 
