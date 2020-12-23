@@ -100,25 +100,17 @@ public class Controller {
 		main:while(true){
 			System.out.println("□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■");
 			System.out.println("\n                                    🍽️ 오늘 뭐먹지? 🍽️\n");
-			if(select ==1)
-				System.out.print("           ■");
-			else
-				System.out.print("           □");
+			if(select ==1)		System.out.print("           ■");
+			else				System.out.print("           □");
 			System.out.print(" 회원가입\n");
-			if(select ==2)
-				System.out.print("           ■");
-			else
-				System.out.print("           □");
+			if(select ==2)		System.out.print("           ■");
+			else				System.out.print("           □");
 			System.out.print(" 로그인\n");
-			if(select ==3)
-				System.out.print("           ■");
-			else
-				System.out.print("           □");
+			if(select ==3)		System.out.print("           ■");
+			else				System.out.print("           □");
 			System.out.print(" 비회원 이용\n");
-			if(select ==4)
-				System.out.print("           ■");
-			else
-				System.out.print("           □");
+			if(select ==4)		System.out.print("           ■");
+			else				System.out.print("           □");
 			System.out.print(" 종료\n");
 			System.out.print("\n                           (2)↓ (5)↑ (⏎)확인 \n");
 			System.out.print("□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■\n>");
