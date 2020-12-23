@@ -56,11 +56,35 @@ public class UserService {
 	}
 
 	public int signUp(){	
-		System.out.println("=============== 회원가입 ==============");
-		System.out.print("아이디 >");
+		System.out.println("□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■\n");
+		System.out.println("                                    🍽️ 오늘 뭐먹지? 🍽️\n");
+		System.out.println("                                    🥄회원가입🥢 🍽️");
+		System.out.print("        ID : \n");
+		System.out.print("        PW : \n");
+		System.out.print("                 닉네임 : \n\n");
+		System.out.print("\n□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■\n");
+		System.out.print("ID> ");
 		String userID = ScanUtil.nextLine();
-		System.out.print("비밀번호 >");
+		
+		System.out.println("□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■\n");
+		System.out.println("                                    🍽️ 오늘 뭐먹지? 🍽️\n");
+		System.out.println("                                    🥄회원가입🥢 🍽️");
+		System.out.print("        ID : ");System.out.print(userID+"\n");
+		System.out.print("        PW : \n");
+		System.out.print("                 닉네임 : \n\n");
+		System.out.print("\n□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■\n");
+		System.out.print("PASSWORD> ");
 		String password = ScanUtil.nextLine();
+		
+		System.out.println("□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■\n");
+		System.out.println("                                    🍽️ 오늘 뭐먹지? 🍽️\n");
+		System.out.println("                                    🥄회원가입🥢 🍽️");
+		System.out.print("        ID : ");System.out.print(userID+"\n");
+		System.out.print("        PW : ");
+		for(int i=0; i<password.length(); i++)
+			System.out.print("*");
+		System.out.print("\n                 닉네임 : \n\n");
+		System.out.print("\n□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■\n");
 		System.out.print("닉네임 >");
 		String nickname = ScanUtil.nextLine();
 

@@ -13,17 +13,19 @@ public class Controller {
 
 	public static void main(String[] args) {
 		
-		new Controller().start();
-//		new Controller().adminTesting();
+//		new Controller().start();
+		
+//		new Controller().userTesting();
+		new Controller().adminTesting();
 		
 	}
 	
 	private void userTesting(){
 		UserDao userDao = UserDao.getInstance();
 		Map<String, Object> user = userDao.userSignIn("user","1234");
-		this.user = user;
+		Controller.user = user;
 		////////////////////////// 테스팅할 코드 ↓
-		userService.userMain();
+		userService.signUp();
 		
 		
 		////////////////////////// 테스팅할 코드 ↑
@@ -33,10 +35,10 @@ public class Controller {
 		AdminDao adminDao = AdminDao.getInstance();
 		UserDao userDao = UserDao.getInstance();
 		Map<String, Object> user = userDao.userSignIn("admin","password");
-		this.user = user;
+		Controller.user = user;
 		
 		////////////////////////// 테스팅할 코드 ↓
-		adminService.adminMain();
+		adminService.manageRestaurant();
 		
 		
 		////////////////////////// 테스팅할 코드 ↑
@@ -79,7 +81,13 @@ public class Controller {
 			case View.SIGNUP: 	  view = userService.signUp();	 	break;
 			case View.USER_MAIN:  view = userService.userMain(); 	break;
 			case View.ADMIN_MAIN: view = adminService.adminMain(); 	break;
-			default : break;
+			case View.RESTAURANT_MANAGE: view = adminService.manageRestaurant(); 	break;
+			case View.RESTAURANT_ADD: view = adminService.resAdd(); 	break;
+			case View.RESTAURANT_MOD: view = adminService.resMod(); 	break;
+			default : 
+				System.out.println("아직 구현이 필요한 기능");
+				ScanUtil.nextLine();
+				break;
 			}
 		}
 		
