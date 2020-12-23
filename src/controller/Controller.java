@@ -6,12 +6,61 @@ import service.AdminService;
 import service.UserService;
 import util.ScanUtil;
 import util.View;
+import dao.AdminDao;
+import dao.UserDao;
 
 public class Controller {
 
 	public static void main(String[] args) {
+		
 		new Controller().start();
+//		new Controller().adminTesting();
+		
 	}
+	
+	private void userTesting(){
+		UserDao userDao = UserDao.getInstance();
+		Map<String, Object> user = userDao.userSignIn("user","1234");
+		this.user = user;
+		////////////////////////// 테스팅할 코드 ↓
+		userService.userMain();
+		
+		
+		////////////////////////// 테스팅할 코드 ↑
+	}
+	
+	private void adminTesting(){
+		AdminDao adminDao = AdminDao.getInstance();
+		UserDao userDao = UserDao.getInstance();
+		Map<String, Object> user = userDao.userSignIn("admin","password");
+		this.user = user;
+		
+		////////////////////////// 테스팅할 코드 ↓
+		adminService.adminMain();
+		
+		
+		////////////////////////// 테스팅할 코드 ↑
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	public static Map<String, Object> user;
 	private UserService userService = UserService.getInstance();
