@@ -4,6 +4,7 @@ import java.util.Map;
 
 import service.AdminService;
 import service.UserService;
+import util.PrintUtil;
 import util.ScanUtil;
 import util.View;
 import dao.AdminDao;
@@ -24,11 +25,11 @@ public class Controller {
 		UserDao userDao = UserDao.getInstance();
 		Map<String, Object> user = userDao.userSignIn("user","1234");
 		Controller.user = user;
-		////////////////////////// 테스팅할 코드 ↓
+		////////////////////////// USER 테스팅할 코드 ↓
 		userService.signUp();
 		
 		
-		////////////////////////// 테스팅할 코드 ↑
+		////////////////////////// USER 테스팅할 코드 ↑
 	}
 	
 	private void adminTesting(){
@@ -37,11 +38,11 @@ public class Controller {
 		Map<String, Object> user = userDao.userSignIn("admin","password");
 		Controller.user = user;
 		
-		////////////////////////// 테스팅할 코드 ↓
-		adminService.manageRestaurant();
+		////////////////////////// ADMIN 테스팅할 코드 ↓
+		adminService.resAdd();
 		
 		
-		////////////////////////// 테스팅할 코드 ↑
+		////////////////////////// ADMIN 테스팅할 코드 ↑
 		
 	}
 	
@@ -98,8 +99,7 @@ public class Controller {
 		
 		int select = 2;
 		main:while(true){
-			System.out.println("□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■");
-			System.out.println("\n                                    🍽️ 오늘 뭐먹지? 🍽️\n");
+			PrintUtil.title();
 			if(select ==1)		System.out.print("           ■");
 			else				System.out.print("           □");
 			System.out.print(" 회원가입\n");
@@ -112,8 +112,7 @@ public class Controller {
 			if(select ==4)		System.out.print("           ■");
 			else				System.out.print("           □");
 			System.out.print(" 종료\n");
-			System.out.print("\n                           (2)↓ (5)↑ (⏎)확인 \n");
-			System.out.print("□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■\n>");
+			PrintUtil.joystick();
 			
 			switch(ScanUtil.nextLine()){
 			case "5":
