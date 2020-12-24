@@ -3,6 +3,7 @@ package service;
 import java.util.HashMap;
 import java.util.Map;
 
+import util.PrintUtil;
 import util.ScanUtil;
 import util.View;
 import controller.Controller;
@@ -22,16 +23,15 @@ public class UserService {
 	private UserDao userDao = UserDao.getInstance();
 
 	public int signIn(){	
-		System.out.println("□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■\n");
-		System.out.println("                                    🍽️ 오늘 뭐먹지? 🍽️\n\n\n");
-		System.out.println("          ID : ");
+		PrintUtil.title();
+		System.out.println("\n\n          ID : ");
 		System.out.println("          PW : \n");
 		System.out.print("\n□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■\n");
 		System.out.print("ID> ");
 		String userID = ScanUtil.nextLine();
 		System.out.println("□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■\n");
-		System.out.println("                                    🍽️ 오늘 뭐먹지? 🍽️\n\n\n");
-		System.out.print("          ID : "+userID+"\n");
+		PrintUtil.title();
+		System.out.print("\n\n          ID : "+userID+"\n");
 		System.out.println("          PW : \n");
 		System.out.print("\n□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■\n");
 		System.out.print("PASSWORD> ");
@@ -56,11 +56,32 @@ public class UserService {
 	}
 
 	public int signUp(){	
-		System.out.println("=============== 회원가입 ==============");
-		System.out.print("아이디 >");
+		PrintUtil.title();;
+		System.out.println("                                    🥄회원가입🥢");
+		System.out.print("        ID : \n");
+		System.out.print("        PW : \n");
+		System.out.print("                 닉네임 : \n\n");
+		System.out.print("\n□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■\n");
+		System.out.print("ID> ");
 		String userID = ScanUtil.nextLine();
-		System.out.print("비밀번호 >");
+		
+		PrintUtil.title();
+		System.out.println("                                    🥄회원가입🥢");
+		System.out.print("        ID : ");System.out.print(userID+"\n");
+		System.out.print("        PW : \n");
+		System.out.print("                 닉네임 : \n\n");
+		System.out.print("\n□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■\n");
+		System.out.print("PASSWORD> ");
 		String password = ScanUtil.nextLine();
+		
+		PrintUtil.title();
+		System.out.println("                                    🥄회원가입🥢 ");
+		System.out.print("        ID : ");System.out.print(userID+"\n");
+		System.out.print("        PW : ");
+		for(int i=0; i<password.length(); i++)
+			System.out.print("*");
+		System.out.print("\n                 닉네임 : \n\n");
+		System.out.print("\n□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■\n");
 		System.out.print("닉네임 >");
 		String nickname = ScanUtil.nextLine();
 
@@ -90,7 +111,7 @@ public class UserService {
 		for(int i=nickname.length(); i<32; i++)
 			System.out.print(" ");
 		System.out.printf("[%s](으)로 접속중\n",nickname);
-		System.out.println("                                    🍽️ 오늘 뭐먹지? 🍽️\n");
+		PrintUtil.title();
 		System.out.println("□거리별                                    🥘 오늘의 추천식당🍝                                              ");
 		System.out.println("□가격별                       1. 가게명 / 평점          5. 가게명 / 평점      ");                   
 		System.out.println("□평점별                       2. 가게명 / 평점          6. 가게명 / 평점     ");

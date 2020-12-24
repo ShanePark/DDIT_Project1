@@ -4,6 +4,7 @@ import java.util.Map;
 
 import service.AdminService;
 import service.UserService;
+import util.PrintUtil;
 import util.ScanUtil;
 import util.View;
 import dao.AdminDao;
@@ -14,6 +15,8 @@ public class Controller {
 	public static void main(String[] args) {
 		
 		new Controller().start();
+		
+//		new Controller().userTesting();
 //		new Controller().adminTesting();
 		
 	}
@@ -21,25 +24,25 @@ public class Controller {
 	private void userTesting(){
 		UserDao userDao = UserDao.getInstance();
 		Map<String, Object> user = userDao.userSignIn("user","1234");
-		this.user = user;
-		////////////////////////// 테스팅할 코드 ↓
-		userService.userMain();
+		Controller.user = user;
+		////////////////////////// USER 테스팅할 코드 ↓
+		userService.signUp();
 		
 		
-		////////////////////////// 테스팅할 코드 ↑
+		////////////////////////// USER 테스팅할 코드 ↑
 	}
 	
 	private void adminTesting(){
 		AdminDao adminDao = AdminDao.getInstance();
 		UserDao userDao = UserDao.getInstance();
 		Map<String, Object> user = userDao.userSignIn("admin","password");
-		this.user = user;
+		Controller.user = user;
 		
-		////////////////////////// 테스팅할 코드 ↓
-		adminService.adminMain();
+		////////////////////////// ADMIN 테스팅할 코드 ↓
+		adminService.resAdd();
 		
 		
-		////////////////////////// 테스팅할 코드 ↑
+		////////////////////////// ADMIN 테스팅할 코드 ↑
 		
 	}
 	
@@ -79,7 +82,13 @@ public class Controller {
 			case View.SIGNUP: 	  view = userService.signUp();	 	break;
 			case View.USER_MAIN:  view = userService.userMain(); 	break;
 			case View.ADMIN_MAIN: view = adminService.adminMain(); 	break;
-			default : break;
+			case View.RESTAURANT_MANAGE: view = adminService.manageRestaurant(); 	break;
+			case View.RESTAURANT_ADD: view = adminService.resAdd(); 	break;
+			case View.RESTAURANT_MOD: view = adminService.resMod(); 	break;
+			default : 
+				System.out.println("아직 구현이 필요한 기능");
+				ScanUtil.nextLine();
+				break;
 			}
 		}
 		
@@ -90,30 +99,20 @@ public class Controller {
 		
 		int select = 2;
 		main:while(true){
-			System.out.println("□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■");
-			System.out.println("\n                                    🍽️ 오늘 뭐먹지? 🍽️\n");
-			if(select ==1)
-				System.out.print("           ■");
-			else
-				System.out.print("           □");
+			PrintUtil.title();
+			if(select ==1)		System.out.print("           ■");
+			else				System.out.print("           □");
 			System.out.print(" 회원가입\n");
-			if(select ==2)
-				System.out.print("           ■");
-			else
-				System.out.print("           □");
+			if(select ==2)		System.out.print("           ■");
+			else				System.out.print("           □");
 			System.out.print(" 로그인\n");
-			if(select ==3)
-				System.out.print("           ■");
-			else
-				System.out.print("           □");
+			if(select ==3)		System.out.print("           ■");
+			else				System.out.print("           □");
 			System.out.print(" 비회원 이용\n");
-			if(select ==4)
-				System.out.print("           ■");
-			else
-				System.out.print("           □");
+			if(select ==4)		System.out.print("           ■");
+			else				System.out.print("           □");
 			System.out.print(" 종료\n");
-			System.out.print("\n                           (2)↓ (5)↑ (⏎)확인 \n");
-			System.out.print("□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■\n>");
+			PrintUtil.joystick();
 			
 			switch(ScanUtil.nextLine()){
 			case "5":
