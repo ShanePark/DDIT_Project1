@@ -114,23 +114,21 @@ public class UserService {
 		String[] res = new String[5];
 		
 		userMain:while(true){
-			System.out.println("□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■\n");
+			System.out.println("\n\n□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■\n");
 			System.out.print("                                    🍽️ 오늘 뭐먹지? 🍽️");
 			for(int i=nickname.length(); i<16; i++)
 				System.out.print(" ");
 			System.out.printf("[%s](으)로 접속중\n",nickname);
 
-			if(select==1){
-				list = resByScore();
-				orderby = "평점순";
-			}
 			if(select==2){
 				list = resByRvcnt();
 				orderby = "리뷰수";
-			}
-			if(select==3){
+			}else if(select==3){
 				list = resByDistance();
 				orderby = "거리순";
+			}else{
+				list = resByScore();
+				orderby = "평점순";
 			}
 			for(int i=0; i<5; i++){
 				int length = 6;
