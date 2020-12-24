@@ -82,5 +82,25 @@ public class UserDao {
 		
 		return list;
 	}
+	
+	public boolean isIdExist(String id){		// 입력한 아이디가 이미 존재하는지 확인하는 쿼리입니다.
+		String sql = "select count(user_id) cnt from users where user_id=?";
+		List<Object> p = new ArrayList<>();
+		p.add(id);
+		if(jdbc.SelectOne(sql, p).get("CNT").toString().equals("1"))
+			return true;
+		else return false;
+		
+	}
+	
+	public boolean isNicknameExist(String nickname){		// 입력한 닉네임이 이미 존재하는지 확인하는 쿼리입니다.
+		String sql = "select count(nickname) cnt from users where nickname=?";
+		List<Object> p = new ArrayList<>();
+		p.add(nickname);
+		if(jdbc.SelectOne(sql, p).get("CNT").toString().equals("1"))
+			return true;
+		else return false;
+		
+	}
 
 }

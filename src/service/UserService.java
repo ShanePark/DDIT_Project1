@@ -57,14 +57,18 @@ public class UserService {
 	}
 
 	public int signUp(){	
-		PrintUtil.title();;
+		String userID="", password="",nickname="";
+		PrintUtil.title();
 		System.out.println("                                    🥄회원가입🥢");
 		System.out.print("        ID : \n");
 		System.out.print("        PW : \n");
 		System.out.print("                 닉네임 : \n\n");
 		System.out.print("\n□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■\n");
 		System.out.print("ID> ");
-		String userID = ScanUtil.nextLine();
+		userID = ScanUtil.nextLine();
+		if(userDao.isIdExist(userID))	// id 중복검사
+			userID = idExist();
+
 
 		PrintUtil.title();
 		System.out.println("                                    🥄회원가입🥢");
@@ -73,8 +77,9 @@ public class UserService {
 		System.out.print("                 닉네임 : \n\n");
 		System.out.print("\n□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■\n");
 		System.out.print("PASSWORD> ");
-		String password = ScanUtil.nextLine();
-
+		password = ScanUtil.nextLine();
+		
+		
 		PrintUtil.title();
 		System.out.println("                                    🥄회원가입🥢 ");
 		System.out.print("        ID : ");System.out.print(userID+"\n");
@@ -83,8 +88,11 @@ public class UserService {
 			System.out.print("*");
 		System.out.print("\n                 닉네임 : \n\n");
 		System.out.print("\n□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■\n");
-		System.out.print("닉네임 >");
-		String nickname = ScanUtil.nextLine();
+		System.out.print("닉네임 > ");
+		nickname = ScanUtil.nextLine();
+		if(userDao.isNicknameExist(nickname))	// 닉네임 중복검사
+			nickname = nicknameExist();
+		
 
 		Map<String, Object> param = new HashMap<String, Object>();
 		param.put("USER_ID", userID);
@@ -105,6 +113,33 @@ public class UserService {
 			return View.MAIN;		// 가입에 실패하면 MAIN 화면으로 돌아갑니다.
 		}
 	}
+
+	public String idExist(){
+		while(true){
+			PrintUtil.title();
+			System.out.println("\n                     이미 존재하는 아이디입니다.");
+			System.out.println("\n\n                  아이디를 다시 입력해주세요.");
+			System.out.print("\n□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■\n> ");
+			String id=ScanUtil.nextLine();
+			if(!userDao.isIdExist(id))
+				return id;
+		}
+	}
+
+	public String nicknameExist(){
+		while(true){
+			PrintUtil.title();
+			System.out.println("\n                     이미 존재하는 닉네임입니다.");
+			System.out.println("\n\n                  닉네임을 다시 입력해주세요.");
+			System.out.print("\n□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■\n> ");
+			String nickname=ScanUtil.nextLine();
+			if(!userDao.isNicknameExist(nickname))
+				return nickname;
+		}
+	}
+
+	
+	
 
 	public int userMain(){
 		String nickname = Controller.user.get("NICKNAME").toString();
