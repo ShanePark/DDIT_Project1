@@ -45,7 +45,7 @@ public class UserDao {
 	}
 	
 	public List<Map<String,Object>> resByDistance(){
-		String sql =  "select a.*, nvl(score,0) score, rv_cnt"
+		String sql =  "select a.*, nvl(score,0) score, nvl(rv_cnt,0) rv_cnt"
 				       +" from restaurants a, "
 						   +" (select res_id , round(avg(grade),1) score, count(*) rv_cnt"
 							  +" from review"
@@ -58,7 +58,7 @@ public class UserDao {
 	}
 	
 	public List<Map<String,Object>> resByScore(){
-		String sql =  "select a.*, nvl(score,0) score, rv_cnt"
+		String sql =  "select a.*, nvl(score,0) score, nvl(rv_cnt,0) rv_cnt"
 				       +" from restaurants a, "
 						   +" (select res_id , round(avg(grade),1) score, count(*) rv_cnt"
 							  +" from review"
@@ -71,7 +71,7 @@ public class UserDao {
 	}
 	
 	public List<Map<String,Object>> resByRvcnt(){
-		String sql =  "select a.*, nvl(score,0) score, rv_cnt"
+		String sql =  "select a.*, nvl(score,0) score, nvl(rv_cnt,0) rv_cnt"
 				       +" from restaurants a, "
 						   +" (select res_id , round(avg(grade),1) score, count(*) rv_cnt"
 							  +" from review"
