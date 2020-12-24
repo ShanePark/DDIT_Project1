@@ -16,8 +16,9 @@ public class Controller {
 		
 		new Controller().start();
 		
-//		new Controller().userTesting();
-//		new Controller().adminTesting();
+//		new Controller().userTesting();		// 유저 기능 테스트용
+//		new Controller().adminTesting();	// 관리자 기능 테스트용
+//		new Controller().error();			// Controller Method 테스트용
 		
 	}
 	
@@ -26,7 +27,7 @@ public class Controller {
 		Map<String, Object> user = userDao.userSignIn("user","1234");
 		Controller.user = user;
 		////////////////////////// USER 테스팅할 코드 ↓
-		userService.signUp();
+		userService.userMain();
 		
 		
 		////////////////////////// USER 테스팅할 코드 ↑
@@ -77,16 +78,17 @@ public class Controller {
 		
 		while(true){
 			switch(view){
-			case View.MAIN: view=menu(); break;
+			case View.MAIN:	 view=menu(); 	break;
+			case View.ERROR: view = error(); break;
 			case View.SIGNIN:	  view = userService.signIn(); 		break;
 			case View.SIGNUP: 	  view = userService.signUp();	 	break;
-			case View.USER_MAIN:  view = userService.userMain(); 	break;
 			case View.ADMIN_MAIN: view = adminService.adminMain(); 	break;
 			case View.RESTAURANT_MANAGE: view = adminService.manageRestaurant(); 	break;
 			case View.RESTAURANT_ADD: view = adminService.resAdd(); 	break;
 			case View.RESTAURANT_MOD: view = adminService.resMod(); 	break;
+			case View.USER_MAIN:  view = userService.userMain(); 		break;
 			default : 
-				System.out.println("아직 구현이 필요한 기능");
+				System.out.println("해당 View 번호에 대한 case가 start()에 존재하지 않습니다.");
 				ScanUtil.nextLine();
 				break;
 			}
@@ -143,6 +145,16 @@ public class Controller {
 			break;
 		}
 		return View.USER_MAIN;
+	}
+	
+	private int error(){
+		PrintUtil.title();
+		System.out.println("\n\n\t미구현된 기능입니다.");
+		System.out.println("\t엔터키를 누르면 처음으로 돌아갑니다.");
+		PrintUtil.joystick();
+		ScanUtil.nextLine();
+		return View.MAIN;
+		
 	}
 	
 

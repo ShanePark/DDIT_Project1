@@ -43,5 +43,44 @@ public class UserDao {
 		
 		return jdbc.SelectOne(sql, param);
 	}
+	
+	public List<Map<String,Object>> resByDistance(){
+		String sql =  "select a.*, nvl(score,0) score, rv_cnt"
+				       +" from restaurants a, "
+						   +" (select res_id , round(avg(grade),1) score, count(*) rv_cnt"
+							  +" from review"
+							 +" group by res_id) b"
+					  +" where a.res_id = b.res_id(+)"
+				     +" order by distance";
+		List<Map<String,Object>> list = jdbc.selectList(sql);
+		
+		return list;
+	}
+	
+	public List<Map<String,Object>> resByScore(){
+		String sql =  "select a.*, nvl(score,0) score, rv_cnt"
+				       +" from restaurants a, "
+						   +" (select res_id , round(avg(grade),1) score, count(*) rv_cnt"
+							  +" from review"
+							 +" group by res_id) b"
+					  +" where a.res_id = b.res_id(+)"
+				     +" order by score desc";
+		List<Map<String,Object>> list = jdbc.selectList(sql);
+		
+		return list;
+	}
+	
+	public List<Map<String,Object>> resByRvcnt(){
+		String sql =  "select a.*, nvl(score,0) score, rv_cnt"
+				       +" from restaurants a, "
+						   +" (select res_id , round(avg(grade),1) score, count(*) rv_cnt"
+							  +" from review"
+							 +" group by res_id) b"
+					  +" where a.res_id = b.res_id(+)"
+				     +" order by rv_cnt desc";
+		List<Map<String,Object>> list = jdbc.selectList(sql);
+		
+		return list;
+	}
 
 }

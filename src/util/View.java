@@ -3,6 +3,7 @@ package util;
 public class View {
 	
 	public static final int MAIN = 0;				// 홈화면
+	public static final int ERROR = 999;			// 미구현 기능
 	public static final int SIGNUP = 1;				// 회원가입 화면
 	public static final int SIGNIN = 2;				// 로그인 화면
 	public static final int ADMIN_MAIN = 3;			// 관리자용 홈화면
