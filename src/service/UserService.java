@@ -1,6 +1,7 @@
 package service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import util.PrintUtil;
@@ -64,7 +65,7 @@ public class UserService {
 		System.out.print("\n□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■\n");
 		System.out.print("ID> ");
 		String userID = ScanUtil.nextLine();
-		
+
 		PrintUtil.title();
 		System.out.println("                                    🥄회원가입🥢");
 		System.out.print("        ID : ");System.out.print(userID+"\n");
@@ -73,7 +74,7 @@ public class UserService {
 		System.out.print("\n□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■\n");
 		System.out.print("PASSWORD> ");
 		String password = ScanUtil.nextLine();
-		
+
 		PrintUtil.title();
 		System.out.println("                                    🥄회원가입🥢 ");
 		System.out.print("        ID : ");System.out.print(userID+"\n");
@@ -107,24 +108,115 @@ public class UserService {
 
 	public int userMain(){
 		String nickname = Controller.user.get("NICKNAME").toString();
-		System.out.println("□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■");
-		for(int i=nickname.length(); i<32; i++)
-			System.out.print(" ");
-		System.out.printf("[%s](으)로 접속중\n",nickname);
-		PrintUtil.title();
-		System.out.println("□거리별                                    🥘 오늘의 추천식당🍝                                              ");
-		System.out.println("□가격별                       1. 가게명 / 평점          5. 가게명 / 평점      ");                   
-		System.out.println("□평점별                       2. 가게명 / 평점          6. 가게명 / 평점     ");
-		System.out.println("□음식종류별                 3. 가게명 / 평점          7. 가게명 / 평점");
-		System.out.println("□리뷰많은순                 4. 가게명 / 평점          8. 가게명 / 평점");
-		System.out.println("");            
-		System.out.print("□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■\n>");
+		List<Map<String, Object>> list = null;
+		int select = 1;
+		String orderby="", resName="",score ="", distance="", rvCnt="";
+		String[] res = new String[5];
+		
+		userMain:while(true){
+			System.out.println("□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■\n");
+			System.out.print("                                    🍽️ 오늘 뭐먹지? 🍽️");
+			for(int i=nickname.length(); i<16; i++)
+				System.out.print(" ");
+			System.out.printf("[%s](으)로 접속중\n",nickname);
 
-		ScanUtil.nextLine();
+			if(select==1){
+				list = resByScore();
+				orderby = "평점순";
+			}
+			if(select==2){
+				list = resByRvcnt();
+				orderby = "리뷰수";
+			}
+			if(select==3){
+				list = resByDistance();
+				orderby = "거리순";
+			}
+			for(int i=0; i<5; i++){
+				int length = 6;
+				resName = list.get(i).get("RES_NAME").toString();
+				score = list.get(i).get("SCORE").toString();
+				distance = list.get(i).get("DISTANCE").toString();
+				rvCnt = list.get(i).get("RV_CNT").toString();
+
+				if(resName.length() < length)
+					length = resName.length();
+				res[i]=resName.substring(0,length)+" [평점 "
+						+score+"] ";
+				if(select==2)
+					res[i] += "(리뷰"+rvCnt+"개)";
+				if(select==3)
+					res[i] += distance+"m";
+			}
+			if(select ==1)		System.out.print(" ■");
+			else				System.out.print(" □");
+			System.out.print(" 평점기준                            ");
+			System.out.printf("🥘 [%s] BEST 5 🍝\n",orderby);
+
+			if(select ==2)		System.out.print(" ■");
+			else				System.out.print(" □");
+			System.out.print(" 리뷰수기준                    1. ");
+			System.out.println(res[0]);
+
+			if(select ==3)		System.out.print(" ■");
+			else				System.out.print(" □");
+			System.out.print(" 거리기준                       2. ");
+			System.out.println(res[1]);
+
+			if(select ==4)		System.out.print(" ■");
+			else				System.out.print(" □");
+			System.out.print(" 검색                             3. ");
+			System.out.println(res[2]);
+
+			if(select ==5)		System.out.print(" ■");
+			else				System.out.print(" □");
+			System.out.print(" 도시락주문                    4. ");
+			System.out.println(res[3]);
+
+			if(select ==6)		System.out.print(" ■");
+			else				System.out.print(" □");
+			if(nickname.equals("관리자"))
+				System.out.print(" 관리페이지                    5. ");
+			else System.out.print(" 마이페이지                    5. ");
+			
+			System.out.println(res[4]);
+
+			if(select ==7)		System.out.print(" ■");
+			else				System.out.print(" □");
+			System.out.print(" 고객센터                        ");
+			System.out.print("                     (2)↓ (5)↑ (⏎)확인\n"+ 
+					"□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■\n>");
+			switch(ScanUtil.nextLine()){
+			case "5":
+				if(select==1)
+					select=7;
+				else select--;
+				break;
+			case "2":
+				if(select==7)
+					select=1;
+				else select++;
+				break;
+			case "":
+				break userMain;
+			default:
+				break;
+			}
+		}
 
 		return View.MAIN;
-
 	}
+
+	private List<Map<String, Object>> resByDistance(){
+		return userDao.resByDistance();
+	}
+	private List<Map<String, Object>> resByScore(){
+		return userDao.resByScore();
+	}
+	private List<Map<String, Object>> resByRvcnt(){
+		return userDao.resByRvcnt();
+	}
+
 
 	public int guestMode(){	
 
