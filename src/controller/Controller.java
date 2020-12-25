@@ -27,7 +27,7 @@ public class Controller {
 		Map<String, Object> user = userDao.userSignIn("user","1234");
 		Controller.user = user;
 		////////////////////////// USER 테스팅할 코드 ↓
-		userService.isNicknameExist();
+		userService.nicknameExist();
 		
 		
 		////////////////////////// USER 테스팅할 코드 ↑
@@ -46,24 +46,6 @@ public class Controller {
 		////////////////////////// ADMIN 테스팅할 코드 ↑
 		
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	public static Map<String, Object> user;

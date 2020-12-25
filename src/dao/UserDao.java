@@ -41,7 +41,9 @@ public class UserDao {
 		param.add(userId);
 		param.add(password);
 		
+	
 		return jdbc.SelectOne(sql, param);
+			
 	}
 	
 	public List<Map<String,Object>> resByDistance(){

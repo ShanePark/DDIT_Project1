@@ -6,6 +6,7 @@ import java.util.Map;
 
 import util.PrintUtil;
 import util.ScanUtil;
+import util.Util;
 import util.View;
 import controller.Controller;
 import dao.UserDao;
@@ -26,10 +27,12 @@ public class UserService {
 	public int signIn(){	
 		PrintUtil.title();
 		System.out.println("\n\n          ID : ");
-		System.out.println("          PW : \n");
-		System.out.print("\n□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■\n");
+		System.out.println("          PW : \n\n\t\t\t뒤로 가러면  [x] 를 입력");
+		System.out.print("□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■\n");
 		System.out.print("ID> ");
 		String userID = ScanUtil.nextLine();
+		if("x".equals(userID.toLowerCase()))		// x 키 입력시 메인화면으로 이동. 대소문자 구분 안하도록 toLowerCase() 사용
+			return View.MAIN;
 		System.out.println("□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■\n");
 		PrintUtil.title();
 		System.out.print("\n\n          ID : "+userID+"\n");
@@ -41,7 +44,7 @@ public class UserService {
 		Map<String, Object> user = userDao.userSignIn(userID,password);
 
 		if(user.size() ==0){	//user == null
-			System.out.println("아이디 혹은 비밀번호를 잘못 입력했습니다.");
+			signInError();
 		}else{
 			Controller.user = user;
 
@@ -50,10 +53,19 @@ public class UserService {
 
 			return View.USER_MAIN;
 		}
-
-
-
+		
 		return View.SIGNIN;
+	}
+	
+	void signInError(){
+		Util.wait(300);
+		PrintUtil.title();
+		System.out.println("\n\n\t⛔  ID와 비밀번호가 일치하지 않습니다  ⛔\n");
+		System.out.println("        ■ 다시 로그인 하려면 엔터키를 입력 하세요");
+		System.out.print("\n□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■\n> ");
+		
+		
+		ScanUtil.nextLine();
 	}
 
 	public int signUp(){	
