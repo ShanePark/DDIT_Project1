@@ -15,8 +15,13 @@ public class PrintUtil {
 		System.out.print("□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■\n>");
 	}
 	
-	static public void printBar(){
+	static public void joystick2(){
+		System.out.print("     (2)↓ (5)↑ (⏎)확인 \n");
 		System.out.print("□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■\n>");
+	}
+	
+	static public void printBar(){
+		System.out.print("□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■\n> ");
 	}
 
 }

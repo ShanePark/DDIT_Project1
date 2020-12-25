@@ -38,7 +38,7 @@ public class AdminService {
 			System.out.print("식당관리\n");
 			if(select ==2)		System.out.print("             ■ ");
 			else				System.out.print("             □ ");
-			System.out.print("게시판 관리\n");
+			System.out.print("뒤로가기\n");
 
 			if(select ==3)		System.out.print("             ■ ");
 			else				System.out.print("             □ ");
@@ -46,26 +46,16 @@ public class AdminService {
 			PrintUtil.joystick();
 
 			switch(ScanUtil.nextLine()){
-			case "5":
-				if(select==1)
-					select=3;
-				else select--;
-				break;
-			case "2":
-				if(select==3)
-					select=1;
-				else select++;
-				break;
-			case "":
-				break main;
-			default:
-				break;
-			}
+			case "5":	if(select==1)	select=3;		else select--;			break;
+			case "2":	if(select==3)	select=1;		else select++;			break;
+			case "":	break main;
+			default:	break;			}
+			
 		}
 
 		switch(select){
 		case 1: return View.RESTAURANT_MANAGE;
-		case 2: return View.BOARD_MANAGE;
+		case 2: return View.USER_MAIN;
 		case 3: return View.MAIN;
 		default:
 			return View.ADMIN_MAIN;
@@ -93,20 +83,10 @@ public class AdminService {
 			PrintUtil.joystick();
 
 			switch(ScanUtil.nextLine()){
-			case "5":
-				if(select==1)
-					select=3;
-				else select--;
-				break;
-			case "2":
-				if(select==3)
-					select=1;
-				else select++;
-				break;
-			case "":
-				break main;
-			default:
-				break;
+			case "5":	if(select==1)	select=3;	else select--;	break;
+			case "2":	if(select==3)	select=1;	else select++;	break;
+			case "":	break main;
+			default:	break;
 			}
 		}
 
