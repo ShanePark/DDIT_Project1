@@ -31,7 +31,7 @@ public class UserService {
 		System.out.print("□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■\n");
 		System.out.print("ID> ");
 		String userID = ScanUtil.nextLine();
-		if("x".equals(userID.toLowerCase()))		// x 키 입력시 메인화면으로 이동. 대소문자 구분 안하도록 toLowerCase() 사용
+		if("x".equals(userID.toLowerCase()) || "ㅌ".equals(userID.toLowerCase()))	// "x" 혹은 "ㅌ" 키 입력시 메인화면으로 이동. 대소문자 구분 안하도록 toLowerCase() 사용
 			return View.MAIN;
 		System.out.println("□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■\n");
 		PrintUtil.title();
@@ -163,9 +163,15 @@ public class UserService {
 		userMain:while(true){
 			System.out.println("\n\n□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■\n");
 			System.out.print("                                    🍽️ 오늘 뭐먹지? 🍽️");
-			for(int i=nickname.length(); i<16; i++)
+			for(int i=nickname.length(); i<5; i++)
 				System.out.print(" ");
-			System.out.printf("[%s](으)로 접속중\n",nickname);
+			int nicknameLength=6;	// 해당 길이보다 긴 닉네임은 ..으로 표시합니다
+			if(nickname.length()<nicknameLength) nicknameLength=nickname.length();
+			System.out.print("   ["+nickname.substring(0,nicknameLength));
+			if(nickname.length()>nicknameLength-1)
+				System.out.print("..");
+			System.out.println("](으)로 접속중");
+
 
 			if(select==2){
 				list = resByRvcnt();
@@ -222,6 +228,8 @@ public class UserService {
 			else				System.out.print(" □");
 			if(nickname.equals("관리자"))
 				System.out.print(" 관리페이지                    5. ");
+			else if(nickname.equals("비회원"))
+				System.out.print(" 비회원전용                    5. ");	// 비회원일때 마이페이지 대신 어떤 기능을 넣을지 정해야합니다
 			else System.out.print(" 마이페이지                    5. ");
 			
 			System.out.println(res[4]);
@@ -231,22 +239,13 @@ public class UserService {
 			System.out.print(" 고객센터                        ");
 			System.out.print("                     (2)↓ (5)↑ (⏎)확인\n"+ 
 					"□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■\n>");
-			switch(ScanUtil.nextLine()){
-			case "5":
-				if(select==1)
-					select=7;
-				else select--;
-				break;
-			case "2":
-				if(select==7)
-					select=1;
-				else select++;
-				break;
-			case "":
-				break userMain;
-			default:
-				break;
-			}
+			
+			switch(ScanUtil.nextLine()){	// 방향키 입력받는 switch 문
+			case "5": if(select==1)	select=7;	else select--;		break;
+			case "2": if(select==7)	select=1;	else select++;		break;
+			case "":	break userMain;
+			default:	break;		   }
+			
 		}
 
 		return View.MAIN;
