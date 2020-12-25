@@ -1,5 +1,5 @@
 --------------------------------------------------------
---  파일이 생성됨 - 수요일-12월-23-2020   
+--  파일이 생성됨 - 토요일-12월-26-2020   
 --------------------------------------------------------
 --------------------------------------------------------
 --  DDL for Table MENU
@@ -81,6 +81,17 @@ Insert into DDIT.MENU (RES_ID,FOOD,PRICE) values (10,'고추삼선짜장',6000);
 Insert into DDIT.MENU (RES_ID,FOOD,PRICE) values (10,'고추삼선짬뽕',7000);
 Insert into DDIT.MENU (RES_ID,FOOD,PRICE) values (10,'탕수육',12000);
 Insert into DDIT.MENU (RES_ID,FOOD,PRICE) values (10,'볶음밥',5000);
+Insert into DDIT.MENU (RES_ID,FOOD,PRICE) values (11,'전통육개장',8000);
+Insert into DDIT.MENU (RES_ID,FOOD,PRICE) values (11,'차돌육개장',9000);
+Insert into DDIT.MENU (RES_ID,FOOD,PRICE) values (11,'육개장칼국수',8000);
+Insert into DDIT.MENU (RES_ID,FOOD,PRICE) values (11,'맑은육개장',8000);
+Insert into DDIT.MENU (RES_ID,FOOD,PRICE) values (11,'사골떡만두국',8000);
+Insert into DDIT.MENU (RES_ID,FOOD,PRICE) values (11,'양지육개장전골',32000);
+Insert into DDIT.MENU (RES_ID,FOOD,PRICE) values (11,'모둠수육전골',32000);
+Insert into DDIT.MENU (RES_ID,FOOD,PRICE) values (11,'한판보쌈',10000);
+Insert into DDIT.MENU (RES_ID,FOOD,PRICE) values (11,'메밀전병',5000);
+Insert into DDIT.MENU (RES_ID,FOOD,PRICE) values (11,'만두한접시',3500);
+Insert into DDIT.MENU (RES_ID,FOOD,PRICE) values (11,'갈비탕',10000);
 --------------------------------------------------------
 --  Constraints for Table MENU
 --------------------------------------------------------

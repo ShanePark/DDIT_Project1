@@ -1,12 +1,12 @@
 --------------------------------------------------------
---  파일이 생성됨 - 목요일-12월-24-2020   
+--  파일이 생성됨 - 토요일-12월-26-2020   
 --------------------------------------------------------
 --------------------------------------------------------
 --  DDL for Table USER_PICK
 --------------------------------------------------------
 
   CREATE TABLE "DDIT"."USER_PICK" 
-   (	"RES_NAME" VARCHAR2(50 BYTE), 
+   (	"RES_ID" NUMBER, 
 	"USER_ID" VARCHAR2(20 BYTE)
    ) SEGMENT CREATION IMMEDIATE 
   PCTFREE 10 PCTUSED 40 INITRANS 1 MAXTRANS 255 NOCOMPRESS LOGGING
@@ -15,7 +15,7 @@
   TABLESPACE "SYSTEM" ;
 REM INSERTING into DDIT.USER_PICK
 SET DEFINE OFF;
-Insert into DDIT.USER_PICK (RES_NAME,USER_ID) values ('스시생각','user');
-Insert into DDIT.USER_PICK (RES_NAME,USER_ID) values ('괴산올갱이','user');
-Insert into DDIT.USER_PICK (RES_NAME,USER_ID) values ('맘스터치','user');
-Insert into DDIT.USER_PICK (RES_NAME,USER_ID) values ('맥도날드 대전 센트럴DT점','user');
+Insert into DDIT.USER_PICK (RES_ID,USER_ID) values (1,'user');
+Insert into DDIT.USER_PICK (RES_ID,USER_ID) values (2,'user');
+Insert into DDIT.USER_PICK (RES_ID,USER_ID) values (3,'user');
+Insert into DDIT.USER_PICK (RES_ID,USER_ID) values (4,'user');
