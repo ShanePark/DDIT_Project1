@@ -6,6 +6,7 @@ import service.AdminService;
 import service.UserService;
 import util.PrintUtil;
 import util.ScanUtil;
+import util.Util;
 import util.View;
 import dao.AdminDao;
 import dao.UserDao;
@@ -27,8 +28,8 @@ public class Controller {
 		Map<String, Object> user = userDao.userSignIn("user","1234");
 		Controller.user = user;
 		////////////////////////// USER 테스팅할 코드 ↓
-		userService.userMain();
 		
+		userService.resList(userService.resByDistance());
 		
 		////////////////////////// USER 테스팅할 코드 ↑
 	}
@@ -40,30 +41,12 @@ public class Controller {
 		Controller.user = user;
 		
 		////////////////////////// ADMIN 테스팅할 코드 ↓
-		adminService.resAdd();
 		
+		adminService.resAdd();
 		
 		////////////////////////// ADMIN 테스팅할 코드 ↑
 		
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	public static Map<String, Object> user;
@@ -84,9 +67,12 @@ public class Controller {
 			case View.SIGNUP: 	  view = userService.signUp();	 	break;
 			case View.ADMIN_MAIN: view = adminService.adminMain(); 	break;
 			case View.RESTAURANT_MANAGE: view = adminService.manageRestaurant(); 	break;
-			case View.RESTAURANT_ADD: view = adminService.resAdd(); 	break;
-			case View.RESTAURANT_MOD: view = adminService.resMod(); 	break;
-			case View.USER_MAIN:  view = userService.userMain(); 		break;
+			case View.RESTAURANT_ADD: view = adminService.resAdd(); 		break;
+			case View.RESTAURANT_MOD: view = adminService.resMod(); 		break;
+			case View.USER_MAIN:  view = userService.userMain(); 			break;
+			case View.LUNCHBOX_ORDER: view = userService.lunchboxOrder();	break;
+			case View.MYPAGE: view = userService.myPage();					break;
+			case View.SEARCH_RES : view = userService.searchRes();			break;
 			default : 
 				System.out.println("해당 View 번호에 대한 case가 start()에 존재하지 않습니다.");
 				ScanUtil.nextLine();

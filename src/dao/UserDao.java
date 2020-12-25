@@ -41,16 +41,22 @@ public class UserDao {
 		param.add(userId);
 		param.add(password);
 		
+	
 		return jdbc.SelectOne(sql, param);
+			
 	}
 	
 	public List<Map<String,Object>> resByDistance(){
-		String sql =  "select a.*, nvl(score,0) score, rv_cnt"
+		String sql =  "select a.*, nvl(score,0) score, nvl(rv_cnt,0) rv_cnt, nvl(c.cnt,0) pick_cnt"
 				       +" from restaurants a, "
 						   +" (select res_id , round(avg(grade),1) score, count(*) rv_cnt"
 							  +" from review"
-							 +" group by res_id) b"
+							 +" group by res_id) b,"
+						   +" (select res_id, count(*) cnt"
+							  +" from user_pick"
+						     +" group by res_id) c"
 					  +" where a.res_id = b.res_id(+)"
+					   + " and a.res_id= c.res_id(+)"
 				     +" order by distance";
 		List<Map<String,Object>> list = jdbc.selectList(sql);
 		
@@ -58,29 +64,78 @@ public class UserDao {
 	}
 	
 	public List<Map<String,Object>> resByScore(){
-		String sql =  "select a.*, nvl(score,0) score, rv_cnt"
-				       +" from restaurants a, "
-						   +" (select res_id , round(avg(grade),1) score, count(*) rv_cnt"
-							  +" from review"
-							 +" group by res_id) b"
-					  +" where a.res_id = b.res_id(+)"
-				     +" order by score desc";
+		String sql =  "select a.*, nvl(score,0) score, nvl(rv_cnt,0) rv_cnt, nvl(c.cnt,0) pick_cnt"
+			          +" from restaurants a, "
+					   +" (select res_id , round(avg(grade),1) score, count(*) rv_cnt"
+						  +" from review"
+						 +" group by res_id) b,"
+					   +" (select res_id, count(*) cnt"
+						  +" from user_pick"
+					     +" group by res_id) c"
+				  +" where a.res_id = b.res_id(+)"
+				   + " and a.res_id= c.res_id(+)"
+				  +" order by score desc";
+				     
 		List<Map<String,Object>> list = jdbc.selectList(sql);
 		
 		return list;
 	}
 	
 	public List<Map<String,Object>> resByRvcnt(){
-		String sql =  "select a.*, nvl(score,0) score, rv_cnt"
-				       +" from restaurants a, "
-						   +" (select res_id , round(avg(grade),1) score, count(*) rv_cnt"
-							  +" from review"
-							 +" group by res_id) b"
-					  +" where a.res_id = b.res_id(+)"
-				     +" order by rv_cnt desc";
+		String sql =  "select a.*, nvl(score,0) score, nvl(rv_cnt,0) rv_cnt, nvl(c.cnt,0) pick_cnt"
+		          +" from restaurants a, "
+				   +" (select res_id , round(avg(grade),1) score, count(*) rv_cnt"
+					  +" from review"
+					 +" group by res_id) b,"
+				   +" (select res_id, count(*) cnt"
+					  +" from user_pick"
+				     +" group by res_id) c"
+			  +" where a.res_id = b.res_id(+)"
+			   + " and a.res_id= c.res_id(+)"
+			  +" order by rv_cnt desc";
 		List<Map<String,Object>> list = jdbc.selectList(sql);
 		
 		return list;
+	}
+	
+	public List<Map<String,Object>> resByName(String name){
+		String sql =  "select a.*, nvl(score,0) score, nvl(rv_cnt,0) rv_cnt, nvl(c.cnt,0) pick_cnt"
+		          +" from restaurants a, "
+				   +" (select res_id , round(avg(grade),1) score, count(*) rv_cnt"
+					  +" from review"
+					 +" group by res_id) b,"
+				   +" (select res_id, count(*) cnt"
+					  +" from user_pick"
+				     +" group by res_id) c"
+			  +" where a.res_id = b.res_id(+)"
+			   + " and a.res_id= c.res_id(+)"
+			    +" and res_name like ?"
+			  +" order by rv_cnt desc";
+		List<Object> p = new ArrayList<>();
+		p.add("%"+name+"%");	// %를 쿼리에 String sql 에 쓰면 에러가 납니다. 아에 파라미터로 보내야 합니다.
+		List<Map<String,Object>> list = jdbc.selectList(sql,p);
+		
+		return list;
+	}
+	
+	public boolean isIdExist(String id){		// 입력한 아이디가 이미 존재하는지 확인하는 쿼리입니다.
+		String sql = "select count(user_id) cnt from users where user_id=?";
+		List<Object> p = new ArrayList<>();
+		p.add(id);
+		if(jdbc.SelectOne(sql, p).get("CNT").toString().equals("1"))
+			return true;
+		else return false;
+		
+	}
+	
+	public boolean isNicknameExist(String nickname){		// 입력한 닉네임이 이미 존재하는지 확인하는 쿼리입니다.
+		String sql = "select count(nickname) cnt from users where nickname=?";
+		List<Object> p = new ArrayList<>();
+		p.add(nickname);
+		if(jdbc.SelectOne(sql, p).get("CNT").toString().equals("1"))
+			return true;
+		else return false;
+		
 	}
 
 }
