@@ -28,15 +28,15 @@ public class UserService {
 		PrintUtil.title();
 		System.out.println("\n\n          ID : ");
 		System.out.println("          PW : \n\n\t\t       뒤로 가러면 [Enter] 키를 누르세요");
-		System.out.print("□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■\n");
+		PrintUtil.printBar();
 		System.out.print("ID> ");
 		String userID = ScanUtil.nextLine();
 		if("".equals(userID))	return View.MAIN;	//  그냥 엔터키를 누르면 뒤로 이동
-		System.out.println("□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■\n");
+		PrintUtil.printBar();
 		PrintUtil.title();
 		System.out.print("\n\n          ID : "+userID+"\n");
-		System.out.println("          PW : \n");
-		System.out.print("\n□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■\n");
+		System.out.println("          PW : \n\n");
+		PrintUtil.printBar();
 		System.out.print("PASSWORD> ");
 		String password = ScanUtil.nextLine();
 
@@ -57,10 +57,8 @@ public class UserService {
 		Util.wait(300);
 		PrintUtil.title();
 		System.out.println("\n\n\t⛔  ID와 비밀번호가 일치하지 않습니다  ⛔\n");
-		System.out.println("        ■ 다시 로그인 하려면 엔터키를 입력 하세요");
-		System.out.print("\n□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■\n> ");
-
-
+		System.out.println("        ■ 다시 로그인 하려면 엔터키를 입력 하세요\n");
+		PrintUtil.printBar();
 		ScanUtil.nextLine();
 	}
 
@@ -70,21 +68,20 @@ public class UserService {
 		System.out.println("                                    🥄회원가입🥢");
 		System.out.print("        ID : \n");
 		System.out.print("        PW : \n");
-		System.out.print("                 닉네임 : \n\n\t\t       뒤로 가러면 [Enter] 키를 누르세요");
-		System.out.print("\n□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■\n");
+		System.out.print("                 닉네임 : \n\n\t\t       뒤로 가러면 [Enter] 키를 누르세요\n");
+		PrintUtil.printBar();
 		System.out.print("ID> ");
 		userID = ScanUtil.nextLine();
 		if("".equals(userID))	return View.MAIN;	//  그냥 엔터키를 누르면 뒤로 이동
 		if(userDao.isIdExist(userID))	// id 중복검사
 			userID = idExist();
 
-
 		PrintUtil.title();
 		System.out.println("                                    🥄회원가입🥢");
 		System.out.print("        ID : ");System.out.print(userID+"\n");
 		System.out.print("        PW : \n");
-		System.out.print("                 닉네임 : \n\n");
-		System.out.print("\n□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■\n");
+		System.out.print("                 닉네임 : \n\n\n");
+		PrintUtil.printBar();
 		System.out.print("PASSWORD> ");
 		password = ScanUtil.nextLine();
 
@@ -95,8 +92,8 @@ public class UserService {
 		System.out.print("        PW : ");
 		for(int i=0; i<password.length(); i++)
 			System.out.print("*");
-		System.out.print("\n                 닉네임 : \n\n");
-		System.out.print("\n□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■\n");
+		System.out.print("\n                 닉네임 : \n\n\n");
+		PrintUtil.printBar();
 		System.out.print("닉네임 > ");
 		nickname = ScanUtil.nextLine();
 		if(userDao.isNicknameExist(nickname))	// 닉네임 중복검사
@@ -127,8 +124,8 @@ public class UserService {
 		while(true){
 			PrintUtil.title();
 			System.out.println("\n                     이미 존재하는 아이디입니다.");
-			System.out.println("\n\n                  아이디를 다시 입력해주세요.");
-			System.out.print("\n□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■\n> ");
+			System.out.println("\n\n                  아이디를 다시 입력해주세요.\n");
+			PrintUtil.printBar();
 			String id=ScanUtil.nextLine();
 			if(!userDao.isIdExist(id))
 				return id;
@@ -139,8 +136,8 @@ public class UserService {
 		while(true){
 			PrintUtil.title();
 			System.out.println("\n                     이미 존재하는 닉네임입니다.");
-			System.out.println("\n\n                  닉네임을 다시 입력해주세요.");
-			System.out.print("\n□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■\n> ");
+			System.out.println("\n\n                  닉네임을 다시 입력해주세요.\n");
+			PrintUtil.printBar();
 			String nickname=ScanUtil.nextLine();
 			if(!userDao.isNicknameExist(nickname))
 				return nickname;
@@ -158,14 +155,13 @@ public class UserService {
 		String[] res = new String[5];
 
 		userMain:while(true){
-			System.out.println("\n\n□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■\n");
-			System.out.print("                                    🍽️ 오늘 뭐먹지? 🍽️");
+			PrintUtil.title2();
 			for(int i=nickname.length(); i<6; i++)
-				System.out.print("   ");
+				System.out.print("  ");
 			int nicknameLength=6;	// 해당 길이보다 긴 닉네임은 ..으로 표시합니다
 			int saveLength = nicknameLength-1;
 			if(nickname.length()<nicknameLength) nicknameLength=nickname.length();
-			System.out.print("   ["+nickname.substring(0,nicknameLength));
+			System.out.print("                       ["+nickname.substring(0,nicknameLength));
 			if(nickname.length()>saveLength)	System.out.print("..");
 			System.out.println("](으)로 접속중");
 
@@ -230,8 +226,8 @@ public class UserService {
 			if(select ==7)		System.out.print(" ■");
 			else				System.out.print(" □");
 			System.out.print(" 고객센터                        ");
-			System.out.print("                     (2)↓ (5)↑ (⏎)확인\n"+ 
-					"□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■\n>");
+			System.out.print("                     (2)↓ (5)↑ (⏎)확인\n");
+			PrintUtil.printBar();
 
 			switch(ScanUtil.nextLine()){	// 방향키 입력받는 switch 문
 			case "5": if(select==1)	select=7;	else select--;		break;

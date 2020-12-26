@@ -88,47 +88,27 @@ public class Controller {
 		int select = 2;
 		main:while(true){
 			PrintUtil.title();
-			if(select ==1)		System.out.print("           ■");
-			else				System.out.print("           □");
-			System.out.print(" 회원가입\n");
-			if(select ==2)		System.out.print("           ■");
-			else				System.out.print("           □");
-			System.out.print(" 로그인\n");
-			if(select ==3)		System.out.print("           ■");
-			else				System.out.print("           □");
-			System.out.print(" 비회원 이용\n");
-			if(select ==4)		System.out.print("           ■");
-			else				System.out.print("           □");
-			System.out.print(" 종료\n");
+			String[] menu = {" 회원가입\n"," 로그인\n"," 비회원 이용\n"," 종료\n"};
+
+			for(int i=0; i<menu.length; i++){
+				if(select ==i+1)		System.out.print("           ■");
+				else				System.out.print("           □");
+				System.out.print(menu[i]);
+			}
 			PrintUtil.joystick();
 			
 			switch(ScanUtil.nextLine()){
-			case "5":
-				if(select==1)
-					select=4;
-				else select--;
-				break;
-			case "2":
-				if(select==4)
-					select=1;
-				else select++;
-				break;
-			case "":
-				break main;
-			default:
-				break;
-
-			}
+			case "5": if(select==1) select=menu.length;		else select--;	break;
+			case "2": if(select==menu.length)	select=1;	else select++;	break;
+			case "":	break main;
+			default:	break;			}
 		}
 		
 		switch(select){
 		case 1: return View.SIGNUP;
 		case 2: return View.SIGNIN;
 		case 3: return userService.guestMode();
-		case 4:
-			System.out.println("프로그램이 종료되었습니다.");
-			System.exit(0);
-			break;
+		case 4:	System.out.println("프로그램이 종료되었습니다."); System.exit(0);
 		}
 		return View.USER_MAIN;
 	}
