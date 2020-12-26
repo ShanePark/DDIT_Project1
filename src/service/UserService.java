@@ -344,7 +344,7 @@ public class UserService {
 
 	}
 
-	public List<Map<String, Object>> resByDistance(){		// 테스트 이후엔 발견시 private로 다시 바꿔주세요
+	private List<Map<String, Object>> resByDistance(){		
 		return userDao.resByDistance();
 	}
 	private List<Map<String, Object>> resByScore(){
@@ -371,6 +371,62 @@ public class UserService {
 
 		return resList(resByName(resName));
 	}
+	
+	public int resDetail(String resId){
+		int select = 1;
+		String userId = Controller.user.get("USER_ID").toString();
+		resDetail:while(true){
+		Map<String,Object> res = userDao.resDetail(resId);
+		String pickCnt= res.get("PICK_CNT").toString();
+		String distance= res.get("DISTANCE").toString();
+		String resName= res.get("RES_NAME").toString();
+		String score= res.get("SCORE").toString();
+		String cousine= res.get("COUSINE").toString();
+		String rv_cnt= res.get("RV_CNT").toString();
+		String add= res.get("ADD1").toString();
+		String time= res.get("OPEN_TIME").toString()+" - "+res.get("CLOSE_TIME").toString();
+		PrintUtil.title2();
+		System.out.printf("\t\t\t\t좋아하는 사람 %s명\n",pickCnt);
+		System.out.printf("\t          %s (%s)\n",resName, cousine);
+		System.out.printf("            ✔️ 평점 : %s (리뷰 %s개)\n",score, rv_cnt);
+		System.out.printf("            ✔️ 영업시간 : %s\n",time);
+		System.out.printf("            ✔️ 주소 : %s (거리 %sm)\n\n",add, distance);
+		
+		
+		
+		String[] selects = {" 뒤로가기"," 메뉴보기"," 리뷰보기"," 찜하기"};
+		if(userDao.isPick(resId, userId))//이미 찜하기 했으면
+			selects[3] = " 찜취소";
+		for(int i=0; i<selects.length; i++){
+			if(select ==i+1)	System.out.print(" ■");
+			else				System.out.print(" □");
+			System.out.print(selects[i]);
+		}
+		
+		System.out.print(" ");
+		PrintUtil.joystick3();
+		
+		switch(ScanUtil.nextLine()){
+		case "1":	if(select==1)	select=4;		else select--;			break;
+		case "3":	if(select==4)	select=1;		else select++;			break;
+		case "":	break resDetail;
+		default:	break;			}
+		
+		}
+		
+		switch(select){
+		case 1: return View.USER_MAIN;
+		case 2: return View.ERROR;	// 메뉴보기 구현 필요
+		case 3: return View.ERROR;	// 리뷰보기 메뉴 필요
+		case 4: 
+			if(userDao.isPick(resId, userId))	userDao.resUnPick(resId, userId);
+			else userDao.resPick(resId,userId);	// 찜했으면 찜취소, 찜 안했으면 찜하기
+			return resDetail(resId);	// 찜(or취소) 이후 해당 식당 다시 재귀호출
+		default:
+			return View.USER_MAIN;
+		}
+		
+	}
 
 	public int resList(List<Map<String, Object>> list){
 		int select = 1;
@@ -382,6 +438,7 @@ public class UserService {
 		int foodLength = 5; // 음식 종류 최대 길이
 
 		page:while(true){
+			String[] resId = new String[resPerPage];
 
 			resList:while(true){
 				int startResNum = (page-1)*resPerPage;
@@ -402,6 +459,7 @@ public class UserService {
 						foodTemp += "　";
 
 					names[i] = name.substring(0, nameLength);
+					resId[i] = list.get(startResNum+i).get("RES_ID").toString();
 					food[i] = foodTemp;
 					score[i] = Float.parseFloat(list.get(startResNum+i).get("SCORE").toString());
 					distance[i] = list.get(startResNum+i).get("DISTANCE").toString();
@@ -444,17 +502,18 @@ public class UserService {
 				}
 			}
 
-		switch(select){
-		case 1: break;
-		case 2: break;
-		case 3: break;
-		case 4: break;	// case 1~4 선택시 각각의 선택된 restaurant 세부정보 보기
-		case 5: return View.USER_MAIN;
-		case 6: if(page!=1) page--;			break;
-		case 7: if(page!=maxPage) page++;	break;
-		default:
-			break page;
-		}
+			switch(select){
+			case 1: if(resId[0]!=null) return resDetail(resId[0]);
+			case 2: if(resId[1]!=null) return resDetail(resId[1]);
+			case 3: if(resId[2]!=null) return resDetail(resId[2]);
+			case 4: if(resId[3]!=null) return resDetail(resId[3]);
+			break;	// resID가 null일 경우 아무것도 하지 않습니다.
+			case 5: return View.USER_MAIN;
+			case 6: if(page!=1) page--;			break;
+			case 7: if(page!=maxPage) page++;	break;
+			default:
+				break page;
+			}
 		}
 
 
