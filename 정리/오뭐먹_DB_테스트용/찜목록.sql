@@ -1,12 +1,12 @@
 --------------------------------------------------------
---  ∆ƒ¿œ¿Ã ª˝º∫µ  - ∏Òø‰¿œ-12ø˘-24-2020   
+--  ÌååÏùºÏù¥ ÏÉùÏÑ±Îê® - ÌÜ†ÏöîÏùº-12Ïõî-26-2020   
 --------------------------------------------------------
 --------------------------------------------------------
 --  DDL for Table USER_PICK
 --------------------------------------------------------
 
   CREATE TABLE "DDIT"."USER_PICK" 
-   (	"RES_NAME" VARCHAR2(50 BYTE), 
+   (	"RES_ID" NUMBER, 
 	"USER_ID" VARCHAR2(20 BYTE)
    ) SEGMENT CREATION IMMEDIATE 
   PCTFREE 10 PCTUSED 40 INITRANS 1 MAXTRANS 255 NOCOMPRESS LOGGING
@@ -15,7 +15,7 @@
   TABLESPACE "SYSTEM" ;
 REM INSERTING into DDIT.USER_PICK
 SET DEFINE OFF;
-Insert into DDIT.USER_PICK (RES_NAME,USER_ID) values ('Ω∫Ω√ª˝∞¢','user');
-Insert into DDIT.USER_PICK (RES_NAME,USER_ID) values ('±´ªÍø√∞ª¿Ã','user');
-Insert into DDIT.USER_PICK (RES_NAME,USER_ID) values ('∏æΩ∫≈Õƒ°','user');
-Insert into DDIT.USER_PICK (RES_NAME,USER_ID) values ('∏∆µµ≥ØµÂ ¥Î¿¸ ºæ∆Æ∑≤DT¡°','user');
+Insert into DDIT.USER_PICK (RES_ID,USER_ID) values (1,'user');
+Insert into DDIT.USER_PICK (RES_ID,USER_ID) values (2,'user');
+Insert into DDIT.USER_PICK (RES_ID,USER_ID) values (3,'user');
+Insert into DDIT.USER_PICK (RES_ID,USER_ID) values (4,'user');
