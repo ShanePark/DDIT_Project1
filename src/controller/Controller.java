@@ -29,7 +29,7 @@ public class Controller {
 		Controller.user = user;
 		////////////////////////// USER 테스팅할 코드 ↓
 		
-		userService.resList(userService.resByDistance());
+		userService.resDetail("4");
 		
 		////////////////////////// USER 테스팅할 코드 ↑
 	}
@@ -42,7 +42,7 @@ public class Controller {
 		
 		////////////////////////// ADMIN 테스팅할 코드 ↓
 		
-		adminService.resAdd();
+		adminService.adminMain();
 		
 		////////////////////////// ADMIN 테스팅할 코드 ↑
 		

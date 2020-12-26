@@ -20,6 +20,11 @@ public class PrintUtil {
 		System.out.print("□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■\n>");
 	}
 	
+	static public void joystick3(){
+		System.out.print(" (1,3)← → (⏎)확인 \n");
+		System.out.print("□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■\n>");
+	}
+	
 	static public void printBar(){
 		System.out.print("□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■\n> ");
 	}

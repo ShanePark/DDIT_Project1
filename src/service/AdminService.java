@@ -32,17 +32,14 @@ public class AdminService {
 		main:while(true){
 			PrintUtil.title();
 			System.out.println("                                      👔관리자 전용                                              ");
-			System.out.println(" ");                   
-			if(select ==1)		System.out.print("             ■ ");
-			else				System.out.print("             □ ");
-			System.out.print("식당관리\n");
-			if(select ==2)		System.out.print("             ■ ");
-			else				System.out.print("             □ ");
-			System.out.print("뒤로가기\n");
+			System.out.println(" ");              
 
-			if(select ==3)		System.out.print("             ■ ");
-			else				System.out.print("             □ ");
-			System.out.print("로그아웃 ");         
+			String[] selects = {"식당관리\n","뒤로가기\n","로그아웃 "};
+			for(int i=0; i<selects.length; i++){
+				if(select ==i+1)	System.out.print("             ■ ");
+				else				System.out.print("             □ ");
+				System.out.print(selects[i]);
+			}
 			PrintUtil.joystick();
 
 			switch(ScanUtil.nextLine()){
@@ -57,8 +54,7 @@ public class AdminService {
 		case 1: return View.RESTAURANT_MANAGE;
 		case 2: return View.USER_MAIN;
 		case 3: return View.MAIN;
-		default:
-			return View.ADMIN_MAIN;
+		default: return View.ADMIN_MAIN;
 		}
 	}
 
@@ -68,23 +64,20 @@ public class AdminService {
 		main:while(true){
 			PrintUtil.title();
 			System.out.println("                                      🥄식당 관리🥢                                              ");
-			System.out.println(" ");                   
-			if(select ==1)		System.out.print("             ■ ");
-			else				System.out.print("             □ ");
-			System.out.print("식당추가\n");
-
-			if(select ==2)		System.out.print("             ■ ");
-			else				System.out.print("             □ ");
-			System.out.print("식당수정\n");
-
-			if(select ==3)		System.out.print("             ■ ");
-			else				System.out.print("             □ ");
-			System.out.print("뒤로가기 ");         
+			System.out.println(" ");       
+			String[] menu = {"식당추가\n","식당수정\n","뒤로가기 "};
+			
+			for(int i=0; i<menu.length; i++){
+				if(select ==i+1)	System.out.print("             ■ ");
+				else				System.out.print("             □ ");
+				System.out.print(menu[i]);
+			}
+			
 			PrintUtil.joystick();
 
 			switch(ScanUtil.nextLine()){
-			case "5":	if(select==1)	select=3;	else select--;	break;
-			case "2":	if(select==3)	select=1;	else select++;	break;
+			case "5":	if(select==1)	select=menu.length;	else select--;	break;
+			case "2":	if(select==menu.length)	select=1;	else select++;	break;
 			case "":	break main;
 			default:	break;
 			}

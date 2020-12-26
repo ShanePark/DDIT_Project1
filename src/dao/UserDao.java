@@ -137,5 +137,51 @@ public class UserDao {
 		else return false;
 		
 	}
+	
+	public Map<String,Object> resDetail(String resId){
+		String sql =  "select a.*, nvl(score,0) score, nvl(rv_cnt,0) rv_cnt, nvl(c.cnt,0) pick_cnt"
+		          +" from restaurants a, "
+				   +" (select res_id , round(avg(grade),1) score, count(*) rv_cnt"
+					  +" from review"
+					 +" group by res_id) b,"
+				   +" (select res_id, count(*) cnt"
+					  +" from user_pick"
+				     +" group by res_id) c"
+			  +" where a.res_id = b.res_id(+)"
+			   + " and a.res_id= c.res_id(+)"
+			    +" and a.res_id = ?";
+		List<Object> p = new ArrayList<>();
+		p.add(resId);
+		return jdbc.SelectOne(sql, p);
+		
+	}
+	
+	public boolean isPick(String resId, String userId){
+		String sql = "select count(*) cnt from user_pick"
+				     +" where res_id = ? and user_id = ?";
+		List<Object> p = new ArrayList<>();
+		p.add(resId);
+		p.add(userId);
+		String isPick = jdbc.SelectOne(sql, p).get("CNT").toString();
+		
+		if(isPick.equals("1")) return true;
+		else return false;
+	}
+	
+	public int resPick(String resId, String userId){
+		String sql = "insert into user_pick(res_id,user_id) values(?,?)";
+		List<Object> p = new ArrayList<>();
+		p.add(resId);
+		p.add(userId);
+		return jdbc.update(sql, p);
+	}
+	
+	public int resUnPick(String resId, String userId){
+		String sql = "delete from user_pick where res_id=? and user_id=?";
+		List<Object> p = new ArrayList<>();
+		p.add(resId);
+		p.add(userId);
+		return jdbc.update(sql, p);
+	}
 
 }
