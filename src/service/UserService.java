@@ -259,23 +259,20 @@ public class UserService {
 		lunchboxOrder:while(true){
 			PrintUtil.title();
 			System.out.println("\t        🍱도시락 주문하기🥡\n");
-			if(select ==1)		System.out.print("             ■ ");
-			else				System.out.print("             □ ");
-			System.out.print("대전 도시락\n");
-			if(select ==2)		System.out.print("             ■ ");
-			else				System.out.print("             □ ");
-			System.out.print("토마토 도시락\n");
-			if(select ==3)		System.out.print("             ■ ");
-			else				System.out.print("             □ ");
-			System.out.print("뒤로가기");    
-			PrintUtil.joystick();;
+			String[] menu = {"대전 도시락\n","토마토 도시락\n","뒤로가기"};
 
+			for(int i=0; i<menu.length; i++){
+				if(select ==i+1)	System.out.print("             ■ ");
+				else				System.out.print("             □ ");
+				System.out.print(menu[i]);
+			}
+			
+			PrintUtil.joystick();;
 			switch(ScanUtil.nextLine()){
-			case "5":	if(select==1)	select=3;		else select--;			break;
-			case "2":	if(select==3)	select=1;		else select++;			break;
+			case "5":	if(select==1) select=menu.length;		else select--;	break;
+			case "2":	if(select==menu.length) select=1;		else select++;	break;
 			case "":	break lunchboxOrder;
 			default:	break;			}
-
 		}
 
 		switch(select){
@@ -303,31 +300,19 @@ public class UserService {
 		lunchboxOrder:while(true){
 			PrintUtil.title();
 			System.out.println("\t               🧑마이페이지👩");
-			if(select ==1)		System.out.print("             ■ ");
-			else				System.out.print("             □ ");
-			System.out.print("찜리스트\n");
+			String[] menu = {"찜리스트\n","주문내역\n","내 리뷰 확인\n","계정관리\n","뒤로가기            "};
 
-			if(select ==2)		System.out.print("             ■ ");
-			else				System.out.print("             □ ");
-			System.out.print("주문내역\n");
-
-			if(select ==3)		System.out.print("             ■ ");
-			else				System.out.print("             □ ");
-			System.out.print("내 리뷰 확인\n");    
-
-			if(select ==4)		System.out.print("             ■ ");
-			else				System.out.print("             □ ");
-			System.out.print("계정관리\n");    
-
-			if(select ==5)		System.out.print("             ■ ");
-			else				System.out.print("             □ ");
-			System.out.print("뒤로가기            ");    
+			for(int i=0; i<menu.length; i++){
+				if(select ==i+1)	System.out.print("             ■ ");
+				else				System.out.print("             □ ");
+				System.out.print(menu[i]);
+			}
 
 			PrintUtil.joystick2();;
 
 			switch(ScanUtil.nextLine()){
-			case "5":	if(select==1)	select=5;		else select--;			break;
-			case "2":	if(select==5)	select=1;		else select++;			break;
+			case "5":	if(select==1)	select=menu.length;		else select--;	break;
+			case "2":	if(select==menu.length)	select=1;		else select++;	break;
 			case "":	break lunchboxOrder;
 			default:	break;			}
 
@@ -384,7 +369,11 @@ public class UserService {
 		String cousine= res.get("COUSINE").toString();
 		String rv_cnt= res.get("RV_CNT").toString();
 		String add= res.get("ADD1").toString();
-		String time= res.get("OPEN_TIME").toString()+" - "+res.get("CLOSE_TIME").toString();
+		String time;
+		if(res.get("OPEN_TIME")==null || res.get("CLOSE_TIME")==null)
+			time = "정보 없음";
+		else
+			time= res.get("OPEN_TIME").toString()+" - "+res.get("CLOSE_TIME").toString();
 		PrintUtil.title2();
 		System.out.printf("\t\t\t\t좋아하는 사람 %s명\n",pickCnt);
 		System.out.printf("\t          %s (%s)\n",resName, cousine);
