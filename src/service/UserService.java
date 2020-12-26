@@ -155,15 +155,15 @@ public class UserService {
 		String[] res = new String[5];
 
 		userMain:while(true){
-			PrintUtil.title2();
+			PrintUtil.title3();
 			for(int i=nickname.length(); i<6; i++)
 				System.out.print("  ");
 			int nicknameLength=6;	// 해당 길이보다 긴 닉네임은 ..으로 표시합니다
 			int saveLength = nicknameLength-1;
 			if(nickname.length()<nicknameLength) nicknameLength=nickname.length();
-			System.out.print("                       ["+nickname.substring(0,nicknameLength));
+			System.out.print("         ["+nickname.substring(0,nicknameLength));
 			if(nickname.length()>saveLength)	System.out.print("..");
-			System.out.println("](으)로 접속중");
+			System.out.print("](으)로 접속중\n");
 
 			if(select==2){
 				list = resByRvcnt();	orderby = "리뷰수";
