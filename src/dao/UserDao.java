@@ -185,9 +185,9 @@ public class UserDao {
 	}
 	
 	public List<Map<String,Object>> pickList(String userId){	//찜한 리스트 받아오기
-		String sql = "select b.res_name, b.res_id, round(avg(c.grade),2) as score"
+		String sql = "select b.res_name, b.res_id, nvl(round(avg(c.grade),2),0) as score"
 				    + " from user_pick a, restaurants b, review c"
-			    	+ " where a.user_id = ? and a.res_id = b.res_id and b.res_id = c.res_id"
+			    	+ " where a.user_id = ? and a.res_id = b.res_id and b.res_id = c.res_id(+)"
 				 + " group by b.res_name, b.res_id"
 				 + " order by b.res_name";
 		List<Object> p = new ArrayList<>();

@@ -21,20 +21,21 @@ public class Util {
 	public static String cutString(String string,int length){
 		for(int i=string.length(); i<length ;i++)
 			string += "　";
-		if(string.contains(" "))
-			string += " ";
 		if(string.length()>length)
-			string = string.substring(0,length-2)+"… ";
+			string = string.substring(0,length-1)+"…";
 		return string;
 	}
 
-	public static String cutString2(String string,int length){	
-		for(int i=string.length(); i<length ;i++)
-			string = "　" + string;
+	public static String cutString2(String string,int length){
+		int blank = 0;
+		for(int i=string.length(); i<length ;i++){
+			string = "   " + string;
+			blank += 3;
+		}
 		if(string.contains(" "))
 			string = " " + string;
-		if(string.length()>length)
-			string = string.substring(0,length-2)+"… ";
+		if(string.length()>length+blank)
+			string = string.substring(blank,length+blank)+"…";
 		return string;
 	}
 

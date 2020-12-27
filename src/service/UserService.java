@@ -156,14 +156,9 @@ public class UserService {
 
 		userMain:while(true){
 			PrintUtil.title3();
-			for(int i=nickname.length(); i<6; i++)
-				System.out.print("  ");
 			int nicknameLength=6;	// 해당 길이보다 긴 닉네임은 ..으로 표시합니다
-			int saveLength = nicknameLength-1;
-			if(nickname.length()<nicknameLength) nicknameLength=nickname.length();
-			System.out.print("         ["+nickname.substring(0,nicknameLength));
-			if(nickname.length()>saveLength)	System.out.print("..");
-			System.out.print("](으)로 접속중\n");
+			System.out.print("     "+Util.cutString2(nickname,nicknameLength));
+			System.out.print("(으)로 접속중\n");
 
 			if(select==2){
 				list = resByRvcnt();	orderby = "리뷰수";
@@ -173,16 +168,13 @@ public class UserService {
 				list = resByScore();	orderby = "평점순";
 			}
 			for(int i=0; i<res.length; i++){
-				int resNameLength = 6;	// 식당 이름을 몇 글짜까지 표시해줄지 정하는 변수
+				int resNameLength = 9;	// 식당 이름을 몇 글짜까지 표시해줄지 정하는 변수
 				resName = list.get(i).get("RES_NAME").toString();
 				score = list.get(i).get("SCORE").toString();
 				distance = list.get(i).get("DISTANCE").toString();
 				rvCnt = list.get(i).get("RV_CNT").toString();
 
-				if(resName.length() < resNameLength)
-					resNameLength = resName.length();
-				res[i]=resName.substring(0,resNameLength)+" [평점 "
-						+score+"] ";
+				res[i]=Util.cutString(resName,resNameLength)+" [평점 "+score+"] ";
 				if(select==2)
 					res[i] += "(리뷰"+rvCnt+"개)";
 				if(select==3)
@@ -190,36 +182,36 @@ public class UserService {
 			}
 			if(select ==1)		System.out.print(" ■");
 			else				System.out.print(" □");
-			System.out.print(" 평점기준                            ");
+			System.out.print(" 평점기준                      ");
 			System.out.printf("🥘 [%s] BEST 5 🍝\n",orderby);
 
 			if(select ==2)		System.out.print(" ■");
 			else				System.out.print(" □");
-			System.out.print(" 리뷰수기준                    1. ");
+			System.out.print(" 리뷰수기준                1. ");
 			System.out.println(res[0]);
 
 			if(select ==3)		System.out.print(" ■");
 			else				System.out.print(" □");
-			System.out.print(" 거리기준                       2. ");
+			System.out.print(" 거리기준                   2. ");
 			System.out.println(res[1]);
 
 			if(select ==4)		System.out.print(" ■");
 			else				System.out.print(" □");
-			System.out.print(" 검색                             3. ");
+			System.out.print(" 검색                         3. ");
 			System.out.println(res[2]);
 
 			if(select ==5)		System.out.print(" ■");
 			else				System.out.print(" □");
-			System.out.print(" 도시락주문                    4. ");
+			System.out.print(" 도시락주문                4. ");
 			System.out.println(res[3]);
 
 			if(select ==6)		System.out.print(" ■");
 			else				System.out.print(" □");
 			if(nickname.equals("관리자"))
-				System.out.print(" 관리자전용                    5. ");
+				System.out.print(" 관리자전용                5. ");
 			else if(nickname.equals("비회원"))
-				System.out.print(" 로그인                          5. ");	// 비회원일때 마이페이지 대신 어떤 기능을 넣을지 정해야합니다
-			else System.out.print(" 마이페이지                    5. ");
+				System.out.print(" 로그인                      5. ");	// 비회원일때 마이페이지 대신 어떤 기능을 넣을지 정해야합니다
+			else System.out.print(" 마이페이지                5. ");
 
 			System.out.println(res[4]);
 
@@ -328,7 +320,8 @@ public class UserService {
 
 	public int pickList(){
 		List<Map<String,Object>> list = getPickList();	// ↓ 메뉴 및 페이징 처리를 위한 변수들입니다
-		int select = 1, perPage = 4, page = 1,totalPage = (list.size()-1)/perPage+1;	
+		int select = 1, perPage = 4, page = 1,totalPage = (list.size()-1)/perPage+1;
+		int nameLength = 7;
 
 		page:while(true){	// 이중 반복문이 쓰인 이유는 1.페이징처리 2.메뉴이용 두 가지 기능을 모두 담기 위해서입니다.
 			String[] resNumber = new String[perPage];	// 식당 번호를 저장해둘 배열입니다 (resDetail 호출을 위해 필요)
@@ -341,7 +334,7 @@ public class UserService {
 					String resName="", star="";
 					double score=0;
 					if(resNum<list.size()){
-						resName = Util.cutString(list.get(resNum).get("RES_NAME").toString(),6);
+						resName = Util.cutString(list.get(resNum).get("RES_NAME").toString(),nameLength);
 						score = Float.parseFloat(list.get(resNum).get("SCORE").toString());
 						resNumber[i] = list.get(resNum).get("RES_ID").toString();
 						star = Util.scoreToStars(score);
