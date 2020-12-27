@@ -151,7 +151,8 @@ public class UserService {
 		String nickname = Controller.user.get("NICKNAME").toString();
 		List<Map<String, Object>> list = null;
 		int select = 1;
-		String orderby="", resName="",score ="", distance="", rvCnt="";
+		String orderby="", resName="", distance="", rvCnt="";
+		float score=0;
 		String[] res = new String[5];
 
 		userMain:while(true){
@@ -170,7 +171,7 @@ public class UserService {
 			for(int i=0; i<res.length; i++){
 				int resNameLength = 9;	// 식당 이름을 몇 글짜까지 표시해줄지 정하는 변수
 				resName = list.get(i).get("RES_NAME").toString();
-				score = list.get(i).get("SCORE").toString();
+				score = Float.parseFloat(list.get(i).get("SCORE").toString());
 				distance = list.get(i).get("DISTANCE").toString();
 				rvCnt = list.get(i).get("RV_CNT").toString();
 
@@ -428,7 +429,7 @@ public class UserService {
 		String pickCnt= res.get("PICK_CNT").toString();
 		String distance= res.get("DISTANCE").toString();
 		String resName= res.get("RES_NAME").toString();
-		String score= res.get("SCORE").toString();
+		float score= Float.parseFloat(res.get("SCORE").toString());
 		String cousine= res.get("COUSINE").toString();
 		String rv_cnt= res.get("RV_CNT").toString();
 		String add= res.get("ADD1").toString();
@@ -440,7 +441,7 @@ public class UserService {
 		PrintUtil.title2();
 		System.out.printf("\t\t\t\t좋아하는 사람 %s명\n",pickCnt);
 		System.out.printf("\t          %s (%s)\n",resName, cousine);
-		System.out.printf("            ✔️ 평점 : %s (리뷰 %s개)\n",score, rv_cnt);
+		System.out.printf("            ✔️ 평점 : %.2f (리뷰 %s개)\n",score, rv_cnt);
 		System.out.printf("            ✔️ 영업시간 : %s\n",time);
 		System.out.printf("            ✔️ 주소 : %s (거리 %sm)\n\n",add, distance);
 		

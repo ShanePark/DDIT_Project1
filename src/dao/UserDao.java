@@ -141,7 +141,7 @@ public class UserDao {
 	public Map<String,Object> resDetail(String resId){
 		String sql =  "select a.*, nvl(score,0) score, nvl(rv_cnt,0) rv_cnt, nvl(c.cnt,0) pick_cnt"
 		          +" from restaurants a, "
-				   +" (select res_id , round(avg(grade),1) score, count(*) rv_cnt"
+				   +" (select res_id , round(avg(grade),2) score, count(*) rv_cnt"
 					  +" from review"
 					 +" group by res_id) b,"
 				   +" (select res_id, count(*) cnt"

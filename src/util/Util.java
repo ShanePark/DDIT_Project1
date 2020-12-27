@@ -21,9 +21,16 @@ public class Util {
 	public static String cutString(String string,int length){
 		for(int i=string.length(); i<length ;i++)
 			string += "　";
-		if(string.length()>length)
-			string = string.substring(0,length-1)+"…";
-		return string;
+		int blank=0;
+		if(string.substring(0,length).contains(" ")){
+			string+=" ";
+			blank++;
+		}
+		if(string.length()>length){
+			string = string.substring(0,length-1+blank)+"…";
+			return string;
+		}
+		return string+" ";
 	}
 
 	public static String cutString2(String string,int length){
