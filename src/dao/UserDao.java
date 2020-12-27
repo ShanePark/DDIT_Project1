@@ -42,7 +42,7 @@ public class UserDao {
 		param.add(password);
 		
 	
-		return jdbc.SelectOne(sql, param);
+		return jdbc.selectOne(sql, param);
 			
 	}
 	
@@ -122,7 +122,7 @@ public class UserDao {
 		String sql = "select count(user_id) cnt from users where user_id=?";
 		List<Object> p = new ArrayList<>();
 		p.add(id);
-		if(jdbc.SelectOne(sql, p).get("CNT").toString().equals("1"))
+		if(jdbc.selectOne(sql, p).get("CNT").toString().equals("1"))
 			return true;
 		else return false;
 		
@@ -132,7 +132,7 @@ public class UserDao {
 		String sql = "select count(nickname) cnt from users where nickname=?";
 		List<Object> p = new ArrayList<>();
 		p.add(nickname);
-		if(jdbc.SelectOne(sql, p).get("CNT").toString().equals("1"))
+		if(jdbc.selectOne(sql, p).get("CNT").toString().equals("1"))
 			return true;
 		else return false;
 		
@@ -152,7 +152,7 @@ public class UserDao {
 			    +" and a.res_id = ?";
 		List<Object> p = new ArrayList<>();
 		p.add(resId);
-		return jdbc.SelectOne(sql, p);
+		return jdbc.selectOne(sql, p);
 		
 	}
 	
@@ -162,7 +162,7 @@ public class UserDao {
 		List<Object> p = new ArrayList<>();
 		p.add(resId);
 		p.add(userId);
-		String isPick = jdbc.SelectOne(sql, p).get("CNT").toString();
+		String isPick = jdbc.selectOne(sql, p).get("CNT").toString();
 		
 		if(isPick.equals("1")) return true;
 		else return false;
