@@ -6,7 +6,6 @@ import service.AdminService;
 import service.UserService;
 import util.PrintUtil;
 import util.ScanUtil;
-import util.Util;
 import util.View;
 import dao.AdminDao;
 import dao.UserDao;
@@ -29,7 +28,7 @@ public class Controller {
 		Controller.user = user;
 		////////////////////////// USER 테스팅할 코드 ↓
 		
-		userService.resDetail("4");
+		userService.pickList();
 		
 		////////////////////////// USER 테스팅할 코드 ↑
 	}
@@ -72,6 +71,7 @@ public class Controller {
 			case View.USER_MAIN:  view = userService.userMain(); 			break;
 			case View.LUNCHBOX_ORDER: view = userService.lunchboxOrder();	break;
 			case View.MYPAGE: view = userService.myPage();					break;
+			case View.PICK_LIST: view = userService.pickList();				break;
 			case View.SEARCH_RES : view = userService.searchRes();			break;
 			default : 
 				System.out.println("해당 View 번호에 대한 case가 start()에 존재하지 않습니다.");
@@ -88,47 +88,27 @@ public class Controller {
 		int select = 2;
 		main:while(true){
 			PrintUtil.title();
-			if(select ==1)		System.out.print("           ■");
-			else				System.out.print("           □");
-			System.out.print(" 회원가입\n");
-			if(select ==2)		System.out.print("           ■");
-			else				System.out.print("           □");
-			System.out.print(" 로그인\n");
-			if(select ==3)		System.out.print("           ■");
-			else				System.out.print("           □");
-			System.out.print(" 비회원 이용\n");
-			if(select ==4)		System.out.print("           ■");
-			else				System.out.print("           □");
-			System.out.print(" 종료\n");
+			String[] menu = {" 회원가입\n"," 로그인\n"," 비회원 이용\n"," 종료\n"};
+
+			for(int i=0; i<menu.length; i++){
+				if(select ==i+1)		System.out.print("           ■");
+				else				System.out.print("           □");
+				System.out.print(menu[i]);
+			}
 			PrintUtil.joystick();
 			
 			switch(ScanUtil.nextLine()){
-			case "5":
-				if(select==1)
-					select=4;
-				else select--;
-				break;
-			case "2":
-				if(select==4)
-					select=1;
-				else select++;
-				break;
-			case "":
-				break main;
-			default:
-				break;
-
-			}
+			case "5": if(select==1) select=menu.length;		else select--;	break;
+			case "2": if(select==menu.length)	select=1;	else select++;	break;
+			case "":	break main;
+			default:	break;			}
 		}
 		
 		switch(select){
 		case 1: return View.SIGNUP;
 		case 2: return View.SIGNIN;
 		case 3: return userService.guestMode();
-		case 4:
-			System.out.println("프로그램이 종료되었습니다.");
-			System.exit(0);
-			break;
+		case 4:	System.out.println("프로그램이 종료되었습니다."); System.exit(0);
 		}
 		return View.USER_MAIN;
 	}

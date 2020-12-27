@@ -28,15 +28,15 @@ public class UserService {
 		PrintUtil.title();
 		System.out.println("\n\n          ID : ");
 		System.out.println("          PW : \n\n\t\t       뒤로 가러면 [Enter] 키를 누르세요");
-		System.out.print("□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■\n");
+		PrintUtil.printBar();
 		System.out.print("ID> ");
 		String userID = ScanUtil.nextLine();
 		if("".equals(userID))	return View.MAIN;	//  그냥 엔터키를 누르면 뒤로 이동
-		System.out.println("□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■\n");
+		PrintUtil.printBar();
 		PrintUtil.title();
 		System.out.print("\n\n          ID : "+userID+"\n");
-		System.out.println("          PW : \n");
-		System.out.print("\n□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■\n");
+		System.out.println("          PW : \n\n");
+		PrintUtil.printBar();
 		System.out.print("PASSWORD> ");
 		String password = ScanUtil.nextLine();
 
@@ -57,10 +57,8 @@ public class UserService {
 		Util.wait(300);
 		PrintUtil.title();
 		System.out.println("\n\n\t⛔  ID와 비밀번호가 일치하지 않습니다  ⛔\n");
-		System.out.println("        ■ 다시 로그인 하려면 엔터키를 입력 하세요");
-		System.out.print("\n□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■\n> ");
-
-
+		System.out.println("        ■ 다시 로그인 하려면 엔터키를 입력 하세요\n");
+		PrintUtil.printBar();
 		ScanUtil.nextLine();
 	}
 
@@ -70,21 +68,20 @@ public class UserService {
 		System.out.println("                                    🥄회원가입🥢");
 		System.out.print("        ID : \n");
 		System.out.print("        PW : \n");
-		System.out.print("                 닉네임 : \n\n\t\t       뒤로 가러면 [Enter] 키를 누르세요");
-		System.out.print("\n□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■\n");
+		System.out.print("                 닉네임 : \n\n\t\t       뒤로 가러면 [Enter] 키를 누르세요\n");
+		PrintUtil.printBar();
 		System.out.print("ID> ");
 		userID = ScanUtil.nextLine();
 		if("".equals(userID))	return View.MAIN;	//  그냥 엔터키를 누르면 뒤로 이동
 		if(userDao.isIdExist(userID))	// id 중복검사
 			userID = idExist();
 
-
 		PrintUtil.title();
 		System.out.println("                                    🥄회원가입🥢");
 		System.out.print("        ID : ");System.out.print(userID+"\n");
 		System.out.print("        PW : \n");
-		System.out.print("                 닉네임 : \n\n");
-		System.out.print("\n□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■\n");
+		System.out.print("                 닉네임 : \n\n\n");
+		PrintUtil.printBar();
 		System.out.print("PASSWORD> ");
 		password = ScanUtil.nextLine();
 
@@ -95,8 +92,8 @@ public class UserService {
 		System.out.print("        PW : ");
 		for(int i=0; i<password.length(); i++)
 			System.out.print("*");
-		System.out.print("\n                 닉네임 : \n\n");
-		System.out.print("\n□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■\n");
+		System.out.print("\n                 닉네임 : \n\n\n");
+		PrintUtil.printBar();
 		System.out.print("닉네임 > ");
 		nickname = ScanUtil.nextLine();
 		if(userDao.isNicknameExist(nickname))	// 닉네임 중복검사
@@ -127,8 +124,8 @@ public class UserService {
 		while(true){
 			PrintUtil.title();
 			System.out.println("\n                     이미 존재하는 아이디입니다.");
-			System.out.println("\n\n                  아이디를 다시 입력해주세요.");
-			System.out.print("\n□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■\n> ");
+			System.out.println("\n\n                  아이디를 다시 입력해주세요.\n");
+			PrintUtil.printBar();
 			String id=ScanUtil.nextLine();
 			if(!userDao.isIdExist(id))
 				return id;
@@ -139,8 +136,8 @@ public class UserService {
 		while(true){
 			PrintUtil.title();
 			System.out.println("\n                     이미 존재하는 닉네임입니다.");
-			System.out.println("\n\n                  닉네임을 다시 입력해주세요.");
-			System.out.print("\n□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■\n> ");
+			System.out.println("\n\n                  닉네임을 다시 입력해주세요.\n");
+			PrintUtil.printBar();
 			String nickname=ScanUtil.nextLine();
 			if(!userDao.isNicknameExist(nickname))
 				return nickname;
@@ -154,20 +151,15 @@ public class UserService {
 		String nickname = Controller.user.get("NICKNAME").toString();
 		List<Map<String, Object>> list = null;
 		int select = 1;
-		String orderby="", resName="",score ="", distance="", rvCnt="";
+		String orderby="", resName="", distance="", rvCnt="";
+		float score=0;
 		String[] res = new String[5];
 
 		userMain:while(true){
-			System.out.println("\n\n□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■\n");
-			System.out.print("                                    🍽️ 오늘 뭐먹지? 🍽️");
-			for(int i=nickname.length(); i<6; i++)
-				System.out.print("   ");
+			PrintUtil.title3();
 			int nicknameLength=6;	// 해당 길이보다 긴 닉네임은 ..으로 표시합니다
-			int saveLength = nicknameLength-1;
-			if(nickname.length()<nicknameLength) nicknameLength=nickname.length();
-			System.out.print("   ["+nickname.substring(0,nicknameLength));
-			if(nickname.length()>saveLength)	System.out.print("..");
-			System.out.println("](으)로 접속중");
+			System.out.print("     "+Util.cutString2(nickname,nicknameLength));
+			System.out.print("(으)로 접속중\n");
 
 			if(select==2){
 				list = resByRvcnt();	orderby = "리뷰수";
@@ -177,16 +169,13 @@ public class UserService {
 				list = resByScore();	orderby = "평점순";
 			}
 			for(int i=0; i<res.length; i++){
-				int resNameLength = 6;	// 식당 이름을 몇 글짜까지 표시해줄지 정하는 변수
+				int resNameLength = 9;	// 식당 이름을 몇 글짜까지 표시해줄지 정하는 변수
 				resName = list.get(i).get("RES_NAME").toString();
-				score = list.get(i).get("SCORE").toString();
+				score = Float.parseFloat(list.get(i).get("SCORE").toString());
 				distance = list.get(i).get("DISTANCE").toString();
 				rvCnt = list.get(i).get("RV_CNT").toString();
 
-				if(resName.length() < resNameLength)
-					resNameLength = resName.length();
-				res[i]=resName.substring(0,resNameLength)+" [평점 "
-						+score+"] ";
+				res[i]=Util.cutString(resName,resNameLength)+" [평점 "+score+"] ";
 				if(select==2)
 					res[i] += "(리뷰"+rvCnt+"개)";
 				if(select==3)
@@ -194,44 +183,44 @@ public class UserService {
 			}
 			if(select ==1)		System.out.print(" ■");
 			else				System.out.print(" □");
-			System.out.print(" 평점기준                            ");
+			System.out.print(" 평점기준                      ");
 			System.out.printf("🥘 [%s] BEST 5 🍝\n",orderby);
 
 			if(select ==2)		System.out.print(" ■");
 			else				System.out.print(" □");
-			System.out.print(" 리뷰수기준                    1. ");
+			System.out.print(" 리뷰수기준                1. ");
 			System.out.println(res[0]);
 
 			if(select ==3)		System.out.print(" ■");
 			else				System.out.print(" □");
-			System.out.print(" 거리기준                       2. ");
+			System.out.print(" 거리기준                   2. ");
 			System.out.println(res[1]);
 
 			if(select ==4)		System.out.print(" ■");
 			else				System.out.print(" □");
-			System.out.print(" 검색                             3. ");
+			System.out.print(" 검색                         3. ");
 			System.out.println(res[2]);
 
 			if(select ==5)		System.out.print(" ■");
 			else				System.out.print(" □");
-			System.out.print(" 도시락주문                    4. ");
+			System.out.print(" 도시락주문                4. ");
 			System.out.println(res[3]);
 
 			if(select ==6)		System.out.print(" ■");
 			else				System.out.print(" □");
 			if(nickname.equals("관리자"))
-				System.out.print(" 관리자전용                    5. ");
+				System.out.print(" 관리자전용                5. ");
 			else if(nickname.equals("비회원"))
-				System.out.print(" 로그인                          5. ");	// 비회원일때 마이페이지 대신 어떤 기능을 넣을지 정해야합니다
-			else System.out.print(" 마이페이지                    5. ");
+				System.out.print(" 로그인                      5. ");	// 비회원일때 마이페이지 대신 어떤 기능을 넣을지 정해야합니다
+			else System.out.print(" 마이페이지                5. ");
 
 			System.out.println(res[4]);
 
 			if(select ==7)		System.out.print(" ■");
 			else				System.out.print(" □");
 			System.out.print(" 고객센터                        ");
-			System.out.print("                     (2)↓ (5)↑ (⏎)확인\n"+ 
-					"□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■\n>");
+			System.out.print("                     (2)↓ (5)↑ (⏎)확인\n");
+			PrintUtil.printBar();
 
 			switch(ScanUtil.nextLine()){	// 방향키 입력받는 switch 문
 			case "5": if(select==1)	select=7;	else select--;		break;
@@ -241,16 +230,17 @@ public class UserService {
 
 		}
 		switch(select){
-		case 1: return resList(resByScore());
-		case 2: return resList(resByRvcnt());
-		case 3: return resList(resByDistance());
+		case 1: resList(resByScore()); break;
+		case 2: resList(resByRvcnt()); break;
+		case 3: resList(resByDistance()); break;
 		case 4: return View.SEARCH_RES;
 		case 5:	return View.LUNCHBOX_ORDER;
 		case 6:
 			if(nickname.equals("관리자"))	return View.ADMIN_MAIN;
 			if(nickname.equals("비회원")) return View.SIGNIN;
-			else return View.MYPAGE;	///////////// 사용자용 '마이페이지' 구현이 필요합니다
-		default:return View.ERROR;	}
+			else return View.MYPAGE;
+		}
+		return View.USER_MAIN;
 
 	}
 
@@ -319,16 +309,90 @@ public class UserService {
 		}
 
 		switch(select){
-		case 1: return View.ERROR;	// 찜리스트 view 만들어야 합니다
+		case 1: return View.PICK_LIST;	
 		case 2: return View.ERROR;	// 주문내역 view 만들어야 합니다
 		case 3: return View.ERROR;	// 내 리뷰 확인 view 만들어야 합니다
 		case 4: return View.ERROR;	// 계정관리 view 만들어야 합니다
 		case 5: return View.USER_MAIN;	// 뒤로가기
-		default:return View.USER_MAIN;
 		}
+		return View.MYPAGE;
 
 	}
 
+	public int pickList(){
+		List<Map<String,Object>> list = getPickList();	// ↓ 메뉴 및 페이징 처리를 위한 변수들입니다
+		int select = 1, perPage = 4, page = 1,totalPage = (list.size()-1)/perPage+1;
+		int nameLength = 7;
+
+		page:while(true){	// 이중 반복문이 쓰인 이유는 1.페이징처리 2.메뉴이용 두 가지 기능을 모두 담기 위해서입니다.
+			String[] resNumber = new String[perPage];	// 식당 번호를 저장해둘 배열입니다 (resDetail 호출을 위해 필요)
+			pickList: while(true){
+				PrintUtil.title();
+				System.out.println("                                     ❤️ 찜리스트 ❤️");
+
+				for(int i=0; i<perPage; i++){
+					int resNum = (page-1) * perPage + i;
+					String resName="", star="";
+					double score=0;
+					if(resNum<list.size()){
+						resName = Util.cutString(list.get(resNum).get("RES_NAME").toString(),nameLength);
+						score = Float.parseFloat(list.get(resNum).get("SCORE").toString());
+						resNumber[i] = list.get(resNum).get("RES_ID").toString();
+						star = Util.scoreToStars(score);
+					}
+
+					if(select ==i+1)	System.out.print("         ■ ");
+					else				System.out.print("         □ ");
+					if(!resName.equals("")) System.out.printf("%s　　%s (평점 %.2f)\n",resName,star,score);
+					else System.out.println();
+				}
+
+				String[] menu = {"뒤로가기 ","이전페이지 ","다음페이지 "};
+				for(int i=0; i<menu.length; i++){
+					if(select ==perPage+i+1)	System.out.print(" ■ ");
+					else						System.out.print(" □ ");
+					System.out.print(menu[i]);
+				}
+				System.out.printf(" (페이지 %d/%d)총 %d개",page,totalPage,list.size());
+				PrintUtil.printBar2();
+
+				switch(ScanUtil.nextLine()){
+				case "5":	
+					if(select>perPage)	select = perPage;
+					else if(select==1)	select=perPage+1;		
+					else select--;			
+					break;
+				case "2":	
+					if(select>perPage)	select = 1;
+					else if(select==perPage+1)	select=1;		
+					else select++;			
+					break;
+				case "1":	if(select<perPage) select=perPage+menu.length; 
+				else if(select==perPage+1)	select=perPage+menu.length;		else select--;	break;
+				case "3":	if(select<perPage) select=perPage+1;
+				else if(select==perPage+menu.length) select=perPage+1; 		else select++;	break;
+				case "":	break pickList;
+				default:	break;			}
+			}
+
+		switch(select){
+		case 1: if(resNumber[0]==null) break; else {resDetail(resNumber[0]); break;}
+		case 2: if(resNumber[1]==null) break; else {resDetail(resNumber[1]); break;}
+		case 3: if(resNumber[2]==null) break; else {resDetail(resNumber[2]); break;}
+		case 4: if(resNumber[3]==null) break; else {resDetail(resNumber[3]); break;}
+		case 5: return View.USER_MAIN;
+		case 6: if(page!=1) page--; break;
+		case 7: if(page!=totalPage) page++; break;
+		default: break page;	}
+		
+		}
+
+		return View.PICK_LIST;
+	}
+	
+	private List<Map<String, Object>> getPickList(){		
+		return userDao.pickList(Controller.user.get("USER_ID").toString());
+	}
 	private List<Map<String, Object>> resByDistance(){		
 		return userDao.resByDistance();
 	}
@@ -357,7 +421,7 @@ public class UserService {
 		return resList(resByName(resName));
 	}
 	
-	public int resDetail(String resId){
+	public void resDetail(String resId){	// '뒤로가기' 기능의 정상적 사용을 위해 반환타입을 void 로 변경하였습니다.
 		int select = 1;
 		String userId = Controller.user.get("USER_ID").toString();
 		resDetail:while(true){
@@ -365,7 +429,7 @@ public class UserService {
 		String pickCnt= res.get("PICK_CNT").toString();
 		String distance= res.get("DISTANCE").toString();
 		String resName= res.get("RES_NAME").toString();
-		String score= res.get("SCORE").toString();
+		float score= Float.parseFloat(res.get("SCORE").toString());
 		String cousine= res.get("COUSINE").toString();
 		String rv_cnt= res.get("RV_CNT").toString();
 		String add= res.get("ADD1").toString();
@@ -377,7 +441,7 @@ public class UserService {
 		PrintUtil.title2();
 		System.out.printf("\t\t\t\t좋아하는 사람 %s명\n",pickCnt);
 		System.out.printf("\t          %s (%s)\n",resName, cousine);
-		System.out.printf("            ✔️ 평점 : %s (리뷰 %s개)\n",score, rv_cnt);
+		System.out.printf("            ✔️ 평점 : %.2f (리뷰 %s개)\n",score, rv_cnt);
 		System.out.printf("            ✔️ 영업시간 : %s\n",time);
 		System.out.printf("            ✔️ 주소 : %s (거리 %sm)\n\n",add, distance);
 		
@@ -404,15 +468,15 @@ public class UserService {
 		}
 		
 		switch(select){
-		case 1: return View.USER_MAIN;
-		case 2: return View.ERROR;	// 메뉴보기 구현 필요
-		case 3: return View.ERROR;	// 리뷰보기 메뉴 필요
+		case 1: break;
+		case 2: break;	// 메뉴보기 구현 필요
+		case 3: break;	// 리뷰보기 메뉴 필요
 		case 4: 
 			if(userDao.isPick(resId, userId))	userDao.resUnPick(resId, userId);
 			else userDao.resPick(resId,userId);	// 찜했으면 찜취소, 찜 안했으면 찜하기
-			return resDetail(resId);	// 찜(or취소) 이후 해당 식당 다시 재귀호출
+			resDetail(resId);	// 찜(or취소) 이후 해당 식당 다시 재귀호출
 		default:
-			return View.USER_MAIN;
+			break;
 		}
 		
 	}
@@ -423,8 +487,9 @@ public class UserService {
 		int resPerPage = 4;
 		int maxPage = (list.size()-1)/resPerPage+1;
 		if(list.size()==0) maxPage = 1;
-		int nameLength = 6;	// 출력하고 싶은 가게 이름의 최대 길이
+		int nameLength = 8;	// 출력하고 싶은 가게 이름의 최대 길이
 		int foodLength = 5; // 음식 종류 최대 길이
+		int distanceLength = 5; // 거리 표현 최대 길이 
 
 		page:while(true){
 			String[] resId = new String[resPerPage];
@@ -439,30 +504,23 @@ public class UserService {
 
 				for(int i=0; i<resPerPage; i++){
 					if(startResNum+i>=list.size()) break;
-					String name = list.get(startResNum+i).get("RES_NAME").toString();
-					String foodTemp = list.get(startResNum+i).get("COUSINE").toString();
 
-					for(int j=name.length(); j<nameLength; j++)	// 식당 이름 길이를 맞춰줍니다.
-						name += "　";
-					for(int j=foodTemp.length(); j<foodLength; j++)
-						foodTemp += "　";
-
-					names[i] = name.substring(0, nameLength);
+					names[i] = Util.cutString(list.get(startResNum+i).get("RES_NAME").toString(),nameLength);
 					resId[i] = list.get(startResNum+i).get("RES_ID").toString();
-					food[i] = foodTemp;
+					food[i] = Util.cutString(list.get(startResNum+i).get("COUSINE").toString(), foodLength);
 					score[i] = Float.parseFloat(list.get(startResNum+i).get("SCORE").toString());
-					distance[i] = list.get(startResNum+i).get("DISTANCE").toString();
+					distance[i] = Util.cutString2(list.get(startResNum+i).get("DISTANCE").toString(),distanceLength);
 					likes[i] = Integer.parseInt(list.get(startResNum+i).get("PICK_CNT").toString());
 				}
 
 				PrintUtil.title2();
-				System.out.println("       이름              음식             평점            거리           추천수");
+				System.out.println("       이름                    음식             평점             거리           추천수");
 
 				for(int i=0; i<resPerPage; i++){
 					if(select ==i+1)		System.out.print(" ■ ");
 					else				System.out.print(" □ ");
 					if(names[i]!=null){
-						System.out.printf("%s  %s   %s          %sm      %d개\n",names[i],food[i],Util.scoreToStars(score[i]),distance[i],likes[i]);
+						System.out.printf("%s  %s %s%sm      %d개\n",names[i],food[i],Util.scoreToStars(score[i]),distance[i],likes[i]);
 					}else System.out.println();
 				}
 
@@ -492,11 +550,10 @@ public class UserService {
 			}
 
 			switch(select){
-			case 1: if(resId[0]!=null) return resDetail(resId[0]);
-			case 2: if(resId[1]!=null) return resDetail(resId[1]);
-			case 3: if(resId[2]!=null) return resDetail(resId[2]);
-			case 4: if(resId[3]!=null) return resDetail(resId[3]);
-			break;	// resID가 null일 경우 아무것도 하지 않습니다.
+			case 1: if(resId[0]!=null) resDetail(resId[0]); break;// resID가 null일 경우 아무것도 하지 않습니다.
+			case 2: if(resId[1]!=null) resDetail(resId[1]); break;// resID가 null일 경우 아무것도 하지 않습니다.
+			case 3: if(resId[2]!=null) resDetail(resId[2]); break;// resID가 null일 경우 아무것도 하지 않습니다.
+			case 4: if(resId[3]!=null) resDetail(resId[3]); break;// resID가 null일 경우 아무것도 하지 않습니다.
 			case 5: return View.USER_MAIN;
 			case 6: if(page!=1) page--;			break;
 			case 7: if(page!=maxPage) page++;	break;

@@ -9,6 +9,10 @@ public class PrintUtil {
 		System.out.println("\n\n□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■\n");
 		System.out.println("                                    🍽️ 오늘 뭐먹지? 🍽️");
 	}
+	static public void title3(){
+		System.out.println("\n\n□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■\n");
+		System.out.print("                                    🍽️ 오늘 뭐먹지? 🍽️");
+	}
 	
 	static public void joystick(){
 		System.out.print("\n                           (2)↓ (5)↑ (⏎)확인 \n");
@@ -27,6 +31,11 @@ public class PrintUtil {
 	
 	static public void printBar(){
 		System.out.print("□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■\n> ");
+	}
+	
+	static public void printBar2(){
+		System.out.println();
+		printBar();
 	}
 
 }
