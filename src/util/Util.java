@@ -17,12 +17,26 @@ public class Util {
 			stars+="☆";
 		return stars;
 	}
-	
+
 	public static String cutString(String string,int length){
 		for(int i=string.length(); i<length ;i++)
 			string += "　";
-		return string.substring(0, length);
+		if(string.contains(" "))
+			string += " ";
+		if(string.length()>length)
+			string = string.substring(0,length-2)+"… ";
+		return string;
 	}
-	
+
+	public static String cutString2(String string,int length){	
+		for(int i=string.length(); i<length ;i++)
+			string = "　" + string;
+		if(string.contains(" "))
+			string = " " + string;
+		if(string.length()>length)
+			string = string.substring(0,length-2)+"… ";
+		return string;
+	}
+
 
 }

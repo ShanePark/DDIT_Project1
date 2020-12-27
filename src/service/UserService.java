@@ -493,8 +493,9 @@ public class UserService {
 		int resPerPage = 4;
 		int maxPage = (list.size()-1)/resPerPage+1;
 		if(list.size()==0) maxPage = 1;
-		int nameLength = 6;	// 출력하고 싶은 가게 이름의 최대 길이
+		int nameLength = 8;	// 출력하고 싶은 가게 이름의 최대 길이
 		int foodLength = 5; // 음식 종류 최대 길이
+		int distanceLength = 5; // 거리 표현 최대 길이 
 
 		page:while(true){
 			String[] resId = new String[resPerPage];
@@ -509,30 +510,23 @@ public class UserService {
 
 				for(int i=0; i<resPerPage; i++){
 					if(startResNum+i>=list.size()) break;
-					String name = list.get(startResNum+i).get("RES_NAME").toString();
-					String foodTemp = list.get(startResNum+i).get("COUSINE").toString();
 
-					for(int j=name.length(); j<nameLength; j++)	// 식당 이름 길이를 맞춰줍니다.
-						name += "　";
-					for(int j=foodTemp.length(); j<foodLength; j++)
-						foodTemp += "　";
-
-					names[i] = name.substring(0, nameLength);
+					names[i] = Util.cutString(list.get(startResNum+i).get("RES_NAME").toString(),nameLength);
 					resId[i] = list.get(startResNum+i).get("RES_ID").toString();
-					food[i] = foodTemp;
+					food[i] = Util.cutString(list.get(startResNum+i).get("COUSINE").toString(), foodLength);
 					score[i] = Float.parseFloat(list.get(startResNum+i).get("SCORE").toString());
-					distance[i] = list.get(startResNum+i).get("DISTANCE").toString();
+					distance[i] = Util.cutString2(list.get(startResNum+i).get("DISTANCE").toString(),distanceLength);
 					likes[i] = Integer.parseInt(list.get(startResNum+i).get("PICK_CNT").toString());
 				}
 
 				PrintUtil.title2();
-				System.out.println("       이름              음식             평점            거리           추천수");
+				System.out.println("       이름                    음식             평점             거리           추천수");
 
 				for(int i=0; i<resPerPage; i++){
 					if(select ==i+1)		System.out.print(" ■ ");
 					else				System.out.print(" □ ");
 					if(names[i]!=null){
-						System.out.printf("%s  %s   %s          %sm      %d개\n",names[i],food[i],Util.scoreToStars(score[i]),distance[i],likes[i]);
+						System.out.printf("%s  %s %s%sm      %d개\n",names[i],food[i],Util.scoreToStars(score[i]),distance[i],likes[i]);
 					}else System.out.println();
 				}
 
