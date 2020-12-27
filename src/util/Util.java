@@ -17,5 +17,12 @@ public class Util {
 			stars+="☆";
 		return stars;
 	}
+	
+	public static String cutString(String string,int length){
+		for(int i=string.length(); i<length ;i++)
+			string += "　";
+		return string.substring(0, length);
+	}
+	
 
 }

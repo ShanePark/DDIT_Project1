@@ -237,16 +237,17 @@ public class UserService {
 
 		}
 		switch(select){
-		case 1: return resList(resByScore());
-		case 2: return resList(resByRvcnt());
-		case 3: return resList(resByDistance());
+		case 1: resList(resByScore()); break;
+		case 2: resList(resByRvcnt()); break;
+		case 3: resList(resByDistance()); break;
 		case 4: return View.SEARCH_RES;
 		case 5:	return View.LUNCHBOX_ORDER;
 		case 6:
 			if(nickname.equals("관리자"))	return View.ADMIN_MAIN;
 			if(nickname.equals("비회원")) return View.SIGNIN;
-			else return View.MYPAGE;	///////////// 사용자용 '마이페이지' 구현이 필요합니다
-		default:return View.ERROR;	}
+			else return View.MYPAGE;
+		}
+		return View.USER_MAIN;
 
 	}
 
@@ -315,16 +316,89 @@ public class UserService {
 		}
 
 		switch(select){
-		case 1: return View.ERROR;	// 찜리스트 view 만들어야 합니다
+		case 1: return View.PICK_LIST;	
 		case 2: return View.ERROR;	// 주문내역 view 만들어야 합니다
 		case 3: return View.ERROR;	// 내 리뷰 확인 view 만들어야 합니다
 		case 4: return View.ERROR;	// 계정관리 view 만들어야 합니다
 		case 5: return View.USER_MAIN;	// 뒤로가기
-		default:return View.USER_MAIN;
 		}
+		return View.MYPAGE;
 
 	}
 
+	public int pickList(){
+		List<Map<String,Object>> list = getPickList();	// ↓ 메뉴 및 페이징 처리를 위한 변수들입니다
+		int select = 1, perPage = 4, page = 1,totalPage = (list.size()-1)/perPage+1;	
+
+		page:while(true){	// 이중 반복문이 쓰인 이유는 1.페이징처리 2.메뉴이용 두 가지 기능을 모두 담기 위해서입니다.
+			String[] resNumber = new String[perPage];	// 식당 번호를 저장해둘 배열입니다 (resDetail 호출을 위해 필요)
+			pickList: while(true){
+				PrintUtil.title();
+				System.out.println("                                     ❤️ 찜리스트 ❤️");
+
+				for(int i=0; i<perPage; i++){
+					int resNum = (page-1) * perPage + i;
+					String resName="", star="";
+					double score=0;
+					if(resNum<list.size()){
+						resName = Util.cutString(list.get(resNum).get("RES_NAME").toString(),6);
+						score = Float.parseFloat(list.get(resNum).get("SCORE").toString());
+						resNumber[i] = list.get(resNum).get("RES_ID").toString();
+						star = Util.scoreToStars(score);
+					}
+
+					if(select ==i+1)	System.out.print("         ■ ");
+					else				System.out.print("         □ ");
+					if(!resName.equals("")) System.out.printf("%s　　%s (평점 %.2f)\n",resName,star,score);
+					else System.out.println();
+				}
+
+				String[] menu = {"뒤로가기 ","이전페이지 ","다음페이지 "};
+				for(int i=0; i<menu.length; i++){
+					if(select ==perPage+i+1)	System.out.print(" ■ ");
+					else						System.out.print(" □ ");
+					System.out.print(menu[i]);
+				}
+				System.out.printf(" (페이지 %d/%d)총 %d개",page,totalPage,list.size());
+				PrintUtil.printBar2();
+
+				switch(ScanUtil.nextLine()){
+				case "5":	
+					if(select>perPage)	select = perPage;
+					else if(select==1)	select=perPage+1;		
+					else select--;			
+					break;
+				case "2":	
+					if(select>perPage)	select = 1;
+					else if(select==perPage+1)	select=1;		
+					else select++;			
+					break;
+				case "1":	if(select<perPage) select=perPage+menu.length; 
+				else if(select==perPage+1)	select=perPage+menu.length;		else select--;	break;
+				case "3":	if(select<perPage) select=perPage+1;
+				else if(select==perPage+menu.length) select=perPage+1; 		else select++;	break;
+				case "":	break pickList;
+				default:	break;			}
+			}
+
+		switch(select){
+		case 1: if(resNumber[0]==null) break; else {resDetail(resNumber[0]); break;}
+		case 2: if(resNumber[1]==null) break; else {resDetail(resNumber[1]); break;}
+		case 3: if(resNumber[2]==null) break; else {resDetail(resNumber[2]); break;}
+		case 4: if(resNumber[3]==null) break; else {resDetail(resNumber[3]); break;}
+		case 5: return View.USER_MAIN;
+		case 6: if(page!=1) page--; break;
+		case 7: if(page!=totalPage) page++; break;
+		default: break page;	}
+		
+		}
+
+		return View.PICK_LIST;
+	}
+	
+	private List<Map<String, Object>> getPickList(){		
+		return userDao.pickList(Controller.user.get("USER_ID").toString());
+	}
 	private List<Map<String, Object>> resByDistance(){		
 		return userDao.resByDistance();
 	}
@@ -353,7 +427,7 @@ public class UserService {
 		return resList(resByName(resName));
 	}
 	
-	public int resDetail(String resId){
+	public void resDetail(String resId){	// '뒤로가기' 기능의 정상적 사용을 위해 반환타입을 void 로 변경하였습니다.
 		int select = 1;
 		String userId = Controller.user.get("USER_ID").toString();
 		resDetail:while(true){
@@ -400,15 +474,15 @@ public class UserService {
 		}
 		
 		switch(select){
-		case 1: return View.USER_MAIN;
-		case 2: return View.ERROR;	// 메뉴보기 구현 필요
-		case 3: return View.ERROR;	// 리뷰보기 메뉴 필요
+		case 1: break;
+		case 2: break;	// 메뉴보기 구현 필요
+		case 3: break;	// 리뷰보기 메뉴 필요
 		case 4: 
 			if(userDao.isPick(resId, userId))	userDao.resUnPick(resId, userId);
 			else userDao.resPick(resId,userId);	// 찜했으면 찜취소, 찜 안했으면 찜하기
-			return resDetail(resId);	// 찜(or취소) 이후 해당 식당 다시 재귀호출
+			resDetail(resId);	// 찜(or취소) 이후 해당 식당 다시 재귀호출
 		default:
-			return View.USER_MAIN;
+			break;
 		}
 		
 	}
@@ -488,11 +562,10 @@ public class UserService {
 			}
 
 			switch(select){
-			case 1: if(resId[0]!=null) return resDetail(resId[0]);
-			case 2: if(resId[1]!=null) return resDetail(resId[1]);
-			case 3: if(resId[2]!=null) return resDetail(resId[2]);
-			case 4: if(resId[3]!=null) return resDetail(resId[3]);
-			break;	// resID가 null일 경우 아무것도 하지 않습니다.
+			case 1: if(resId[0]!=null) resDetail(resId[0]); break;// resID가 null일 경우 아무것도 하지 않습니다.
+			case 2: if(resId[1]!=null) resDetail(resId[1]); break;// resID가 null일 경우 아무것도 하지 않습니다.
+			case 3: if(resId[2]!=null) resDetail(resId[2]); break;// resID가 null일 경우 아무것도 하지 않습니다.
+			case 4: if(resId[3]!=null) resDetail(resId[3]); break;// resID가 null일 경우 아무것도 하지 않습니다.
 			case 5: return View.USER_MAIN;
 			case 6: if(page!=1) page--;			break;
 			case 7: if(page!=maxPage) page++;	break;

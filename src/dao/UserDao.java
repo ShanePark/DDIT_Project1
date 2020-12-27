@@ -156,7 +156,7 @@ public class UserDao {
 		
 	}
 	
-	public boolean isPick(String resId, String userId){
+	public boolean isPick(String resId, String userId){	//식당 찜한지 확인해서 그 여부를 boolean으로 리턴
 		String sql = "select count(*) cnt from user_pick"
 				     +" where res_id = ? and user_id = ?";
 		List<Object> p = new ArrayList<>();
@@ -168,7 +168,7 @@ public class UserDao {
 		else return false;
 	}
 	
-	public int resPick(String resId, String userId){
+	public int resPick(String resId, String userId){	//식당 찜하기
 		String sql = "insert into user_pick(res_id,user_id) values(?,?)";
 		List<Object> p = new ArrayList<>();
 		p.add(resId);
@@ -176,12 +176,25 @@ public class UserDao {
 		return jdbc.update(sql, p);
 	}
 	
-	public int resUnPick(String resId, String userId){
+	public int resUnPick(String resId, String userId){	//식당 찜한것 취소하기
 		String sql = "delete from user_pick where res_id=? and user_id=?";
 		List<Object> p = new ArrayList<>();
 		p.add(resId);
 		p.add(userId);
 		return jdbc.update(sql, p);
+	}
+	
+	public List<Map<String,Object>> pickList(String userId){	//찜한 리스트 받아오기
+		String sql = "select b.res_name, b.res_id, round(avg(c.grade),2) as score"
+				    + " from user_pick a, restaurants b, review c"
+			    	+ " where a.user_id = ? and a.res_id = b.res_id and b.res_id = c.res_id"
+				 + " group by b.res_name, b.res_id"
+				 + " order by b.res_name";
+		List<Object> p = new ArrayList<>();
+		p.add(userId);
+		return jdbc.selectList(sql, p);
+		
+		
 	}
 
 }

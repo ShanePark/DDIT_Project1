@@ -6,7 +6,6 @@ import service.AdminService;
 import service.UserService;
 import util.PrintUtil;
 import util.ScanUtil;
-import util.Util;
 import util.View;
 import dao.AdminDao;
 import dao.UserDao;
@@ -29,7 +28,7 @@ public class Controller {
 		Controller.user = user;
 		////////////////////////// USER 테스팅할 코드 ↓
 		
-		userService.resDetail("4");
+		userService.pickList();
 		
 		////////////////////////// USER 테스팅할 코드 ↑
 	}
@@ -72,6 +71,7 @@ public class Controller {
 			case View.USER_MAIN:  view = userService.userMain(); 			break;
 			case View.LUNCHBOX_ORDER: view = userService.lunchboxOrder();	break;
 			case View.MYPAGE: view = userService.myPage();					break;
+			case View.PICK_LIST: view = userService.pickList();				break;
 			case View.SEARCH_RES : view = userService.searchRes();			break;
 			default : 
 				System.out.println("해당 View 번호에 대한 case가 start()에 존재하지 않습니다.");

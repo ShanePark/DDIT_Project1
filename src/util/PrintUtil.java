@@ -32,5 +32,10 @@ public class PrintUtil {
 	static public void printBar(){
 		System.out.print("□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■\n> ");
 	}
+	
+	static public void printBar2(){
+		System.out.println();
+		printBar();
+	}
 
 }
