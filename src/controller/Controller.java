@@ -28,7 +28,7 @@ public class Controller {
 		Controller.user = user;
 		////////////////////////// USER 테스팅할 코드 ↓
 		
-		userService.myReview();
+//		userService.viewMenu("1");
 		
 		////////////////////////// USER 테스팅할 코드 ↑
 	}
@@ -41,7 +41,7 @@ public class Controller {
 		
 		////////////////////////// ADMIN 테스팅할 코드 ↓
 		
-		adminService.adminMain();
+		adminService.resManage("1");
 		
 		////////////////////////// ADMIN 테스팅할 코드 ↑
 		
@@ -121,7 +121,6 @@ public class Controller {
 		PrintUtil.joystick();
 		ScanUtil.nextLine();
 		return View.MAIN;
-		
 	}
 	
 

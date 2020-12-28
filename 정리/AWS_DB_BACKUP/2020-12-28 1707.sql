@@ -1,0 +1,537 @@
+--------------------------------------------------------
+--  파일이 생성됨 - 월요일-12월-28-2020   
+--------------------------------------------------------
+--------------------------------------------------------
+--  DDL for Table BOARD
+--------------------------------------------------------
+
+  CREATE TABLE "DDIT"."BOARD" 
+   (	"TITLE" VARCHAR2(30 BYTE), 
+	"CONTENT" VARCHAR2(120 BYTE), 
+	"USER_ID" VARCHAR2(30 BYTE), 
+	"B_DATE" DATE DEFAULT SYSDATE, 
+	"BOARD_NO" NUMBER, 
+	"CATEGORY" VARCHAR2(20 BYTE)
+   ) SEGMENT CREATION IMMEDIATE 
+  PCTFREE 10 PCTUSED 40 INITRANS 1 MAXTRANS 255 
+ NOCOMPRESS LOGGING
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "USERS" ;
+
+   COMMENT ON COLUMN "DDIT"."BOARD"."TITLE" IS '제목';
+   COMMENT ON COLUMN "DDIT"."BOARD"."CONTENT" IS '게시판';
+   COMMENT ON COLUMN "DDIT"."BOARD"."USER_ID" IS '유저ID';
+   COMMENT ON COLUMN "DDIT"."BOARD"."B_DATE" IS '작성시간';
+   COMMENT ON COLUMN "DDIT"."BOARD"."BOARD_NO" IS '글고유번호';
+   COMMENT ON COLUMN "DDIT"."BOARD"."CATEGORY" IS '주제';
+--------------------------------------------------------
+--  DDL for Table BOX_ORDER
+--------------------------------------------------------
+
+  CREATE TABLE "DDIT"."BOX_ORDER" 
+   (	"BOX_NAME" VARCHAR2(60 BYTE), 
+	"USER_ID" VARCHAR2(20 BYTE), 
+	"ORDER_DATE" DATE DEFAULT SYSDATE
+   ) SEGMENT CREATION IMMEDIATE 
+  PCTFREE 10 PCTUSED 40 INITRANS 1 MAXTRANS 255 
+ NOCOMPRESS LOGGING
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "USERS" ;
+
+   COMMENT ON COLUMN "DDIT"."BOX_ORDER"."BOX_NAME" IS '도시락가게ID';
+   COMMENT ON COLUMN "DDIT"."BOX_ORDER"."USER_ID" IS '유저ID';
+   COMMENT ON COLUMN "DDIT"."BOX_ORDER"."ORDER_DATE" IS '주문날짜';
+--------------------------------------------------------
+--  DDL for Table BOXMENU
+--------------------------------------------------------
+
+  CREATE TABLE "DDIT"."BOXMENU" 
+   (	"BOX_NAME" VARCHAR2(60 BYTE), 
+	"BOX_MENU" VARCHAR2(300 BYTE), 
+	"BOX_DATE" DATE
+   ) SEGMENT CREATION IMMEDIATE 
+  PCTFREE 10 PCTUSED 40 INITRANS 1 MAXTRANS 255 
+ NOCOMPRESS LOGGING
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "USERS" ;
+
+   COMMENT ON COLUMN "DDIT"."BOXMENU"."BOX_NAME" IS '도시락가게ID';
+   COMMENT ON COLUMN "DDIT"."BOXMENU"."BOX_MENU" IS '도시락가게메뉴';
+   COMMENT ON COLUMN "DDIT"."BOXMENU"."BOX_DATE" IS '날짜별';
+--------------------------------------------------------
+--  DDL for Table BOXNAME
+--------------------------------------------------------
+
+  CREATE TABLE "DDIT"."BOXNAME" 
+   (	"BOX_NAME" VARCHAR2(30 BYTE), 
+	"BOX_TEL" VARCHAR2(15 BYTE)
+   ) SEGMENT CREATION IMMEDIATE 
+  PCTFREE 10 PCTUSED 40 INITRANS 1 MAXTRANS 255 
+ NOCOMPRESS LOGGING
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "USERS" ;
+--------------------------------------------------------
+--  DDL for Table CART
+--------------------------------------------------------
+
+  CREATE TABLE "DDIT"."CART" 
+   (	"CART_NO" NUMBER(5,0), 
+	"USER_ID" VARCHAR2(20 BYTE), 
+	"RES_ID" NUMBER, 
+	"FOOD" VARCHAR2(50 BYTE), 
+	"QTY" NUMBER, 
+	"RESERVE_NO" NUMBER
+   ) SEGMENT CREATION IMMEDIATE 
+  PCTFREE 10 PCTUSED 40 INITRANS 1 MAXTRANS 255 
+ NOCOMPRESS LOGGING
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "USERS" ;
+
+   COMMENT ON COLUMN "DDIT"."CART"."CART_NO" IS '장바구니번호';
+   COMMENT ON COLUMN "DDIT"."CART"."USER_ID" IS '유저ID';
+   COMMENT ON COLUMN "DDIT"."CART"."RES_ID" IS '가게ID';
+   COMMENT ON COLUMN "DDIT"."CART"."FOOD" IS '메뉴명';
+   COMMENT ON COLUMN "DDIT"."CART"."QTY" IS '수량';
+   COMMENT ON COLUMN "DDIT"."CART"."RESERVE_NO" IS '예약번호';
+--------------------------------------------------------
+--  DDL for Table MENU
+--------------------------------------------------------
+
+  CREATE TABLE "DDIT"."MENU" 
+   (	"RES_ID" NUMBER(30,0), 
+	"FOOD" VARCHAR2(50 BYTE), 
+	"PRICE" NUMBER
+   ) SEGMENT CREATION IMMEDIATE 
+  PCTFREE 10 PCTUSED 40 INITRANS 1 MAXTRANS 255 
+ NOCOMPRESS LOGGING
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "USERS" ;
+--------------------------------------------------------
+--  DDL for Table RESERVE
+--------------------------------------------------------
+
+  CREATE TABLE "DDIT"."RESERVE" 
+   (	"RESERVE_NO" NUMBER, 
+	"USER_ID" VARCHAR2(20 BYTE), 
+	"RESERVE_TIME" DATE DEFAULT sysdate
+   ) SEGMENT CREATION IMMEDIATE 
+  PCTFREE 10 PCTUSED 40 INITRANS 1 MAXTRANS 255 
+ NOCOMPRESS LOGGING
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "USERS" ;
+--------------------------------------------------------
+--  DDL for Table RESTAURANTS
+--------------------------------------------------------
+
+  CREATE TABLE "DDIT"."RESTAURANTS" 
+   (	"RES_ID" NUMBER(30,0), 
+	"RES_NAME" VARCHAR2(50 BYTE), 
+	"COUSINE" VARCHAR2(20 BYTE), 
+	"OPEN_TIME" VARCHAR2(10 BYTE), 
+	"ADD1" VARCHAR2(60 BYTE), 
+	"DISTANCE" NUMBER(4,0), 
+	"CLOSE_TIME" VARCHAR2(10 BYTE)
+   ) SEGMENT CREATION IMMEDIATE 
+  PCTFREE 10 PCTUSED 40 INITRANS 1 MAXTRANS 255 
+ NOCOMPRESS LOGGING
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "USERS" ;
+--------------------------------------------------------
+--  DDL for Table REVIEW
+--------------------------------------------------------
+
+  CREATE TABLE "DDIT"."REVIEW" 
+   (	"RES_ID" NUMBER, 
+	"USER_ID" VARCHAR2(30 BYTE), 
+	"R_CONTENT" VARCHAR2(100 CHAR), 
+	"GRADE" NUMBER, 
+	"RE_NO" NUMBER(4,0), 
+	"RE_DATE" DATE DEFAULT sysdate
+   ) SEGMENT CREATION IMMEDIATE 
+  PCTFREE 10 PCTUSED 40 INITRANS 1 MAXTRANS 255 
+ NOCOMPRESS LOGGING
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "USERS" ;
+
+   COMMENT ON COLUMN "DDIT"."REVIEW"."RES_ID" IS '가게ID';
+   COMMENT ON COLUMN "DDIT"."REVIEW"."USER_ID" IS '유저ID';
+   COMMENT ON COLUMN "DDIT"."REVIEW"."R_CONTENT" IS '리뷰내용';
+   COMMENT ON COLUMN "DDIT"."REVIEW"."GRADE" IS '평점';
+   COMMENT ON COLUMN "DDIT"."REVIEW"."RE_NO" IS '리뷰고유번호';
+   COMMENT ON COLUMN "DDIT"."REVIEW"."RE_DATE" IS '작성시간';
+--------------------------------------------------------
+--  DDL for Table USER_PICK
+--------------------------------------------------------
+
+  CREATE TABLE "DDIT"."USER_PICK" 
+   (	"RES_ID" NUMBER, 
+	"USER_ID" VARCHAR2(20 BYTE)
+   ) SEGMENT CREATION IMMEDIATE 
+  PCTFREE 10 PCTUSED 40 INITRANS 1 MAXTRANS 255 
+ NOCOMPRESS LOGGING
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "USERS" ;
+--------------------------------------------------------
+--  DDL for Table USERS
+--------------------------------------------------------
+
+  CREATE TABLE "DDIT"."USERS" 
+   (	"USER_ID" VARCHAR2(20 BYTE), 
+	"NICKNAME" VARCHAR2(30 BYTE), 
+	"PASSWORD" VARCHAR2(30 BYTE)
+   ) SEGMENT CREATION IMMEDIATE 
+  PCTFREE 10 PCTUSED 40 INITRANS 1 MAXTRANS 255 
+ NOCOMPRESS LOGGING
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "USERS" ;
+
+   COMMENT ON COLUMN "DDIT"."USERS"."USER_ID" IS '아이디';
+   COMMENT ON COLUMN "DDIT"."USERS"."NICKNAME" IS '닉네임';
+   COMMENT ON COLUMN "DDIT"."USERS"."PASSWORD" IS '비밀번호';
+REM INSERTING into DDIT.BOARD
+SET DEFINE OFF;
+Insert into DDIT.BOARD (TITLE,CONTENT,USER_ID,B_DATE,BOARD_NO,CATEGORY) values ('식당문의','학원 근처 식당추가좀 해주세요','user',to_date('2020/12/24','RRRR/MM/DD'),1,'식당문의');
+Insert into DDIT.BOARD (TITLE,CONTENT,USER_ID,B_DATE,BOARD_NO,CATEGORY) values ('건의드립니다.','버그가 너무많아요','user2',to_date('2020/12/24','RRRR/MM/DD'),2,'건의사항');
+Insert into DDIT.BOARD (TITLE,CONTENT,USER_ID,B_DATE,BOARD_NO,CATEGORY) values ('필독!','다 추가하기 너무 힘들어요','DDIT',to_date('2020/12/24','RRRR/MM/DD'),3,'공지사항');
+Insert into DDIT.BOARD (TITLE,CONTENT,USER_ID,B_DATE,BOARD_NO,CATEGORY) values ('건의','버그테스트2','user3',to_date('2020/12/28','RRRR/MM/DD'),4,'건의사항');
+REM INSERTING into DDIT.BOX_ORDER
+SET DEFINE OFF;
+Insert into DDIT.BOX_ORDER (BOX_NAME,USER_ID,ORDER_DATE) values ('대전도시락','user',to_date('2020/12/24','RRRR/MM/DD'));
+Insert into DDIT.BOX_ORDER (BOX_NAME,USER_ID,ORDER_DATE) values ('대전도시락','user2',to_date('2020/12/24','RRRR/MM/DD'));
+REM INSERTING into DDIT.BOXMENU
+SET DEFINE OFF;
+Insert into DDIT.BOXMENU (BOX_NAME,BOX_MENU,BOX_DATE) values ('대전도시락','탕수육/두부구이/치자단무지무침/유채나물/만둣국',to_date('2020/12/01','RRRR/MM/DD'));
+Insert into DDIT.BOXMENU (BOX_NAME,BOX_MENU,BOX_DATE) values ('대전도시락','삼겹살김치볶음/스크램블에그/마늘쫑어묵조림/비엔나케익/된장국',to_date('2020/12/02','RRRR/MM/DD'));
+Insert into DDIT.BOXMENU (BOX_NAME,BOX_MENU,BOX_DATE) values ('대전도시락','함박스테이크/비엔나햄/무말랭이/고추참치/미역국',to_date('2020/12/03','RRRR/MM/DD'));
+Insert into DDIT.BOXMENU (BOX_NAME,BOX_MENU,BOX_DATE) values ('대전도시락','돈까스/시금치나물/후랑크햄/김무침/어묵국',to_date('2020/12/04','RRRR/MM/DD'));
+Insert into DDIT.BOXMENU (BOX_NAME,BOX_MENU,BOX_DATE) values ('대전도시락','돈육장조림/마늘쫑무침/버섯볶음/야채고로케/두부된장국',to_date('2020/12/07','RRRR/MM/DD'));
+Insert into DDIT.BOXMENU (BOX_NAME,BOX_MENU,BOX_DATE) values ('대전도시락','함박스테이크/황태무침/숙주나물/콩자반/북엇국',to_date('2020/12/08','RRRR/MM/DD'));
+Insert into DDIT.BOXMENU (BOX_NAME,BOX_MENU,BOX_DATE) values ('대전도시락','버섯불고기/어묵야채볶음/해물땡소스/우엉조림/콩나물국',to_date('2020/12/09','RRRR/MM/DD'));
+Insert into DDIT.BOXMENU (BOX_NAME,BOX_MENU,BOX_DATE) values ('대전도시락','탕수육/두부구이/치자단무지무침/유채나물/만둣국',to_date('2020/12/10','RRRR/MM/DD'));
+Insert into DDIT.BOXMENU (BOX_NAME,BOX_MENU,BOX_DATE) values ('대전도시락','삼겹살김치볶음/스크램블에그/마늘쫑어묵조림/비엔나케익/된장국',to_date('2020/12/11','RRRR/MM/DD'));
+Insert into DDIT.BOXMENU (BOX_NAME,BOX_MENU,BOX_DATE) values ('대전도시락','함박스테이크/비엔나햄/무말랭이/고추참치/미역국',to_date('2020/12/14','RRRR/MM/DD'));
+Insert into DDIT.BOXMENU (BOX_NAME,BOX_MENU,BOX_DATE) values ('대전도시락','돈까스/시금치나물/후랑크햄/김무침/어묵국',to_date('2020/12/15','RRRR/MM/DD'));
+Insert into DDIT.BOXMENU (BOX_NAME,BOX_MENU,BOX_DATE) values ('대전도시락','돈육장조림/마늘쫑무침/버섯볶음/야채고로케/두부된장국',to_date('2020/12/16','RRRR/MM/DD'));
+Insert into DDIT.BOXMENU (BOX_NAME,BOX_MENU,BOX_DATE) values ('대전도시락','함박스테이크/황태무침/숙주나물/콩자반/북엇국',to_date('2020/12/17','RRRR/MM/DD'));
+Insert into DDIT.BOXMENU (BOX_NAME,BOX_MENU,BOX_DATE) values ('대전도시락','버섯불고기/어묵야채볶음/해물땡소스/우엉조림/콩나물국',to_date('2020/12/18','RRRR/MM/DD'));
+Insert into DDIT.BOXMENU (BOX_NAME,BOX_MENU,BOX_DATE) values ('대전도시락','탕수육/두부구이/치자단무지무침/유채나물/만둣국',to_date('2020/12/21','RRRR/MM/DD'));
+Insert into DDIT.BOXMENU (BOX_NAME,BOX_MENU,BOX_DATE) values ('대전도시락','삼겹살김치볶음/스크램블에그/마늘쫑어묵조림/비엔나케익/된장국',to_date('2020/12/22','RRRR/MM/DD'));
+Insert into DDIT.BOXMENU (BOX_NAME,BOX_MENU,BOX_DATE) values ('대전도시락','함박스테이크/비엔나햄/무말랭이/고추참치/미역국',to_date('2020/12/23','RRRR/MM/DD'));
+Insert into DDIT.BOXMENU (BOX_NAME,BOX_MENU,BOX_DATE) values ('대전도시락','돈까스/시금치나물/후랑크햄/김무침/어묵국',to_date('2020/12/24','RRRR/MM/DD'));
+Insert into DDIT.BOXMENU (BOX_NAME,BOX_MENU,BOX_DATE) values ('대전도시락','돈육장조림/마늘쫑무침/버섯볶음/야채고로케/두부된장국',to_date('2020/12/28','RRRR/MM/DD'));
+Insert into DDIT.BOXMENU (BOX_NAME,BOX_MENU,BOX_DATE) values ('대전도시락','함박스테이크/황태무침/숙주나물/콩자반/북엇국',to_date('2020/12/29','RRRR/MM/DD'));
+Insert into DDIT.BOXMENU (BOX_NAME,BOX_MENU,BOX_DATE) values ('대전도시락','버섯불고기/어묵야채볶음/해물땡소스/우엉조림/콩나물국',to_date('2020/12/30','RRRR/MM/DD'));
+Insert into DDIT.BOXMENU (BOX_NAME,BOX_MENU,BOX_DATE) values ('대전도시락','생선까스/명엽채조림/콩나물무침/무말랭이/어묵국',to_date('2020/12/31','RRRR/MM/DD'));
+REM INSERTING into DDIT.BOXNAME
+SET DEFINE OFF;
+Insert into DDIT.BOXNAME (BOX_NAME,BOX_TEL) values ('대전도시락','042-254-9061');
+REM INSERTING into DDIT.CART
+SET DEFINE OFF;
+Insert into DDIT.CART (CART_NO,USER_ID,RES_ID,FOOD,QTY,RESERVE_NO) values (1,'user',1,'생연어 사시미',3,1);
+Insert into DDIT.CART (CART_NO,USER_ID,RES_ID,FOOD,QTY,RESERVE_NO) values (2,'user',1,'참치사시미',1,1);
+Insert into DDIT.CART (CART_NO,USER_ID,RES_ID,FOOD,QTY,RESERVE_NO) values (3,'user',1,'참치초밥',1,1);
+Insert into DDIT.CART (CART_NO,USER_ID,RES_ID,FOOD,QTY,RESERVE_NO) values (4,'user2',1,'타코야끼',2,2);
+Insert into DDIT.CART (CART_NO,USER_ID,RES_ID,FOOD,QTY,RESERVE_NO) values (5,'user3',1,'치킨가라아게',1,3);
+REM INSERTING into DDIT.MENU
+SET DEFINE OFF;
+Insert into DDIT.MENU (RES_ID,FOOD,PRICE) values (1,'생연어 사시미',13000);
+Insert into DDIT.MENU (RES_ID,FOOD,PRICE) values (1,'참치사시미',15000);
+Insert into DDIT.MENU (RES_ID,FOOD,PRICE) values (1,'반반사시미',14500);
+Insert into DDIT.MENU (RES_ID,FOOD,PRICE) values (1,'생연어초밥',11500);
+Insert into DDIT.MENU (RES_ID,FOOD,PRICE) values (1,'참치초밥',13500);
+Insert into DDIT.MENU (RES_ID,FOOD,PRICE) values (1,'모둠초밥',14000);
+Insert into DDIT.MENU (RES_ID,FOOD,PRICE) values (1,'소고기숙주볶음',6500);
+Insert into DDIT.MENU (RES_ID,FOOD,PRICE) values (1,'돼지고기 숙주볶음',7500);
+Insert into DDIT.MENU (RES_ID,FOOD,PRICE) values (1,'타코야끼',4000);
+Insert into DDIT.MENU (RES_ID,FOOD,PRICE) values (1,'치킨가라아게',5000);
+Insert into DDIT.MENU (RES_ID,FOOD,PRICE) values (1,'버팔로 윙',5500);
+Insert into DDIT.MENU (RES_ID,FOOD,PRICE) values (1,'모둠 치킨',5500);
+Insert into DDIT.MENU (RES_ID,FOOD,PRICE) values (2,'맛감자10개',1000);
+Insert into DDIT.MENU (RES_ID,FOOD,PRICE) values (2,'빨간참치김밥',2500);
+Insert into DDIT.MENU (RES_ID,FOOD,PRICE) values (2,'치즈떡볶이',3500);
+Insert into DDIT.MENU (RES_ID,FOOD,PRICE) values (2,'치즈스틱',1500);
+Insert into DDIT.MENU (RES_ID,FOOD,PRICE) values (2,'떡볶이',2500);
+Insert into DDIT.MENU (RES_ID,FOOD,PRICE) values (2,'스팸마요',3500);
+Insert into DDIT.MENU (RES_ID,FOOD,PRICE) values (2,'참치마요',3500);
+Insert into DDIT.MENU (RES_ID,FOOD,PRICE) values (2,'치킨마요',3500);
+Insert into DDIT.MENU (RES_ID,FOOD,PRICE) values (3,'올갱이정식',14000);
+Insert into DDIT.MENU (RES_ID,FOOD,PRICE) values (3,'올갱이해장국',8000);
+Insert into DDIT.MENU (RES_ID,FOOD,PRICE) values (3,'올갱이무침',25000);
+Insert into DDIT.MENU (RES_ID,FOOD,PRICE) values (3,'한방수육',24000);
+Insert into DDIT.MENU (RES_ID,FOOD,PRICE) values (4,'고기가득리얼비프버거',9500);
+Insert into DDIT.MENU (RES_ID,FOOD,PRICE) values (4,'내슈빌핫치킨버거',6100);
+Insert into DDIT.MENU (RES_ID,FOOD,PRICE) values (4,'언빌리버블버거',7100);
+Insert into DDIT.MENU (RES_ID,FOOD,PRICE) values (4,'인크레더블버거',6900);
+Insert into DDIT.MENU (RES_ID,FOOD,PRICE) values (4,'화이트갈릭버거',6100);
+Insert into DDIT.MENU (RES_ID,FOOD,PRICE) values (4,'싸이버거',5800);
+Insert into DDIT.MENU (RES_ID,FOOD,PRICE) values (5,'한우소머리곰탕',9000);
+Insert into DDIT.MENU (RES_ID,FOOD,PRICE) values (5,'한우소머리우거지탕',9000);
+Insert into DDIT.MENU (RES_ID,FOOD,PRICE) values (5,'특곰탕',12000);
+Insert into DDIT.MENU (RES_ID,FOOD,PRICE) values (5,'특우거지탕',12000);
+Insert into DDIT.MENU (RES_ID,FOOD,PRICE) values (5,'유튜버들이즐겨찾는실비김치',12000);
+Insert into DDIT.MENU (RES_ID,FOOD,PRICE) values (6,'빅맥',4900);
+Insert into DDIT.MENU (RES_ID,FOOD,PRICE) values (6,'슈슈버거',4900);
+Insert into DDIT.MENU (RES_ID,FOOD,PRICE) values (6,'더블불고기버거',4900);
+Insert into DDIT.MENU (RES_ID,FOOD,PRICE) values (6,'1955버거',6900);
+Insert into DDIT.MENU (RES_ID,FOOD,PRICE) values (6,'맥스파이시상하이버거',5500);
+Insert into DDIT.MENU (RES_ID,FOOD,PRICE) values (6,'슈비버거',6900);
+Insert into DDIT.MENU (RES_ID,FOOD,PRICE) values (6,'크리스피오리엔탈치킨버거',6300);
+Insert into DDIT.MENU (RES_ID,FOOD,PRICE) values (7,'오복김밥',4000);
+Insert into DDIT.MENU (RES_ID,FOOD,PRICE) values (7,'오복김치볶음밥',8000);
+Insert into DDIT.MENU (RES_ID,FOOD,PRICE) values (7,'오복고기덮밥',9000);
+Insert into DDIT.MENU (RES_ID,FOOD,PRICE) values (7,'오복카레',7000);
+Insert into DDIT.MENU (RES_ID,FOOD,PRICE) values (7,'오복라면',4000);
+Insert into DDIT.MENU (RES_ID,FOOD,PRICE) values (8,'모둠떡볶이',5000);
+Insert into DDIT.MENU (RES_ID,FOOD,PRICE) values (8,'바로김밥(깻잎X)',3000);
+Insert into DDIT.MENU (RES_ID,FOOD,PRICE) values (8,'등심돈까스',7000);
+Insert into DDIT.MENU (RES_ID,FOOD,PRICE) values (8,'양푼이비빔밥',6500);
+Insert into DDIT.MENU (RES_ID,FOOD,PRICE) values (8,'쫄면',6000);
+Insert into DDIT.MENU (RES_ID,FOOD,PRICE) values (8,'찹쌀순대',5000);
+Insert into DDIT.MENU (RES_ID,FOOD,PRICE) values (9,'짜장면',5000);
+Insert into DDIT.MENU (RES_ID,FOOD,PRICE) values (9,'소호짬뽕',7000);
+Insert into DDIT.MENU (RES_ID,FOOD,PRICE) values (9,'쟁반짜장',12000);
+Insert into DDIT.MENU (RES_ID,FOOD,PRICE) values (9,'잡채밥',6000);
+Insert into DDIT.MENU (RES_ID,FOOD,PRICE) values (9,'레몬탕수육',15000);
+Insert into DDIT.MENU (RES_ID,FOOD,PRICE) values (9,'야채볶음밥',6000);
+Insert into DDIT.MENU (RES_ID,FOOD,PRICE) values (9,'깐풍기',25000);
+Insert into DDIT.MENU (RES_ID,FOOD,PRICE) values (10,'맛짜장',4000);
+Insert into DDIT.MENU (RES_ID,FOOD,PRICE) values (10,'고추삼선짜장',6000);
+Insert into DDIT.MENU (RES_ID,FOOD,PRICE) values (10,'고추삼선짬뽕',7000);
+Insert into DDIT.MENU (RES_ID,FOOD,PRICE) values (10,'탕수육',12000);
+Insert into DDIT.MENU (RES_ID,FOOD,PRICE) values (10,'볶음밥',5000);
+REM INSERTING into DDIT.RESERVE
+SET DEFINE OFF;
+Insert into DDIT.RESERVE (RESERVE_NO,USER_ID,RESERVE_TIME) values (1,'user',to_date('2020/12/24','RRRR/MM/DD'));
+Insert into DDIT.RESERVE (RESERVE_NO,USER_ID,RESERVE_TIME) values (2,'user2',to_date('2020/12/24','RRRR/MM/DD'));
+Insert into DDIT.RESERVE (RESERVE_NO,USER_ID,RESERVE_TIME) values (3,'user3',to_date('2020/12/24','RRRR/MM/DD'));
+REM INSERTING into DDIT.RESTAURANTS
+SET DEFINE OFF;
+Insert into DDIT.RESTAURANTS (RES_ID,RES_NAME,COUSINE,OPEN_TIME,ADD1,DISTANCE,CLOSE_TIME) values (9,'소호차이나','중식',null,'대전 중구 중앙로79번길 31',205,null);
+Insert into DDIT.RESTAURANTS (RES_ID,RES_NAME,COUSINE,OPEN_TIME,ADD1,DISTANCE,CLOSE_TIME) values (1,'스시생각','일식','11:30','대전광역시 중구 선화서로 7 2층',51,'22:00');
+Insert into DDIT.RESTAURANTS (RES_ID,RES_NAME,COUSINE,OPEN_TIME,ADD1,DISTANCE,CLOSE_TIME) values (2,'신가네매운떡볶이 대흥은행점','분식','10:30','대전 중구 선화서로 4',73,'21:00');
+Insert into DDIT.RESTAURANTS (RES_ID,RES_NAME,COUSINE,OPEN_TIME,ADD1,DISTANCE,CLOSE_TIME) values (6,'맥도날드 대전 센트럴DT점','패스트푸드','08:00','대전 중구 중앙로 64',21,'24:00');
+Insert into DDIT.RESTAURANTS (RES_ID,RES_NAME,COUSINE,OPEN_TIME,ADD1,DISTANCE,CLOSE_TIME) values (3,'괴산올갱이','한식',null,'대전 중구 보문로 253-27',83,null);
+Insert into DDIT.RESTAURANTS (RES_ID,RES_NAME,COUSINE,OPEN_TIME,ADD1,DISTANCE,CLOSE_TIME) values (4,'맘스터치','패스트푸드','10:30','대전 중구 선화서로 7 1층',13,'22:30');
+Insert into DDIT.RESTAURANTS (RES_ID,RES_NAME,COUSINE,OPEN_TIME,ADD1,DISTANCE,CLOSE_TIME) values (5,'선화동소머리해장국','한식','09:00','대전 중구 선화로 128',825,'23:00');
+Insert into DDIT.RESTAURANTS (RES_ID,RES_NAME,COUSINE,OPEN_TIME,ADD1,DISTANCE,CLOSE_TIME) values (7,'오복식탁','한식','11:30','대전 중구 중앙로112번길 24',293,'20:30');
+Insert into DDIT.RESTAURANTS (RES_ID,RES_NAME,COUSINE,OPEN_TIME,ADD1,DISTANCE,CLOSE_TIME) values (8,'바로그집','분식','11:00','대전 중구 중앙로 145 지하상가 C나 61호',303,'22:00');
+Insert into DDIT.RESTAURANTS (RES_ID,RES_NAME,COUSINE,OPEN_TIME,ADD1,DISTANCE,CLOSE_TIME) values (10,'요리왕','중식',null,'대전 중구 보문로260번길 8',278,null);
+REM INSERTING into DDIT.REVIEW
+SET DEFINE OFF;
+Insert into DDIT.REVIEW (RES_ID,USER_ID,R_CONTENT,GRADE,RE_NO,RE_DATE) values (1,'user','아따 이집 기가맥히네',4,1,to_date('2020/12/24','RRRR/MM/DD'));
+Insert into DDIT.REVIEW (RES_ID,USER_ID,R_CONTENT,GRADE,RE_NO,RE_DATE) values (1,'user2','오이오이 믿고있었다구',5,2,to_date('2020/12/24','RRRR/MM/DD'));
+Insert into DDIT.REVIEW (RES_ID,USER_ID,R_CONTENT,GRADE,RE_NO,RE_DATE) values (2,'user','너무맵네요',3,4,to_date('2020/12/24','RRRR/MM/DD'));
+Insert into DDIT.REVIEW (RES_ID,USER_ID,R_CONTENT,GRADE,RE_NO,RE_DATE) values (1,'user3','맛없네요..',2,3,to_date('2020/12/24','RRRR/MM/DD'));
+Insert into DDIT.REVIEW (RES_ID,USER_ID,R_CONTENT,GRADE,RE_NO,RE_DATE) values (2,'user2','리뷰이벤트 감사합니다.',5,5,to_date('2020/12/24','RRRR/MM/DD'));
+Insert into DDIT.REVIEW (RES_ID,USER_ID,R_CONTENT,GRADE,RE_NO,RE_DATE) values (3,'user3','비싼것만 빼면 마음에들어요',4,6,to_date('2020/12/24','RRRR/MM/DD'));
+Insert into DDIT.REVIEW (RES_ID,USER_ID,R_CONTENT,GRADE,RE_NO,RE_DATE) values (3,'user2','너무 비싸네요;;',3,7,to_date('2020/12/24','RRRR/MM/DD'));
+Insert into DDIT.REVIEW (RES_ID,USER_ID,R_CONTENT,GRADE,RE_NO,RE_DATE) values (4,'user3','가성비 갓',4,8,to_date('2020/12/24','RRRR/MM/DD'));
+Insert into DDIT.REVIEW (RES_ID,USER_ID,R_CONTENT,GRADE,RE_NO,RE_DATE) values (5,'user','밥집 최고',5,9,to_date('2020/12/24','RRRR/MM/DD'));
+Insert into DDIT.REVIEW (RES_ID,USER_ID,R_CONTENT,GRADE,RE_NO,RE_DATE) values (6,'user','메뉴가 매일바뀌네요 할인많이하고 좋아요',4,10,to_date('2020/12/24','RRRR/MM/DD'));
+Insert into DDIT.REVIEW (RES_ID,USER_ID,R_CONTENT,GRADE,RE_NO,RE_DATE) values (7,'user2','가본적이없어서 쓸게없네',1,11,to_date('2020/12/24','RRRR/MM/DD'));
+Insert into DDIT.REVIEW (RES_ID,USER_ID,R_CONTENT,GRADE,RE_NO,RE_DATE) values (8,'user3','메뉴는 많은데 선택은 떡볶이',4,12,to_date('2020/12/24','RRRR/MM/DD'));
+Insert into DDIT.REVIEW (RES_ID,USER_ID,R_CONTENT,GRADE,RE_NO,RE_DATE) values (9,'user','짬뽕뿐아니라 짜장도 맛있어요',5,13,to_date('2020/12/24','RRRR/MM/DD'));
+Insert into DDIT.REVIEW (RES_ID,USER_ID,R_CONTENT,GRADE,RE_NO,RE_DATE) values (10,'user','근처에서 제일쌈',2,14,to_date('2020/12/24','RRRR/MM/DD'));
+REM INSERTING into DDIT.USER_PICK
+SET DEFINE OFF;
+Insert into DDIT.USER_PICK (RES_ID,USER_ID) values (1,'user');
+Insert into DDIT.USER_PICK (RES_ID,USER_ID) values (2,'user');
+Insert into DDIT.USER_PICK (RES_ID,USER_ID) values (3,'user');
+Insert into DDIT.USER_PICK (RES_ID,USER_ID) values (4,'user');
+REM INSERTING into DDIT.USERS
+SET DEFINE OFF;
+Insert into DDIT.USERS (USER_ID,NICKNAME,PASSWORD) values ('user','유저','1234');
+Insert into DDIT.USERS (USER_ID,NICKNAME,PASSWORD) values ('DDIT','관리자','password');
+Insert into DDIT.USERS (USER_ID,NICKNAME,PASSWORD) values ('user2','유저2','1234');
+Insert into DDIT.USERS (USER_ID,NICKNAME,PASSWORD) values ('user3','유저3','1234');
+Insert into DDIT.USERS (USER_ID,NICKNAME,PASSWORD) values ('guest','비회원','guest');
+--------------------------------------------------------
+--  DDL for Index BOARD_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "DDIT"."BOARD_PK" ON "DDIT"."BOARD" ("BOARD_NO") 
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "USERS" ;
+--------------------------------------------------------
+--  DDL for Index BOXNAME_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "DDIT"."BOXNAME_PK" ON "DDIT"."BOXNAME" ("BOX_NAME") 
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "USERS" ;
+--------------------------------------------------------
+--  DDL for Index CART_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "DDIT"."CART_PK" ON "DDIT"."CART" ("CART_NO") 
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "USERS" ;
+--------------------------------------------------------
+--  DDL for Index RESERVE_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "DDIT"."RESERVE_PK" ON "DDIT"."RESERVE" ("RESERVE_NO") 
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "USERS" ;
+--------------------------------------------------------
+--  DDL for Index RESTAURANTS_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "DDIT"."RESTAURANTS_PK" ON "DDIT"."RESTAURANTS" ("RES_ID") 
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "USERS" ;
+--------------------------------------------------------
+--  DDL for Index REVIEW_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "DDIT"."REVIEW_PK" ON "DDIT"."REVIEW" ("RE_NO") 
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "USERS" ;
+--------------------------------------------------------
+--  DDL for Index TABLE1_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "DDIT"."TABLE1_PK" ON "DDIT"."USERS" ("USER_ID") 
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "USERS" ;
+--------------------------------------------------------
+--  Constraints for Table BOARD
+--------------------------------------------------------
+
+  ALTER TABLE "DDIT"."BOARD" ADD CONSTRAINT "BOARD_PK" PRIMARY KEY ("BOARD_NO")
+  USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "USERS"  ENABLE;
+  ALTER TABLE "DDIT"."BOARD" MODIFY ("USER_ID" NOT NULL ENABLE);
+  ALTER TABLE "DDIT"."BOARD" MODIFY ("TITLE" NOT NULL ENABLE);
+  ALTER TABLE "DDIT"."BOARD" MODIFY ("BOARD_NO" NOT NULL ENABLE);
+--------------------------------------------------------
+--  Constraints for Table BOX_ORDER
+--------------------------------------------------------
+
+  ALTER TABLE "DDIT"."BOX_ORDER" MODIFY ("BOX_NAME" NOT NULL ENABLE);
+--------------------------------------------------------
+--  Constraints for Table BOXMENU
+--------------------------------------------------------
+
+  ALTER TABLE "DDIT"."BOXMENU" MODIFY ("BOX_DATE" NOT NULL ENABLE);
+--------------------------------------------------------
+--  Constraints for Table BOXNAME
+--------------------------------------------------------
+
+  ALTER TABLE "DDIT"."BOXNAME" ADD CONSTRAINT "BOXNAME_PK" PRIMARY KEY ("BOX_NAME")
+  USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "USERS"  ENABLE;
+  ALTER TABLE "DDIT"."BOXNAME" MODIFY ("BOX_NAME" NOT NULL ENABLE);
+--------------------------------------------------------
+--  Constraints for Table CART
+--------------------------------------------------------
+
+  ALTER TABLE "DDIT"."CART" ADD CONSTRAINT "CART_PK" PRIMARY KEY ("CART_NO")
+  USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "USERS"  ENABLE;
+  ALTER TABLE "DDIT"."CART" MODIFY ("CART_NO" NOT NULL ENABLE);
+--------------------------------------------------------
+--  Constraints for Table MENU
+--------------------------------------------------------
+
+  ALTER TABLE "DDIT"."MENU" MODIFY ("RES_ID" NOT NULL ENABLE);
+--------------------------------------------------------
+--  Constraints for Table RESERVE
+--------------------------------------------------------
+
+  ALTER TABLE "DDIT"."RESERVE" MODIFY ("RESERVE_NO" NOT NULL ENABLE);
+  ALTER TABLE "DDIT"."RESERVE" ADD CONSTRAINT "RESERVE_PK" PRIMARY KEY ("RESERVE_NO")
+  USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "USERS"  ENABLE;
+--------------------------------------------------------
+--  Constraints for Table RESTAURANTS
+--------------------------------------------------------
+
+  ALTER TABLE "DDIT"."RESTAURANTS" MODIFY ("DISTANCE" NOT NULL ENABLE);
+  ALTER TABLE "DDIT"."RESTAURANTS" MODIFY ("ADD1" NOT NULL ENABLE);
+  ALTER TABLE "DDIT"."RESTAURANTS" MODIFY ("RES_NAME" NOT NULL ENABLE);
+  ALTER TABLE "DDIT"."RESTAURANTS" ADD CONSTRAINT "RESTAURANTS_PK" PRIMARY KEY ("RES_ID")
+  USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "USERS"  ENABLE;
+  ALTER TABLE "DDIT"."RESTAURANTS" MODIFY ("RES_ID" NOT NULL ENABLE);
+--------------------------------------------------------
+--  Constraints for Table REVIEW
+--------------------------------------------------------
+
+  ALTER TABLE "DDIT"."REVIEW" ADD CONSTRAINT "REVIEW_PK" PRIMARY KEY ("RE_NO")
+  USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "USERS"  ENABLE;
+  ALTER TABLE "DDIT"."REVIEW" MODIFY ("RE_NO" NOT NULL ENABLE);
+  ALTER TABLE "DDIT"."REVIEW" MODIFY ("RES_ID" NOT NULL ENABLE);
+--------------------------------------------------------
+--  Constraints for Table USERS
+--------------------------------------------------------
+
+  ALTER TABLE "DDIT"."USERS" MODIFY ("USER_ID" NOT NULL ENABLE);
+  ALTER TABLE "DDIT"."USERS" ADD CONSTRAINT "USERS_PK" PRIMARY KEY ("USER_ID")
+  USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "USERS"  ENABLE;

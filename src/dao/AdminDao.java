@@ -34,6 +34,23 @@ public class AdminDao {
 		
 		return jdbc.update(sql,p);
 	}
+	
+	public String resIdToName(String resId){
+		String sql = "select res_name from restaurants where res_id = ?";
+		List<Object> p = new ArrayList<>();
+		p.add(resId);
+		Map<String, Object> map = jdbc.selectOne(sql,p);
+		return map.get("RES_NAME").toString();
+	}
+	
+	public int menuAdd(String resId, String food, int price){
+		String sql = "insert into menu(res_id, food, price) values(?,?,?)";
+		List<Object> p = new ArrayList<>();
+		p.add(resId);
+		p.add(food);
+		p.add(price);
+		return jdbc.update(sql,p);
+	}
 
 
 }

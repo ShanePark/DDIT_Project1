@@ -472,6 +472,50 @@ public class UserService {
 		return resList(resByName(resName));
 	}
 	
+	public void viewMenu(String resId){
+		List<Map<String, Object>> menu = userDao.viewMenu(resId);
+		int select = 1;
+		int perPage = 4;
+		int page = 0;
+		int menuLength = 8;
+		int maxPage = page+menu.size()-perPage;
+		if(maxPage<0) maxPage = 0;
+		while(true){
+			loop:while(true){
+				PrintUtil.title();
+				System.out.println("\t        🥄 메뉴 목록 🥢");
+				for(int i=0; i<perPage; i++){
+					System.out.print("\t🍴 "+(page+i+1)+" ");
+					String menuName = menu.get(i+page).get("FOOD").toString();
+					System.out.print(Util.cutString(menuName, menuLength));
+					System.out.println(menu.get(i+page).get("PRICE")+" ₩");
+				}
+				String[] list = {"뒤로가기    ","↑","↓"};
+
+				for(int i=0; i<list.length; i++){
+					if(select ==i+1)	System.out.print(" ■ ");
+					else				System.out.print(" □ ");
+					System.out.print(list[i]);
+				}
+				System.out.print("           ");
+				PrintUtil.joystick3();
+
+				switch(ScanUtil.nextLine()){
+				case "1":	if(select==1)	select=list.length;	else select--;	break;
+				case "3":	if(select==list.length)	select=1;	else select++;	break;
+				case "":	break loop;
+				default:	break;
+				}
+			}
+		switch(select){
+		case 1: return;
+		case 2: if(page !=0) page--; break;
+		case 3: if(page !=maxPage) page++; break;
+		}
+		}
+
+	}
+	
 	public void resDetail(String resId){	// '뒤로가기' 기능의 정상적 사용을 위해 반환타입을 void 로 변경하였습니다.
 		int select = 1;
 		String userId = Controller.user.get("USER_ID").toString();
@@ -501,6 +545,8 @@ public class UserService {
 		String[] selects = {" 뒤로가기"," 메뉴보기"," 리뷰보기"," 찜하기"};
 		if(userDao.isPick(resId, userId))//이미 찜하기 했으면
 			selects[3] = " 찜취소";
+		if(Controller.user.get("USER_ID").toString().equals("admin"))
+			selects[3] = "식당관리";
 		for(int i=0; i<selects.length; i++){
 			if(select ==i+1)	System.out.print(" ■");
 			else				System.out.print(" □");
@@ -520,9 +566,12 @@ public class UserService {
 		
 		switch(select){
 		case 1: break;
-		case 2: break;	// 메뉴보기 구현 필요
+		case 2: viewMenu(resId); break;
 		case 3: resReview(resId); break;	
 		case 4: 
+			if(Controller.user.get("USER_ID").toString().equals("admin")){//관리자면 식당관리
+				AdminService.getInstance().resManage(resId);
+			}
 			if(userDao.isPick(resId, userId))	userDao.resUnPick(resId, userId);
 			else userDao.resPick(resId,userId);	// 찜했으면 찜취소, 찜 안했으면 찜하기
 			resDetail(resId);	// 찜(or취소) 이후 해당 식당 다시 재귀호출
@@ -783,6 +832,7 @@ public class UserService {
 
 
 		return View.USER_MAIN;
-
 	}
+	
+
 }

@@ -22,8 +22,8 @@ public class AdminService {
 
 	private AdminDao adminDao = AdminDao.getInstance();
 	
-	public int resMod(){	//////////////// 추가 필요
-		return View.ERROR;
+	public int resMod(){	// 식당 검색으로 넘겨버리겠습니다
+		return View.SEARCH_RES;
 	}
 
 	public int adminMain(){	//////////////////////// 관리자용 홈  View 3
@@ -127,10 +127,10 @@ public class AdminService {
 					System.out.printf(" 영업시간  [%s - %s]\n",openTime,closeTime);
 				if(select ==4)		System.out.print("           ■");
 				else				System.out.print("           □");
-					System.out.print(" 뒤로가기 \n");
+					System.out.print(" 뒤로가기 ");
 				if(complete[0]==1 && complete[1]==1 && complete[2]==1){
-					if(select ==5)		System.out.print("           ■");
-					else				System.out.print("           □");
+					if(select ==5)		System.out.print("\n           ■");
+					else				System.out.print("\n           □");
 					System.out.print(" 입력 완료! 식당 등록하기 ");
 				}else System.out.println();
 				System.out.print("\t\t");
@@ -237,6 +237,57 @@ public class AdminService {
 			System.out.println("식당 등록 실패");
 			return View.RESTAURANT_MANAGE;	// 식당 등록에 해도 똑같이 돌아갑니다
 		}
+	}
+	
+	public void resManage(String resId){
+		int select = 1;
+		menu:while(true){
+		PrintUtil.title();
+		System.out.printf("\t[관리자용 식당관리모드]\n \t관리할 식당명 : %s\n",adminDao.resIdToName(resId));
+		String[] menu = {"메뉴추가\n","영업시간변경\n","뒤로가기"};
+
+		for(int i=0; i<menu.length; i++){
+			if(select ==i+1)	System.out.print("             ■ ");
+			else				System.out.print("             □ ");
+			System.out.print(menu[i]);
+		}
+		PrintUtil.joystick();;
+
+		switch(ScanUtil.nextLine()){
+		case "5":	if(select==1)	select=menu.length;		else select--;	break;
+		case "2":	if(select==menu.length)	select=1;		else select++;	break;
+		case "":	break menu;
+		default:	break;			}
+	}
+		
+		switch(select){
+		case 1:
+			menuAdd(resId);
+			break;
+		case 2: 
+			break;
+			//영업시간변경 구현해야함
+		case 3: return;
+		}
+	}
+	
+	public void menuAdd(String resId){
+		String check="";
+		while(!("x".equals(check.toLowerCase()))&&!check.equals("ㅌ")){
+			System.out.print("추가할 메뉴명 > ");
+			String food=ScanUtil.nextLine();
+			System.out.print("위 메뉴의 가격 > ");
+			int price=ScanUtil.nextInt();
+			int result = adminDao.menuAdd(resId,food,price);
+			if(result==1)
+				System.out.printf("메뉴명 :%s, 가격 : %d 등록완료\n",food,price);
+			else
+				System.out.println("등록에 실패하였습니다.");
+			System.out.print("계속 등록하려면 엔터키를, 그만등록하려면 x를 입력:");
+			check = ScanUtil.nextLine();
+		}
+		System.out.println("메뉴 추가하기가 종료되었습니다.");
+		
 	}
 
 	

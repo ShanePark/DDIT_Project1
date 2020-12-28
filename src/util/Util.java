@@ -36,7 +36,7 @@ public class Util {
 			string+=" ";
 			blank++;
 		}
-		if(string.length()>length){
+		if(string.length()>length+blank){
 			string = string.substring(0,length-1+blank)+"…";
 			return string;
 		}

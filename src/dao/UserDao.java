@@ -232,7 +232,6 @@ public class UserDao {
 		p.add(resId);
 		Map<String, Object> map = jdbc.selectOne(sql,p);
 		return map.get("RES_NAME").toString();
-
 	}
 	
 	public Map<String, Object> getReview(String resId, String userId){
@@ -266,6 +265,13 @@ public class UserDao {
 		p.add(userId);
 		return jdbc.selectList(sql, p);
 		
+	}
+	
+	public List<Map<String, Object>> viewMenu(String resId){
+		String sql = "select res_id, food, to_char(price,'999,999') as price from menu where res_id = ?";
+		List<Object> p = new ArrayList<>();
+		p.add(resId);
+		return jdbc.selectList(sql,p);
 	}
 
 }
