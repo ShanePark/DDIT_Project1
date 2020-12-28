@@ -310,12 +310,63 @@ public class UserService {
 
 		switch(select){
 		case 1: return View.PICK_LIST;	
-		case 2: return View.ERROR;	// 주문내역 view 만들어야 합니다
-		case 3: return View.ERROR;	// 내 리뷰 확인 view 만들어야 합니다
-		case 4: return View.ERROR;	// 계정관리 view 만들어야 합니다
-		case 5: return View.USER_MAIN;	// 뒤로가기
+		case 2: return View.ERROR;		// 주문내역 view 만들어야 합니다///////////
+		case 3: return View.MYREVIEW;	// 내 리뷰 보기
+		case 4: return View.ERROR;		// 계정관리 view 만들어야 합니다////////
+		case 5: return View.USER_MAIN;	// 뒤로가기///////////////////////
 		}
 		return View.MYPAGE;
+	}
+
+	public int myReview(){
+		String userId = Controller.user.get("USER_ID").toString();
+		List<Map<String, Object>> review = userDao.myReview(userId);
+		int select = 1;
+		int page = 1;
+		int perPage = 4;
+		int maxPage = (review.size()-1)/perPage+1;
+		int resNameLength = 8;
+		while(true){
+			menu:while(true){
+				PrintUtil.title();
+				System.out.println("\t               📋내 리뷰📋");
+
+				for(int i=0; i<perPage; i++){
+					if((page-1)*perPage+i >= review.size()){
+						System.out.println();
+						continue;
+					}
+					Map<String, Object> reviewMap = review.get((page-1)*perPage+i);
+					String resName = reviewMap.get("RES_NAME").toString();
+					resName = Util.cutString(resName, resNameLength);
+					String grade = Util.scoreToStars(reviewMap.get("GRADE").toString());
+					String content = reviewMap.get("R_CONTENT").toString();
+					System.out.printf(" %d) %s  %s    %s\n",
+							review.size()-(page-1)*perPage-i,resName,grade,content);
+				}
+
+				String[] menu = {"뒤로가기","이전페이지","다음페이지 "};
+				for(int i=0; i<menu.length; i++){
+					if(select ==i+1)	System.out.print(" ■ ");
+					else				System.out.print(" □ ");
+					System.out.print(menu[i]);
+				}
+				System.out.printf("   [페이지 %d/%d]",page,maxPage);
+				PrintUtil.printBar2();
+
+				switch(ScanUtil.nextLine()){
+				case "1":	if(select==1)	select=menu.length;	else select--;	break;
+				case "3":	if(select==menu.length)	select=1;	else select++;	break;
+				case "":	break menu;
+				default:	break;			}
+			}
+
+		switch(select)					{
+		case 1: return View.MYPAGE;
+		case 2: if(page!= 1) page--;		break;
+		case 3: if(page!= maxPage) page++;	break;
+		default:	return View.MYPAGE;	}
+		}
 
 	}
 
@@ -380,7 +431,7 @@ public class UserService {
 		case 2: if(resNumber[1]==null) break; else {resDetail(resNumber[1]); break;}
 		case 3: if(resNumber[2]==null) break; else {resDetail(resNumber[2]); break;}
 		case 4: if(resNumber[3]==null) break; else {resDetail(resNumber[3]); break;}
-		case 5: return View.USER_MAIN;
+		case 5: return View.MYPAGE;
 		case 6: if(page!=1) page--; break;
 		case 7: if(page!=totalPage) page++; break;
 		default: break page;	}
@@ -421,6 +472,50 @@ public class UserService {
 		return resList(resByName(resName));
 	}
 	
+	public void viewMenu(String resId){
+		List<Map<String, Object>> menu = userDao.viewMenu(resId);
+		int select = 1;
+		int perPage = 4;
+		int page = 0;
+		int menuLength = 8;
+		int maxPage = page+menu.size()-perPage;
+		if(maxPage<0) maxPage = 0;
+		while(true){
+			loop:while(true){
+				PrintUtil.title();
+				System.out.println("\t        🥄 메뉴 목록 🥢");
+				for(int i=0; i<perPage; i++){
+					System.out.print("\t🍴 "+(page+i+1)+" ");
+					String menuName = menu.get(i+page).get("FOOD").toString();
+					System.out.print(Util.cutString(menuName, menuLength));
+					System.out.println(menu.get(i+page).get("PRICE")+" ₩");
+				}
+				String[] list = {"뒤로가기    ","↑","↓"};
+
+				for(int i=0; i<list.length; i++){
+					if(select ==i+1)	System.out.print(" ■ ");
+					else				System.out.print(" □ ");
+					System.out.print(list[i]);
+				}
+				System.out.print("           ");
+				PrintUtil.joystick3();
+
+				switch(ScanUtil.nextLine()){
+				case "1":	if(select==1)	select=list.length;	else select--;	break;
+				case "3":	if(select==list.length)	select=1;	else select++;	break;
+				case "":	break loop;
+				default:	break;
+				}
+			}
+		switch(select){
+		case 1: return;
+		case 2: if(page !=0) page--; break;
+		case 3: if(page !=maxPage) page++; break;
+		}
+		}
+
+	}
+	
 	public void resDetail(String resId){	// '뒤로가기' 기능의 정상적 사용을 위해 반환타입을 void 로 변경하였습니다.
 		int select = 1;
 		String userId = Controller.user.get("USER_ID").toString();
@@ -450,6 +545,8 @@ public class UserService {
 		String[] selects = {" 뒤로가기"," 메뉴보기"," 리뷰보기"," 찜하기"};
 		if(userDao.isPick(resId, userId))//이미 찜하기 했으면
 			selects[3] = " 찜취소";
+		if(Controller.user.get("USER_ID").toString().equals("admin"))
+			selects[3] = "식당관리";
 		for(int i=0; i<selects.length; i++){
 			if(select ==i+1)	System.out.print(" ■");
 			else				System.out.print(" □");
@@ -469,9 +566,12 @@ public class UserService {
 		
 		switch(select){
 		case 1: break;
-		case 2: break;	// 메뉴보기 구현 필요
+		case 2: viewMenu(resId); break;
 		case 3: resReview(resId); break;	
 		case 4: 
+			if(Controller.user.get("USER_ID").toString().equals("admin")){//관리자면 식당관리
+				AdminService.getInstance().resManage(resId);
+			}
 			if(userDao.isPick(resId, userId))	userDao.resUnPick(resId, userId);
 			else userDao.resPick(resId,userId);	// 찜했으면 찜취소, 찜 안했으면 찜하기
 			resDetail(resId);	// 찜(or취소) 이후 해당 식당 다시 재귀호출
@@ -493,6 +593,7 @@ public class UserService {
 
 		resReview:while(true){
 			List<Map<String,Object>> review = userDao.reviewList(resId);
+			
 			int maxPage = (review.size()-1)/perPage+1;
 			select:while(true){
 				PrintUtil.title2();
@@ -540,7 +641,7 @@ public class UserService {
 		case 2: 
 			if(userDao.isReviewExist(Controller.user.get("USER_ID").toString(),resId))
 				modReview(resId);
-//			else newReview(resId);
+			else newReview(resId);
 			break;
 		case 3: if(page!=1) page--;			break;//이전페이지
 		case 4: if(page!=maxPage) page++;	break;//다음페이지
@@ -580,12 +681,72 @@ public class UserService {
 		
 		switch(select){
 		case 1: break;
-		case 2: break; // 리뷰 삭제하며 새로 리뷰작성하는 곳으로 이동 작성 필요
+		case 2: // 리뷰 삭제하며 새로 리뷰작성하는 곳으로 이동 
+			userDao.delReview(resId,Controller.user.get("USER_ID").toString());
+			newReview(resId);
+			break; 
 		case 3: //리뷰삭제
 			userDao.delReview(resId,Controller.user.get("USER_ID").toString());
 			break;
 		default: break;}
 
+	}
+
+	public void newReview(String resId){
+		String userId=Controller.user.get("USER_ID").toString();
+		String grade="",content="";
+		String resName=userDao.resIdToName(resId);
+		int score=0;
+		int select = 1;
+		menu:while(true){
+			PrintUtil.title();
+			System.out.printf("\t\t[%s]\n",resName);
+			System.out.println("\n\t주고싶은 별점을 선택해주세요\n\n");
+			String[] selects = {"뒤로가기 ","★☆☆☆☆","★★☆☆☆","★★★☆☆","★★★★☆","★★★★★"};
+			for(int i=0; i<selects.length; i++){
+				if(select ==i+1)	System.out.print("■ ");
+				else				System.out.print("□ ");
+				System.out.print(selects[i]);
+			}
+			PrintUtil.printBar2();
+
+			switch(ScanUtil.nextLine()){
+			case "1":	if(select==1)	select=selects.length;	else select--;	break;
+			case "3":	if(select==selects.length)	select=1;	else select++;	break;
+			case "":	break menu;
+			default:	break;			}
+		}
+		switch(select){
+		case 1 : return;					// 리뷰 작성하기 종료
+		default : score = (select-1);	// grade에 별점 부여
+		break;
+		}
+		
+		grade = Util.scoreToStars(score);
+		PrintUtil.title();
+		System.out.printf("\t\t[%s]\n",resName);
+		System.out.printf("\n\t내 별점 : %s\n\n",grade);
+		System.out.printf("\t%s에 대한 의견을 자유롭게 작성해주세요.\n",resName);
+		PrintUtil.printBar2();
+		content = ScanUtil.nextLine();
+
+		Map<String, Object> review = new HashMap<String, Object>();
+		review.put("resId", resId);
+		review.put("userId", userId);
+		review.put("content", content);
+		review.put("grade", score);
+
+		if(userDao.newReview(review)==1){
+			PrintUtil.title();
+			System.out.printf("\t\t[%s]\n",resName);
+			System.out.printf("\t내 별점 : %s\n",grade);
+			System.out.printf("\t식당명 : %s \n\t리뷰 : %s\n",resName,content);
+			System.out.println("\n\t계속 하려면 [엔터]키를 눌러주세요.");
+			PrintUtil.printBar();
+			content = ScanUtil.nextLine();
+		}else
+			System.out.println("리뷰작성 실패 버그 신고해주세요");
+		return;
 	}
 
 	public int resList(List<Map<String, Object>> list){
@@ -671,6 +832,7 @@ public class UserService {
 
 
 		return View.USER_MAIN;
-
 	}
+	
+
 }

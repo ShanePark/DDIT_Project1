@@ -232,7 +232,6 @@ public class UserDao {
 		p.add(resId);
 		Map<String, Object> map = jdbc.selectOne(sql,p);
 		return map.get("RES_NAME").toString();
-
 	}
 	
 	public Map<String, Object> getReview(String resId, String userId){
@@ -242,6 +241,37 @@ public class UserDao {
 		p.add(resId);
 		p.add(userId);
 		return jdbc.selectOne(sql,p);
+	}
+	
+	public int newReview(Map<String, Object> map){
+		String resId = map.get("resId").toString();
+		String userId = map.get("userId").toString();
+		String content = map.get("content").toString();
+		String grade = map.get("grade").toString();
+		String sql = "insert into review(re_no,res_id,user_id,r_content,grade,re_date)"
+                +" values((select nvl(max(re_no),0)+1 from review),?,?,?,?,sysdate)";
+		List<Object> p = new ArrayList<>();
+		p.add(resId);
+		p.add(userId);
+		p.add(content);
+		p.add(grade);
+		return jdbc.update(sql,p);
+	}
+	
+	public List<Map<String, Object>> myReview(String userId){
+		String sql = "select a.*, b.res_name from review a,restaurants b"
+					+" where USER_ID = ? and a.res_id = b.res_id order by re_no";		
+		List<Object> p = new ArrayList<>();
+		p.add(userId);
+		return jdbc.selectList(sql, p);
+		
+	}
+	
+	public List<Map<String, Object>> viewMenu(String resId){
+		String sql = "select res_id, food, to_char(price,'999,999') as price from menu where res_id = ?";
+		List<Object> p = new ArrayList<>();
+		p.add(resId);
+		return jdbc.selectList(sql,p);
 	}
 
 }

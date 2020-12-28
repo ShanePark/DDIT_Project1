@@ -17,6 +17,16 @@ public class Util {
 			stars+="☆";
 		return stars;
 	}
+	
+	public static String scoreToStars(String score){
+		String stars="";
+		float fscore = Float.parseFloat(score);
+		for(int i=0; i<Math.round(fscore); i++)
+			stars+="★";
+		for(int i=(int)Math.round(fscore); i<5; i++)
+			stars+="☆";
+		return stars;
+	}
 
 	public static String cutString(String string,int length){
 		for(int i=string.length(); i<length ;i++)
@@ -26,7 +36,7 @@ public class Util {
 			string+=" ";
 			blank++;
 		}
-		if(string.length()>length){
+		if(string.length()>length+blank){
 			string = string.substring(0,length-1+blank)+"…";
 			return string;
 		}
