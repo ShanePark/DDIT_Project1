@@ -492,7 +492,11 @@ public class UserService {
 			loop:while(true){
 				PrintUtil.title();
 				System.out.println("\t        🥄 메뉴 목록 🥢");
-				for(int i=0; i<perPage; i++){
+				printMenu:for(int i=0; i<perPage; i++){
+					if(i+page >= menu.size()){
+						System.out.println();
+						continue printMenu;
+					}
 					System.out.print("\t🍴 "+(page+i+1)+" ");
 					String menuName = menu.get(i+page).get("FOOD").toString();
 					System.out.print(Util.cutString(menuName, menuLength));
