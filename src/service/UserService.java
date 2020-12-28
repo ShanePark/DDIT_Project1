@@ -153,7 +153,8 @@ public class UserService {
 		int select = 1;
 		String orderby="", resName="", distance="", rvCnt="";
 		float score=0;
-		String[] res = new String[5];
+		String[] res = new String[5];	//페이지당 식당 수를 배열 크기로 지정하세요
+		int resNameLength = 8;	// 식당 이름을 몇 글자까지 표시해줄지 정하는 변수
 
 		userMain:while(true){
 			PrintUtil.title3();
@@ -169,7 +170,6 @@ public class UserService {
 				list = resByScore();	orderby = "평점순";
 			}
 			for(int i=0; i<res.length; i++){
-				int resNameLength = 9;	// 식당 이름을 몇 글짜까지 표시해줄지 정하는 변수
 				resName = list.get(i).get("RES_NAME").toString();
 				score = Float.parseFloat(list.get(i).get("SCORE").toString());
 				distance = list.get(i).get("DISTANCE").toString();
@@ -183,36 +183,36 @@ public class UserService {
 			}
 			if(select ==1)		System.out.print(" ■");
 			else				System.out.print(" □");
-			System.out.print(" 평점기준                      ");
+			System.out.print(" 평점기준                   ");
 			System.out.printf("🥘 [%s] BEST 5 🍝\n",orderby);
 
 			if(select ==2)		System.out.print(" ■");
 			else				System.out.print(" □");
-			System.out.print(" 리뷰수기준                1. ");
+			System.out.print(" 리뷰수기준             1. ");
 			System.out.println(res[0]);
 
 			if(select ==3)		System.out.print(" ■");
 			else				System.out.print(" □");
-			System.out.print(" 거리기준                   2. ");
+			System.out.print(" 거리기준                2. ");
 			System.out.println(res[1]);
 
 			if(select ==4)		System.out.print(" ■");
 			else				System.out.print(" □");
-			System.out.print(" 검색                         3. ");
+			System.out.print(" 검색                      3. ");
 			System.out.println(res[2]);
 
 			if(select ==5)		System.out.print(" ■");
 			else				System.out.print(" □");
-			System.out.print(" 도시락주문                4. ");
+			System.out.print(" 도시락주문             4. ");
 			System.out.println(res[3]);
 
 			if(select ==6)		System.out.print(" ■");
 			else				System.out.print(" □");
 			if(nickname.equals("관리자"))
-				System.out.print(" 관리자전용                5. ");
+				System.out.print(" 관리자전용             5. ");
 			else if(nickname.equals("비회원"))
-				System.out.print(" 로그인                      5. ");	// 비회원일때 마이페이지 대신 어떤 기능을 넣을지 정해야합니다
-			else System.out.print(" 마이페이지                5. ");
+				System.out.print(" 로그인                   5. ");	// 비회원일때 마이페이지 대신 어떤 기능을 넣을지 정해야합니다
+			else System.out.print(" 마이페이지             5. ");
 
 			System.out.println(res[4]);
 
@@ -405,7 +405,7 @@ public class UserService {
 	//	private List<Map<String, Object>> resByPick(){
 	//		return userDao.resByPick();
 	//	}
-	private List<Map<String, Object>> resByName(String name){
+	private List<Map<String, Object>> resByName(String name){	
 		return userDao.resByName(name);
 	}
 
@@ -460,8 +460,8 @@ public class UserService {
 		PrintUtil.joystick3();
 		
 		switch(ScanUtil.nextLine()){
-		case "1":	if(select==1)	select=4;		else select--;			break;
-		case "3":	if(select==4)	select=1;		else select++;			break;
+		case "1":	if(select==1)	select=selects.length;		else select--;			break;
+		case "3":	if(select==selects.length)	select=1;		else select++;			break;
 		case "":	break resDetail;
 		default:	break;			}
 		
@@ -470,7 +470,7 @@ public class UserService {
 		switch(select){
 		case 1: break;
 		case 2: break;	// 메뉴보기 구현 필요
-		case 3: break;	// 리뷰보기 메뉴 필요
+		case 3: resReview(resId); break;	
 		case 4: 
 			if(userDao.isPick(resId, userId))	userDao.resUnPick(resId, userId);
 			else userDao.resPick(resId,userId);	// 찜했으면 찜취소, 찜 안했으면 찜하기
@@ -480,6 +480,113 @@ public class UserService {
 		}
 		
 	}
+	
+	public void resReview(String resId){
+		Map<String,Object> res = userDao.resDetail(resId);
+		String resName = res.get("RES_NAME").toString();
+		String rvCnt = res.get("RV_CNT").toString();
+		float score = Float.parseFloat(res.get("SCORE").toString());
+		int select = 1;
+		int page = 1;
+		int perPage = 4;
+		int nicknameLength = 5;
+
+		resReview:while(true){
+			List<Map<String,Object>> review = userDao.reviewList(resId);
+			int maxPage = (review.size()-1)/perPage+1;
+			select:while(true){
+				PrintUtil.title2();
+				System.out.printf(" [%s] %s %.2f점(리뷰 %s개)\n",
+						resName,Util.scoreToStars(score),score,rvCnt);
+				System.out.println("리뷰일       평점         작성자        내용");
+				
+				int start = perPage * (page-1);
+				print:for(int i=0; i<perPage; i++){
+					if(review.size()<= start+i){
+						System.out.println();
+						continue print;
+						}
+					String date=review.get(start+i).get("YYMM").toString();
+					float gradescore=Float.parseFloat(review.get(start+i).get("GRADE").toString());
+					String grade = Util.scoreToStars(gradescore);
+					String nickname=review.get(start+i).get("NICKNAME").toString();
+					nickname = Util.cutString(nickname, nicknameLength);
+					String content=review.get(start+i).get("R_CONTENT").toString();
+					System.out.printf("%s  %s   %s %s\n",date,grade,nickname,content);
+				}
+
+				String[] selects = {" 뒤로가기  "," 리뷰작성  "," 이전페이지  "," 다음페이지  "};
+				
+				if(userDao.isReviewExist(Controller.user.get("USER_ID").toString(),resId))
+					selects[1] = "내리뷰관리";	// 사용자가 해당 식당에 작성한 리뷰가 있을 경우
+
+				for(int i=0; i<selects.length; i++){
+					if(select ==i+1)	System.out.print("■");
+					else				System.out.print("□");
+					System.out.print(selects[i]);
+				}
+				System.out.printf("[페이지%d/%d]",page,maxPage);
+				PrintUtil.printBar2();
+
+				switch(ScanUtil.nextLine()){
+				case "1":	if(select==1)	select=selects.length;		else select--;			break;
+				case "3":	if(select==selects.length)	select=1;		else select++;			break;
+				case "":	break select;
+				default:	break;			}
+			}
+
+		switch(select){
+		case 1: break resReview;
+		case 2: 
+			if(userDao.isReviewExist(Controller.user.get("USER_ID").toString(),resId))
+				modReview(resId);
+//			else newReview(resId);
+			break;
+		case 3: if(page!=1) page--;			break;//이전페이지
+		case 4: if(page!=maxPage) page++;	break;//다음페이지
+		default:
+			break;		}
+		}
+	}
+	
+	public void modReview(String resId){
+		int select = 1;
+		modReview:while(true){
+			PrintUtil.title();
+			Map<String, Object> review = userDao.getReview(resId,Controller.user.get("USER_ID").toString());
+			String score = Util.scoreToStars(Integer.parseInt(review.get("GRADE").toString()));
+			String date = review.get("RE_DATE").toString();
+			String content = review.get("R_CONTENT").toString();
+			System.out.printf("\t\t[%s]\n",userDao.resIdToName(resId));
+			System.out.println("\t내 별점 : "+score);
+			System.out.println("\t작성일 : "+date);
+			System.out.println("\t내용 : "+content);
+			System.out.println();
+			String[] menu = {"뒤로가기","리뷰다시작성","리뷰삭제"};
+			for(int i=0; i<menu.length; i++){
+				if(select ==i+1)	System.out.print(" ■ ");
+				else				System.out.print(" □ ");
+				System.out.print(menu[i]);
+			}
+			
+			PrintUtil.printBar2();
+			
+			switch(ScanUtil.nextLine()){
+			case "1":	if(select==1)	select=menu.length;	else select--;	break;
+			case "3":	if(select==menu.length)	select=1;	else select++;	break;
+			case "":	break modReview;
+			default:	break;			}
+		}
+		
+		switch(select){
+		case 1: break;
+		case 2: break; // 리뷰 삭제하며 새로 리뷰작성하는 곳으로 이동 작성 필요
+		case 3: //리뷰삭제
+			userDao.delReview(resId,Controller.user.get("USER_ID").toString());
+			break;
+		default: break;}
+
+	}
 
 	public int resList(List<Map<String, Object>> list){
 		int select = 1;
@@ -488,7 +595,7 @@ public class UserService {
 		int maxPage = (list.size()-1)/resPerPage+1;
 		if(list.size()==0) maxPage = 1;
 		int nameLength = 8;	// 출력하고 싶은 가게 이름의 최대 길이
-		int foodLength = 5; // 음식 종류 최대 길이
+		int foodLength = 6; // 음식 종류 최대 길이
 		int distanceLength = 5; // 거리 표현 최대 길이 
 
 		page:while(true){
@@ -514,7 +621,7 @@ public class UserService {
 				}
 
 				PrintUtil.title2();
-				System.out.println("       이름                    음식             평점             거리           추천수");
+				System.out.println("        이름                    음식             평점             거리           추천수");
 
 				for(int i=0; i<resPerPage; i++){
 					if(select ==i+1)		System.out.print(" ■ ");

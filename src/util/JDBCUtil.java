@@ -23,9 +23,13 @@ public class JDBCUtil {
 		return instance;
 	}
 
-	private String url = "jdbc:oracle:thin:@localhost:1521:xe";
-	private String user = "DDIT";
-	private String password = "java";
+	private String url = "jdbc:oracle:thin:@database-1.ce9wwqcz4ow8.us-east-2.rds.amazonaws.com:1521:ORCL";
+	private String user = "admin";
+	private String password = "ddit302java";
+	
+//	private String url = "jdbc:oracle:thin:@localhost:1521:xe";
+//	private String user = "DDIT";
+//	private String password = "java";
 
 	private Connection con = null;
 	private PreparedStatement ps = null;

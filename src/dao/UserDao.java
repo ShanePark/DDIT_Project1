@@ -194,7 +194,54 @@ public class UserDao {
 		p.add(userId);
 		return jdbc.selectList(sql, p);
 		
-		
+	}
+	
+	public List<Map<String,Object>> reviewList(String resId){
+		String sql = "select r_content,EXTRACT(month from re_date)||'/'"
+				+ "||EXTRACT(day from re_date) yymm ,re_no,grade,b.user_id,b.nickname"
+				+" from review a,users b where res_id = ? and a.user_id=b.user_id"
+				+ " order by re_no desc";
+		List<Object> p = new ArrayList<>();
+		p.add(resId);
+		return jdbc.selectList(sql,p);
+	}
+	
+	public boolean isReviewExist(String userId, String resId){
+		String sql = "select count(*) cnt from review where res_id = ? and user_id = ?";
+		List<Object> p = new ArrayList<>();
+		p.add(resId);
+		p.add(userId);
+		Map<String,Object> map = jdbc.selectOne(sql,p);
+		int check = Integer.parseInt(map.get("CNT").toString());
+		if(check>0) return true;
+		else return false;
+	}
+	
+	public int delReview(String resId, String userId){	//리뷰 삭제
+		String sql = "delete from review"
+					+" where res_id = ? and user_id = ?";
+		List<Object> p = new ArrayList<>();
+		p.add(resId);
+		p.add(userId);
+		return jdbc.update(sql, p);
+	}
+	
+	public String resIdToName(String resId){
+		String sql = "select res_name from restaurants where res_id = ?";
+		List<Object> p = new ArrayList<>();
+		p.add(resId);
+		Map<String, Object> map = jdbc.selectOne(sql,p);
+		return map.get("RES_NAME").toString();
+
+	}
+	
+	public Map<String, Object> getReview(String resId, String userId){
+		String sql = "select * from review"
+				    +" where res_id = ? and USER_ID = ?";
+		List<Object> p = new ArrayList<>();
+		p.add(resId);
+		p.add(userId);
+		return jdbc.selectOne(sql,p);
 	}
 
 }

@@ -22,7 +22,7 @@ public class Util {
 		for(int i=string.length(); i<length ;i++)
 			string += "　";
 		int blank=0;
-		if(string.substring(0,length).contains(" ")){
+		for(int i=0; i<containBlank(string.substring(0,length)); i++){
 			string+=" ";
 			blank++;
 		}
@@ -30,7 +30,7 @@ public class Util {
 			string = string.substring(0,length-1+blank)+"…";
 			return string;
 		}
-		return string+" ";
+		return string+"   ";
 	}
 
 	public static String cutString2(String string,int length){
@@ -44,6 +44,15 @@ public class Util {
 		if(string.length()>length+blank)
 			string = string.substring(blank,length+blank)+"…";
 		return string;
+	}
+	
+	public static int containBlank(String string){
+		int blank = 0;
+		for(int i=0; i<string.length(); i++){
+			if(string.charAt(i)==' ')
+				blank++;
+		}
+		return blank;
 	}
 
 
