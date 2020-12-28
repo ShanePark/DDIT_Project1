@@ -43,8 +43,8 @@ public class AdminService {
 			PrintUtil.joystick();
 
 			switch(ScanUtil.nextLine()){
-			case "5":	if(select==1)	select=3;		else select--;			break;
-			case "2":	if(select==3)	select=1;		else select++;			break;
+			case "5":	if(select==1)	select=selects.length;	else select--;	break;
+			case "2":	if(select==selects.length)	select=1;	else select++;	break;
 			case "":	break main;
 			default:	break;			}
 			

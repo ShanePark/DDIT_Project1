@@ -28,7 +28,7 @@ public class Controller {
 		Controller.user = user;
 		////////////////////////// USER 테스팅할 코드 ↓
 		
-		userService.modReview("1");
+		userService.newReview("1");
 		
 		////////////////////////// USER 테스팅할 코드 ↑
 	}

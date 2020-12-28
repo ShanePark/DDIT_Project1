@@ -493,6 +493,7 @@ public class UserService {
 
 		resReview:while(true){
 			List<Map<String,Object>> review = userDao.reviewList(resId);
+			
 			int maxPage = (review.size()-1)/perPage+1;
 			select:while(true){
 				PrintUtil.title2();
@@ -540,7 +541,7 @@ public class UserService {
 		case 2: 
 			if(userDao.isReviewExist(Controller.user.get("USER_ID").toString(),resId))
 				modReview(resId);
-//			else newReview(resId);
+			else newReview(resId);
 			break;
 		case 3: if(page!=1) page--;			break;//이전페이지
 		case 4: if(page!=maxPage) page++;	break;//다음페이지
@@ -580,12 +581,72 @@ public class UserService {
 		
 		switch(select){
 		case 1: break;
-		case 2: break; // 리뷰 삭제하며 새로 리뷰작성하는 곳으로 이동 작성 필요
+		case 2: // 리뷰 삭제하며 새로 리뷰작성하는 곳으로 이동 
+			userDao.delReview(resId,Controller.user.get("USER_ID").toString());
+			newReview(resId);
+			break; 
 		case 3: //리뷰삭제
 			userDao.delReview(resId,Controller.user.get("USER_ID").toString());
 			break;
 		default: break;}
 
+	}
+
+	public void newReview(String resId){
+		String userId=Controller.user.get("USER_ID").toString();
+		String grade="",content="";
+		String resName=userDao.resIdToName(resId);
+		int score=0;
+		int select = 1;
+		menu:while(true){
+			PrintUtil.title();
+			System.out.printf("\t\t[%s]\n",resName);
+			System.out.println("\n\t주고싶은 별점을 선택해주세요\n\n");
+			String[] selects = {"뒤로가기 ","★☆☆☆☆","★★☆☆☆","★★★☆☆","★★★★☆","★★★★★"};
+			for(int i=0; i<selects.length; i++){
+				if(select ==i+1)	System.out.print("■ ");
+				else				System.out.print("□ ");
+				System.out.print(selects[i]);
+			}
+			PrintUtil.printBar2();
+
+			switch(ScanUtil.nextLine()){
+			case "1":	if(select==1)	select=selects.length;	else select--;	break;
+			case "3":	if(select==selects.length)	select=1;	else select++;	break;
+			case "":	break menu;
+			default:	break;			}
+		}
+		switch(select){
+		case 1 : return;					// 리뷰 작성하기 종료
+		default : score = (select-1);	// grade에 별점 부여
+		break;
+		}
+		
+		grade = Util.scoreToStars(score);
+		PrintUtil.title();
+		System.out.printf("\t\t[%s]\n",resName);
+		System.out.printf("\n\t내 별점 : %s\n\n",grade);
+		System.out.printf("\t%s에 대한 의견을 자유롭게 작성해주세요.\n",resName);
+		PrintUtil.printBar2();
+		content = ScanUtil.nextLine();
+
+		Map<String, Object> review = new HashMap<String, Object>();
+		review.put("resId", resId);
+		review.put("userId", userId);
+		review.put("content", content);
+		review.put("grade", score);
+
+		if(userDao.newReview(review)==1){
+			PrintUtil.title();
+			System.out.printf("\t\t[%s]\n",resName);
+			System.out.printf("\t내 별점 : %s\n",grade);
+			System.out.printf("\t식당명 : %s \n\t리뷰 : %s\n",resName,content);
+			System.out.println("\n\t계속 하려면 [엔터]키를 눌러주세요.");
+			PrintUtil.printBar();
+			content = ScanUtil.nextLine();
+		}else
+			System.out.println("리뷰작성 실패 버그 신고해주세요");
+		return;
 	}
 
 	public int resList(List<Map<String, Object>> list){

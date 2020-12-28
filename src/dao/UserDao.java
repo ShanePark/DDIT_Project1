@@ -243,5 +243,20 @@ public class UserDao {
 		p.add(userId);
 		return jdbc.selectOne(sql,p);
 	}
+	
+	public int newReview(Map<String, Object> map){
+		String resId = map.get("resId").toString();
+		String userId = map.get("userId").toString();
+		String content = map.get("content").toString();
+		String grade = map.get("grade").toString();
+		String sql = "insert into review(re_no,res_id,user_id,r_content,grade,re_date)"
+                +" values((select nvl(max(re_no),0)+1 from review),?,?,?,?,sysdate)";
+		List<Object> p = new ArrayList<>();
+		p.add(resId);
+		p.add(userId);
+		p.add(content);
+		p.add(grade);
+		return jdbc.update(sql,p);
+	}
 
 }
