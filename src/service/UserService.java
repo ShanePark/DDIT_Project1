@@ -157,18 +157,23 @@ public class UserService {
 		int resNameLength = 8;	// 식당 이름을 몇 글자까지 표시해줄지 정하는 변수
 
 		userMain:while(true){
-			PrintUtil.title3();
 			int nicknameLength=6;	// 해당 길이보다 긴 닉네임은 ..으로 표시합니다
-			System.out.print("     "+Util.cutString2(nickname,nicknameLength));
-			System.out.print("(으)로 접속중\n");
-
 			if(select==2){
+				PrintUtil.printBlank(20);		//
+				PrintUtil.loading(0);			// 로딩쪽 손봐야합니다 !!
 				list = resByRvcnt();	orderby = "리뷰수";
 			}else if(select==3){
+				PrintUtil.printBlank(20);
+				PrintUtil.loading(0);
 				list = resByDistance();	orderby = "거리순";
 			}else{
+				PrintUtil.printBlank(20);
+				PrintUtil.loading(0);
 				list = resByScore();	orderby = "평점순";
 			}
+			PrintUtil.title3();
+			System.out.print("     "+Util.cutString2(nickname,nicknameLength));
+			System.out.print("(으)로 접속중\n");
 			for(int i=0; i<res.length; i++){
 				resName = list.get(i).get("RES_NAME").toString();
 				score = Float.parseFloat(list.get(i).get("SCORE").toString());
@@ -234,7 +239,10 @@ public class UserService {
 		case 2: resList(resByRvcnt()); break;
 		case 3: resList(resByDistance()); break;
 		case 4: return View.SEARCH_RES;
-		case 5:	return View.LUNCHBOX_ORDER;
+		case 5:	
+			if(Controller.user.get("USER_ID").toString().equals("guest"))
+				return View.SIGNIN;
+			else return View.LUNCHBOX_ORDER;
 		case 6:
 			if(nickname.equals("관리자"))	return View.ADMIN_MAIN;
 			if(nickname.equals("비회원")) return View.SIGNIN;
@@ -484,7 +492,11 @@ public class UserService {
 			loop:while(true){
 				PrintUtil.title();
 				System.out.println("\t        🥄 메뉴 목록 🥢");
-				for(int i=0; i<perPage; i++){
+				printMenu:for(int i=0; i<perPage; i++){
+					if(i+page >= menu.size()){
+						System.out.println();
+						continue printMenu;
+					}
 					System.out.print("\t🍴 "+(page+i+1)+" ");
 					String menuName = menu.get(i+page).get("FOOD").toString();
 					System.out.print(Util.cutString(menuName, menuLength));
