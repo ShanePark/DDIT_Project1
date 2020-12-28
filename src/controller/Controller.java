@@ -28,7 +28,7 @@ public class Controller {
 		Controller.user = user;
 		////////////////////////// USER 테스팅할 코드 ↓
 		
-		userService.newReview("1");
+		userService.myReview();
 		
 		////////////////////////// USER 테스팅할 코드 ↑
 	}
@@ -71,6 +71,7 @@ public class Controller {
 			case View.USER_MAIN:  view = userService.userMain(); 			break;
 			case View.LUNCHBOX_ORDER: view = userService.lunchboxOrder();	break;
 			case View.MYPAGE: view = userService.myPage();					break;
+			case View.MYREVIEW: view = userService.myReview();				break;
 			case View.PICK_LIST: view = userService.pickList();				break;
 			case View.SEARCH_RES : view = userService.searchRes();			break;
 			default : 

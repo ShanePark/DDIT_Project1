@@ -310,12 +310,63 @@ public class UserService {
 
 		switch(select){
 		case 1: return View.PICK_LIST;	
-		case 2: return View.ERROR;	// 주문내역 view 만들어야 합니다
-		case 3: return View.ERROR;	// 내 리뷰 확인 view 만들어야 합니다
-		case 4: return View.ERROR;	// 계정관리 view 만들어야 합니다
-		case 5: return View.USER_MAIN;	// 뒤로가기
+		case 2: return View.ERROR;		// 주문내역 view 만들어야 합니다///////////
+		case 3: return View.MYREVIEW;	// 내 리뷰 보기
+		case 4: return View.ERROR;		// 계정관리 view 만들어야 합니다////////
+		case 5: return View.USER_MAIN;	// 뒤로가기///////////////////////
 		}
 		return View.MYPAGE;
+	}
+
+	public int myReview(){
+		String userId = Controller.user.get("USER_ID").toString();
+		List<Map<String, Object>> review = userDao.myReview(userId);
+		int select = 1;
+		int page = 1;
+		int perPage = 4;
+		int maxPage = (review.size()-1)/perPage+1;
+		int resNameLength = 8;
+		while(true){
+			menu:while(true){
+				PrintUtil.title();
+				System.out.println("\t               📋내 리뷰📋");
+
+				for(int i=0; i<perPage; i++){
+					if((page-1)*perPage+i >= review.size()){
+						System.out.println();
+						continue;
+					}
+					Map<String, Object> reviewMap = review.get((page-1)*perPage+i);
+					String resName = reviewMap.get("RES_NAME").toString();
+					resName = Util.cutString(resName, resNameLength);
+					String grade = Util.scoreToStars(reviewMap.get("GRADE").toString());
+					String content = reviewMap.get("R_CONTENT").toString();
+					System.out.printf(" %d) %s  %s    %s\n",
+							review.size()-(page-1)*perPage-i,resName,grade,content);
+				}
+
+				String[] menu = {"뒤로가기","이전페이지","다음페이지 "};
+				for(int i=0; i<menu.length; i++){
+					if(select ==i+1)	System.out.print(" ■ ");
+					else				System.out.print(" □ ");
+					System.out.print(menu[i]);
+				}
+				System.out.printf("   [페이지 %d/%d]",page,maxPage);
+				PrintUtil.printBar2();
+
+				switch(ScanUtil.nextLine()){
+				case "1":	if(select==1)	select=menu.length;	else select--;	break;
+				case "3":	if(select==menu.length)	select=1;	else select++;	break;
+				case "":	break menu;
+				default:	break;			}
+			}
+
+		switch(select)					{
+		case 1: return View.MYPAGE;
+		case 2: if(page!= 1) page--;		break;
+		case 3: if(page!= maxPage) page++;	break;
+		default:	return View.MYPAGE;	}
+		}
 
 	}
 
@@ -380,7 +431,7 @@ public class UserService {
 		case 2: if(resNumber[1]==null) break; else {resDetail(resNumber[1]); break;}
 		case 3: if(resNumber[2]==null) break; else {resDetail(resNumber[2]); break;}
 		case 4: if(resNumber[3]==null) break; else {resDetail(resNumber[3]); break;}
-		case 5: return View.USER_MAIN;
+		case 5: return View.MYPAGE;
 		case 6: if(page!=1) page--; break;
 		case 7: if(page!=totalPage) page++; break;
 		default: break page;	}

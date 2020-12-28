@@ -23,7 +23,7 @@ public class JDBCUtil {
 		return instance;
 	}
 
-//	private String url = "jdbc:oracle:thin:@database-1.ce9wwqcz4ow8.us-east-2.rds.amazonaws.com:1521:ORCL";
+//	private String url = "jdbc:oracle:thin:@dditbasic.csqutft2bzky.ap-northeast-2.rds.amazonaws.com:1521:ORCL";
 //	private String user = "admin";
 //	private String password = "ddit302java";
 	

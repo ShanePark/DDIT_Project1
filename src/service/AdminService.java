@@ -102,9 +102,9 @@ public class AdminService {
 
 		addRes:while(true){
 			input:while(true){
-				int max = 3;
+				int max = 4;
 				if(complete[0]==1 && complete[1]==1 && complete[2]==1)
-					max = 4;
+					max = 5;
 				PrintUtil.title();
 				System.out.println("                                    🥄식당 추가🥢");
 				if(select ==1)		System.out.print("           ■");
@@ -122,15 +122,22 @@ public class AdminService {
 				if(select ==3)		System.out.print("           ■");
 				else				System.out.print("           □");
 				if(complete[2]==0)
-					System.out.print(" 영업시간  입력하기 ");
+					System.out.print(" 영업시간  입력하기\n");
 				else
 					System.out.printf(" 영업시간  [%s - %s]\n",openTime,closeTime);
+				if(select ==4)		System.out.print("           ■");
+				else				System.out.print("           □");
+					System.out.print(" 뒤로가기 \n");
 				if(complete[0]==1 && complete[1]==1 && complete[2]==1){
-					if(select ==4)		System.out.print("           ■");
+					if(select ==5)		System.out.print("           ■");
 					else				System.out.print("           □");
 					System.out.print(" 입력 완료! 식당 등록하기 ");
 				}else System.out.println();
-				PrintUtil.joystick();
+				System.out.print("\t\t");
+				if(!(complete[0]==1 && complete[1]==1 && complete[2]==1))
+					PrintUtil.joystick2();
+				else
+					PrintUtil.printBar2();
 
 				switch(ScanUtil.nextLine()){
 				case "5":
@@ -207,6 +214,8 @@ public class AdminService {
 		}
 		break;
 		case 4:
+			return View.RESTAURANT_MANAGE;
+		case 5:
 			break addRes;
 		}
 		}

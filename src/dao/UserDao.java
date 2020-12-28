@@ -258,5 +258,14 @@ public class UserDao {
 		p.add(grade);
 		return jdbc.update(sql,p);
 	}
+	
+	public List<Map<String, Object>> myReview(String userId){
+		String sql = "select a.*, b.res_name from review a,restaurants b"
+					+" where USER_ID = ? and a.res_id = b.res_id order by re_no";		
+		List<Object> p = new ArrayList<>();
+		p.add(userId);
+		return jdbc.selectList(sql, p);
+		
+	}
 
 }
