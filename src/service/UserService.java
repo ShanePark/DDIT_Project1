@@ -603,9 +603,42 @@ public class UserService {
 	private List<Map<String, Object>> resByName(String name){	
 		return userDao.resByName(name);
 	}
-
-
+	
 	public int searchRes(){
+		int select = 1;
+		loop:while(true){
+			String[] menu = {"식당 이름으로 검색\n","음식 스타일로 검색\n","메뉴명으로 검색\n","뒤로가기\n"};
+			PrintUtil.title();
+			
+			for(int i=0; i<menu.length; i++){
+				if(select ==i+1)	System.out.print("\t■ ");
+				else				System.out.print("\t□ ");
+				System.out.print(menu[i]);
+			}
+			
+			PrintUtil.joystick();;
+
+			switch(ScanUtil.nextLine()){
+			case "5":	if(select==1)	select=menu.length;		else select--;	break;
+			case "2":	if(select==menu.length)	select=1;		else select++;	break;
+			case "":	break loop;
+			default:	break;			}
+			
+		}
+		switch(select){
+		case 1:
+			return View.SEARCH_NAME;
+		case 2:
+			return View.SEARCH_COUSINE;
+		case 3:
+			return View.SEARCH_MENU;
+		default :
+			return View.USER_MAIN;
+		}
+	}
+
+
+	public int searchByName(){
 		PrintUtil.title();
 		System.out.println("\n\n\t    검색할 가게명을 입력해주세요\n\n");
 		System.out.println("\t\t       뒤로 가러면 [Enter] 키를 누르세요");
@@ -852,7 +885,7 @@ public class UserService {
 		loop:while(true){
 			menu:while(true){
 				PrintUtil.title();
-				System.out.printf("        [%s]\n",resName);
+				System.out.printf("             [%s]\n",resName);
 				System.out.println("\t\t"+Util.scoreToStars(star));
 				System.out.println("\n\t    주고싶은 평점을 선택해주세요\n");
 				String[] selects = {"뒤로가기 ","별 줄이기 ","별 늘리기 ","평점등록 "};

@@ -41,7 +41,7 @@ public class Controller {
 		Controller.user = user;
 		////////////////////////// USER 테스팅할 코드 ↓
 		
-		userService.newReview("1");
+		userService.searchRes();
 		
 		////////////////////////// USER 테스팅할 코드 ↑
 	}
@@ -85,6 +85,7 @@ public class Controller {
 			case View.MYREVIEW: view = userService.myReview();				break;
 			case View.PICK_LIST: view = userService.pickList();				break;
 			case View.SEARCH_RES : view = userService.searchRes();			break;
+			case View.SEARCH_NAME : view = userService.searchByName();		break;
 			case View.MANAGE_ACCOUNT : view = userService.manageAccount();	break;
 			case View.BOX_DAEJEON : view = boxService.daejeonMain();		break;
 			default : 
