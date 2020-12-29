@@ -435,16 +435,292 @@ public class BoardService {
 		
 		
 	}
+	
+	//식당문의 확인(관리자)
 	public int boardRes_admin()
 	{
-		return boardNum;
+		page = 1;
+		List<Map<String,Object>> boardList = boardDao.selectBoardRes(page);
+		boar:while(true)
+		{
+			
+		PrintUtil.title2();
+		System.out.println("번호\t승인여부\t식당이름\t음식종류\t작성자");
+		System.out.println("----------------------------------------");
+		if(boardList.size()%3 == 2)
+		{
+			System.out.println();
+		}
 		
-	}
+		for(int i=0; i< boardList.size(); i++)
+		{
+			Map<String, Object> board = boardList.get(i);
+			String resNAME = (String)board.get("RES_NAME");
+			if(resNAME.length()>3)
+			{
+				resNAME = resNAME.substring(0, 3) + "..";
+			}
+			System.out.println( board.get("RES_BOARD_NO")+ "\t"
+					+board.get("AVAIL") + "\t"
+					+board.get("RES_NAME") + "\t"
+					+resNAME + "\t"
+					+board.get("COUSINE") + "\t"
+					+board.get("USER_ID"));
+			
+		
+		}
+		 if(boardList.size()%3 == 1&&boardList.size()%3 != 2)
+		{
+			System.out.println();
+			System.out.println();
+		}
+		
+
+		
+		if( select == 1|| select == 5)
+		{
+			System.out.print( "◀ "+page);
+			System.out.print( "page▷\t");			
+			System.out.print( "□게시글 조회  ");
+			System.out.print( "□뒤로가기");
+		}
+		if( select == 2)
+		{
+			System.out.print( "◁ "+page);
+			System.out.print( "page▶\t");		
+			System.out.print( "□게시글 조회  ");	
+			System.out.print( "□뒤로가기");
+		}
+		if(select == 3)
+		{
+			System.out.print( "◁ "+page);
+			System.out.print( "page▷\t");	
+			System.out.print( "■게시글 조회  ");		
+			System.out.print( "□뒤로가기");
+			
+		}
+		
+		
+		if(select == 4||select == 0)
+		{
+			System.out.print( "◁ "+page);
+			System.out.print( "page▷\t");	
+			System.out.print( "□게시글 조회  ");
+			System.out.print( "■뒤로가기");
+			
+		}
+		if(select ==4){select = 1;}
+		if(select ==0){select = 3;}
+		System.out.print("\n                           (1,3)← → (⏎)확인 \n");
+		System.out.print("□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■\n>");
+		String input = ScanUtil.nextLine();
+		
+		switch(input)
+		{
+		case "3" : select++;break;
+		case "1" : select--;break;
+		case "" : break boar;
+		}
+		
+		}
+		switch(select)
+		{
+		case 1: if(page != 1){page--;}
+				break;
+		case 2: long size = boardList.size();
+				if(page <= size){page++;}
+				select = 2;
+				break;
+		case 3:System.out.print("게시글 번호 입력 >");
+				return View.BOARD_MANAGE2;
+		case 4:if(Controller.user.get("USER_ID").toString().equals("guest"))
+					{  PrintUtil.boardbase1();
+					System.out.println("로그인이 필요한 서비스입니다");
+				    PrintUtil.boardbase2();
+					String temp = ScanUtil.nextLine();
+					return View.SIGNUP;}
+				return View.BOARD_ADD;
+		case 5:
+			if(Controller.user.get("USER_ID").toString().equals("guest"))
+					{  
+						PrintUtil.boardbase1();
+						System.out.println("로그인이 필요한 서비스입니다");
+					    PrintUtil.boardbase2();
+						String temp = ScanUtil.nextLine();
+						return View.SIGNUP;
+					}
+			else if(Controller.user.get("USER_ID").toString().equals("admin"))
+					{
+						return View.BOARD_ADMIN;
+					}
+			else 
+					{ 
+						return View.BOARD_USER;
+					}
+		case 6:return View.USER_MAIN;
+			default : return View.BOARD_MAIN;
+		}
+		 return View.BOARD_MAIN;
+		
+		}
+		
 	
 	
+	
+	
+	//유저 식당문의
 	public int boardRes_user()
 	{
-		return boardNum;
+		int select = 1;
+		int[] complete = {0,0,0}; 
+		String resName="",cousine="",add1="",openTime="",closeTime="",userID = Controller.user.get("USER_ID").toString(),avail = "대기";
+		int distance=0;
+
+		addRes:while(true){
+			input:while(true){
+				int max = 4;
+				if(complete[0]==1 && complete[1]==1 && complete[2]==1)
+					max = 5;
+				PrintUtil.title();
+				System.out.println("  📄건의사항✏️\n");
+				if(select ==1)		System.out.print("           ■");
+				else				System.out.print("           □");
+				if(complete[0]==0)
+					System.out.print(" 가게명 음식스타일  입력하기 \n");
+				else
+					System.out.printf(" 가게명: %s [%s] \n",resName,cousine);
+				if(select ==2)		System.out.print("           ■");
+				else				System.out.print("           □");
+				if(complete[1]==0)
+					System.out.print(" 주소,거리  입력하기 \n");
+				else
+					System.out.printf(" 주소: %s [거리 %dm] \n",add1,distance);
+				if(select ==3)		System.out.print("           ■");
+				else				System.out.print("           □");
+				if(complete[2]==0)
+					System.out.print(" 영업시간  입력하기\n");
+				else
+					System.out.printf(" 영업시간  [%s - %s]\n",openTime,closeTime);
+				if(select ==4)		System.out.print("           ■");
+				else				System.out.print("           □");
+					System.out.print(" 뒤로가기 ");
+				if(complete[0]==1 && complete[1]==1 && complete[2]==1){
+					if(select ==5)		System.out.print("\n           ■");
+					else				System.out.print("\n           □");
+					System.out.print(" 입력 완료! 식당 등록하기 ");
+				}else System.out.println();
+				System.out.print("\t\t");
+				if(!(complete[0]==1 && complete[1]==1 && complete[2]==1))
+					PrintUtil.joystick2();
+				else
+					PrintUtil.printBar2();
+
+				switch(ScanUtil.nextLine()){
+				case "5":
+					if(select==1)
+						select=max;
+					else select--;
+					break;
+				case "2":
+					if(select==max)
+						select=1;
+					else select++;
+					break;
+				case "":
+					break input;
+				default:
+					break;
+				}
+			}
+		switch(select){
+		case 1: if(complete[0]==1){break;}
+		else{
+			PrintUtil.title();
+			System.out.println("  📄건의사항✏️\n");
+			System.out.println("                      식당 이름을 입력해주세요\n\n");
+			PrintUtil.printBar();
+			resName = ScanUtil.nextLine();
+
+			PrintUtil.title();
+			System.out.println("  📄건의사항✏️\n");
+			System.out.println("                       식당 이름 : " + resName);
+			System.out.println("                      음식스타일을 입력해주세요\n");
+			PrintUtil.printBar();
+			cousine = ScanUtil.nextLine();
+
+			complete[0] = 1;
+
+		}
+		break;
+		case 2:if(complete[1]==1){break;}
+		else{
+			PrintUtil.title();
+			System.out.println("  📄건의사항✏️\n");
+			System.out.println("                        주소를 입력해주세요\n\n");
+			PrintUtil.printBar();
+			add1 = ScanUtil.nextLine();
+
+			PrintUtil.title();
+			System.out.println("  📄건의사항✏️\n");
+			System.out.println("                       주소 : " + add1);
+			System.out.println("               학원으로부터 거리(m)를 숫자로 입력해주세요\n");
+			PrintUtil.printBar();
+			distance = Integer.parseInt(ScanUtil.nextLine());
+
+			complete[1] = 1;
+
+		}
+		break;
+		case 3:if(complete[2]==1){break;}
+		else{
+			PrintUtil.title();
+			System.out.println("  📄건의사항✏️\n");
+			System.out.println("                    오픈시간을 입력해주세요 (예)12:00\n\n");
+			PrintUtil.printBar();
+			openTime = ScanUtil.nextLine();
+
+			PrintUtil.title();
+			System.out.println("  📄건의사항✏️\n");
+			System.out.println("                       오픈시간 " + openTime);
+			System.out.println("                    마감시간을 입력해주세요 (예)12:00\n");
+			PrintUtil.printBar();
+			closeTime = ScanUtil.nextLine();
+
+			complete[2] = 1;
+		}
+		break;
+		case 4:
+			return View.BOARD_MAIN;
+		case 5:
+			break addRes;
+		}
+		}
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("RES_NAME", resName);
+		param.put("COUSINE", cousine);
+		param.put("OPEN_TIME", openTime);
+		param.put("CLOSE_TIME", closeTime);
+		param.put("ADD1", add1);
+		param.put("DISTANCE", distance);
+		param.put("USER_ID", userID);
+		param.put("AVAIL", avail);
+		
+		int result = boardDao.BoardresAdd(param);
+		
+		if(0 < result){
+			
+			PrintUtil.boardbase1();
+			System.out.println("글 등록 성공");
+		    PrintUtil.boardbase2();
+		    String tes =ScanUtil.nextLine();
+			return View.BOARD_MAIN;	
+		}else{
+			PrintUtil.boardbase1();
+			System.out.println("글 등록 실패");
+		    PrintUtil.boardbase2();
+		    String tes =ScanUtil.nextLine();
+			return View.BOARD_MAIN;	
+			}
 		
 	}
 	

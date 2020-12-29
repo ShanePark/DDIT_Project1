@@ -93,4 +93,39 @@ public class BoardDao {
 			
 			return jdbc.update(sql);
 		}
+		
+		
+		public int BoardresAdd(Map<String, Object> param){	//완료 BUT 테스트 필요
+			String sql = "insert into RESBOARD(RES_NAME,COUSINE,OPEN_TIME,CLOSE_TIME,ADD1,DISTANCE,USER_ID,AVAIL)"
+	                +"values((select nvl(max(RES_BOARD_NO),0)+1 from RESBOARD)"
+					+",?,?,?,?,?,?,?,?)";
+			
+			List<Object> p = new ArrayList<>();
+			p.add(param.get("RES_NAME"));
+			p.add(param.get("COUSINE"));
+			p.add(param.get("OPEN_TIME"));
+			p.add(param.get("CLOSE_TIME"));
+			p.add(param.get("ADD1"));
+			p.add(param.get("DISTANCE"));
+			p.add(param.get("USER_ID"));
+			p.add(param.get("AVAIL"));
+			
+			return jdbc.update(sql,p);
+		}
+		
+		
+		public List<Map<String, Object>> selectBoardRes(int page){
+			int perpage = 3;
+			int start = 1 + (page-1)*perpage;
+			int end =perpage*page;
+			String sql = "RES_BOARD_NO,RES_NAME,COUSINE,USER_ID,AVAIL"
+					+ " FROM RESBOARD"
+					+ " WHERE RES_BOARD_NO BETWEEN ? AND ?"
+					+ " ORDER BY RES_BOARD_NO DESC";
+					List<Object> p = new ArrayList<>();
+					p.add(start);
+					p.add(end);
+			return jdbc.selectList(sql,p);
+					
+		}
 }
