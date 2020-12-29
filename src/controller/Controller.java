@@ -3,6 +3,7 @@ package controller;
 import java.util.Map;
 
 import service.AdminService;
+import service.BoxService;
 import service.UserService;
 import util.PrintUtil;
 import util.ScanUtil;
@@ -16,10 +17,22 @@ public class Controller {
 		
 		new Controller().start();
 		
+//		new Controller().boxTesting();		// 유저 기능 테스트용
 //		new Controller().userTesting();		// 유저 기능 테스트용
 //		new Controller().adminTesting();	// 관리자 기능 테스트용
 //		new Controller().error();			// Controller Method 테스트용
 		
+	}
+	
+	private void boxTesting(){
+		UserDao userDao = UserDao.getInstance();
+		Map<String, Object> user = userDao.userSignIn("user3","1234");
+		Controller.user = user;
+		////////////////////////// USER 테스팅할 코드 ↓
+		
+		boxService.boxOrder("대전도시락","user3");
+		
+		////////////////////////// USER 테스팅할 코드 ↑
 	}
 	
 	private void userTesting(){
@@ -28,7 +41,7 @@ public class Controller {
 		Controller.user = user;
 		////////////////////////// USER 테스팅할 코드 ↓
 		
-//		userService.viewMenu("1");
+		userService.notDetailed();
 		
 		////////////////////////// USER 테스팅할 코드 ↑
 	}
@@ -38,20 +51,18 @@ public class Controller {
 		UserDao userDao = UserDao.getInstance();
 		Map<String, Object> user = userDao.userSignIn("admin","password");
 		Controller.user = user;
-		
 		////////////////////////// ADMIN 테스팅할 코드 ↓
 		
 		adminService.resManage("1");
 		
 		////////////////////////// ADMIN 테스팅할 코드 ↑
-		
 	}
 	
 	
 	public static Map<String, Object> user;
 	private UserService userService = UserService.getInstance();
 	private AdminService adminService = AdminService.getInstance();
-	
+	private BoxService boxService = BoxService.getInstance();
 	
 	
 	
@@ -74,6 +85,8 @@ public class Controller {
 			case View.MYREVIEW: view = userService.myReview();				break;
 			case View.PICK_LIST: view = userService.pickList();				break;
 			case View.SEARCH_RES : view = userService.searchRes();			break;
+			case View.MANAGE_ACCOUNT : view = userService.manageAccount();	break;
+			case View.BOX_DAEJEON : view = boxService.daejeonMain();		break;
 			default : 
 				System.out.println("해당 View 번호에 대한 case가 start()에 존재하지 않습니다.");
 				ScanUtil.nextLine();
