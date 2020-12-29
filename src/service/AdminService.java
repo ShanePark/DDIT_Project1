@@ -241,9 +241,10 @@ public class AdminService {
 	
 	public void resManage(String resId){
 		int select = 1;
+		String resName = adminDao.resIdToName(resId);
 		menu:while(true){
 		PrintUtil.title();
-		System.out.printf("\t[관리자용 식당관리모드]\n \t관리할 식당명 : %s\n",adminDao.resIdToName(resId));
+		System.out.printf("\t[관리자용 식당관리모드]\n \t관리할 식당명 : %s\n",resName);
 		String[] menu = {"메뉴추가\n","영업시간변경\n","뒤로가기"};
 
 		for(int i=0; i<menu.length; i++){
