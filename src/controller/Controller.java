@@ -41,7 +41,7 @@ public class Controller {
 		Controller.user = user;
 		////////////////////////// USER 테스팅할 코드 ↓
 		
-		userService.buyCredit();
+		userService.newReview("1");
 		
 		////////////////////////// USER 테스팅할 코드 ↑
 	}

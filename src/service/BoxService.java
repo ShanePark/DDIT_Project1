@@ -152,10 +152,9 @@ public class BoxService {
 		if(boxDao.payment(userId,price)){
 			PrintUtil.title();
 			System.out.printf("\t      💌 %s 완료 💌\n\n",payment);
-			System.out.printf("                  %s가 완료되었습니다! \n",payment);
 			System.out.printf("                   %s금액  : %d ₩\n",payment,(-price));
 			System.out.printf("                적립금 잔액 : %d ₩\n",boxDao.getMoney(userId));
-			System.out.printf("     %s 내용을 확인 후 계속하려면 엔터를 눌러주세요.\n",payment);
+			System.out.printf("     %s 내용을 확인 후 계속하려면 엔터를 눌러주세요.\n\n",payment);
 			PrintUtil.printBar();
 
 		}else
