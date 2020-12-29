@@ -9,6 +9,7 @@ import util.ScanUtil;
 import util.Util;
 import util.View;
 import controller.Controller;
+import dao.BoxDao;
 import dao.UserDao;
 
 public class UserService {
@@ -149,6 +150,7 @@ public class UserService {
 
 	public int userMain(){
 		String nickname = Controller.user.get("NICKNAME").toString();
+		String userId = Controller.user.get("USER_ID").toString();
 		List<Map<String, Object>> list = null;
 		int select = 1;
 		String orderby="", resName="", distance="", rvCnt="";
@@ -240,8 +242,12 @@ public class UserService {
 		case 3: resList(resByDistance()); break;
 		case 4: return View.SEARCH_RES;
 		case 5:	
-			if(Controller.user.get("USER_ID").toString().equals("guest"))
+			if(userId.equals("guest"))
 				return View.SIGNIN;
+			else if(!userDao.isDetailedAccount(userId)){
+				notDetailed(); 
+				return View.USER_MAIN;
+			}
 			else return View.LUNCHBOX_ORDER;
 		case 6:
 			if(nickname.equals("관리자"))	return View.ADMIN_MAIN;
@@ -250,6 +256,37 @@ public class UserService {
 		}
 		return View.USER_MAIN;
 
+	}
+	
+	public void notDetailed(){
+		int select = 1;
+		menu:while(true){
+			PrintUtil.title();
+
+			String[] menu = {"뒤로가기","개인정보입력"};
+
+			System.out.println("\t    『  ☎ 개인정보 등록  』 ");
+			System.out.println("\t 이후에 사용이 가능한 기능입니다.\n");
+
+			for(int i=0; i<menu.length; i++){
+				if(select ==i+1)		System.out.print("        ■");
+				else				System.out.print("        □");
+				System.out.print(menu[i]);
+			}
+			System.out.println();
+			PrintUtil.joystick4();
+			switch(ScanUtil.nextLine()){
+			case "1": if(select==1) select=menu.length;		else select--;	break;
+			case "3": if(select==menu.length)	select=1;	else select++;	break;
+			case "":	break menu;
+			default:	break;			}
+		}
+		
+		switch(select){
+		case 1: return;
+		case 2: putDetail(); return;
+		default: return;
+		}
 	}
 
 	public int lunchboxOrder(){
@@ -274,7 +311,7 @@ public class UserService {
 		}
 
 		switch(select){
-		case 1: return View.ERROR;	// 대전도시락 주문하기 view 만들어야 합니다
+		case 1: return View.BOX_DAEJEON;	// 대전도시락 주문하기로 갑니다.
 		case 2: return View.ERROR;	// 토마토도시락 주문하기 view 만들어야 합니다
 		default:return View.USER_MAIN;
 		}
@@ -320,7 +357,7 @@ public class UserService {
 		case 1: return View.PICK_LIST;	
 		case 2: return View.ERROR;		// 주문내역 view 만들어야 합니다///////////
 		case 3: return View.MYREVIEW;	// 내 리뷰 보기
-		case 4: return View.ERROR;		// 계정관리 view 만들어야 합니다////////
+		case 4: return View.MANAGE_ACCOUNT;	// 계정관리 view 만들어야 합니다////////
 		case 5: return View.USER_MAIN;	// 뒤로가기///////////////////////
 		}
 		return View.MYPAGE;
@@ -377,6 +414,104 @@ public class UserService {
 		}
 
 	}
+
+	public int manageAccount(){
+		boolean detail = userDao.isDetailedAccount(Controller.user.get("USER_ID").toString());
+		int select = 1;
+
+		menu:while(true){
+			PrintUtil.title();
+			System.out.println("\t                🧑 계정관리 👩");
+
+			String[] menu = {"개인정보입력\n","적립금 충전\n","회원정보 수정\n","로그아웃\n","뒤로가기 "};
+			if(detail)
+				menu[0] = "개인정보입력(완료)\n";
+
+			for(int i=0; i<menu.length; i++){
+				if(select ==i+1)	System.out.print("             ■ ");
+				else				System.out.print("             □ ");
+				System.out.print(menu[i]);
+			}
+			PrintUtil.joystick2();
+
+			switch(ScanUtil.nextLine()){
+			case "5":	if(select==1)	select=menu.length;	else select--;	break;
+			case "2":	if(select==menu.length)	select=1;	else select++;	break;
+			case "":	break menu;
+			default:	break;
+			}
+		}
+
+		switch(select){
+		case 1:
+			if(detail) return View.MANAGE_ACCOUNT;// 개인정보 입력
+			else {putDetail(); return View.MANAGE_ACCOUNT;}
+		case 2:
+			if(!detail){notDetailed(); return View.MANAGE_ACCOUNT;}
+			else{
+			buyCredit(); return View.MANAGE_ACCOUNT;// 적립금 충전
+			}
+//		case 3: return;		// 회원정보 수정
+		case 4: return View.MAIN;		// 로그아웃
+		case 5: return View.MYPAGE;		// 뒤로가기
+		default:
+			return View.MYPAGE;
+		}
+	}
+	
+	public void buyCredit(){
+		
+		PrintUtil.title();
+		System.out.println("\t           💳 적립금 충전 💳\n");
+		System.out.println("\t적립금 잔액 : "+Controller.user.get("MONEY")+" ₩");
+		System.out.println("        적립금 충전은 현재 관리자를 통해서만 가능합니다.");
+		System.out.println("        관리자에게 직접 문의해주세요. 확인후 엔터키를 눌러주세요.\n");
+		PrintUtil.printBar();
+		ScanUtil.nextLine();
+		
+	}
+	
+	public void putDetail(){
+		String userId = Controller.user.get("USER_ID").toString();
+		String nickname = Controller.user.get("NICKNAME").toString();
+		String name="",phone="";
+
+		PrintUtil.title();
+		System.out.printf("\t[%s]님의 실명을 입력해주세요\n\n",nickname);
+		System.out.printf("\t한글 입력시에는 화살표 오른쪽을\n\n");
+		System.out.printf("\t클릭하고 입력하기를 권장합니다\n");
+		PrintUtil.printBar2();
+		name = ScanUtil.nextLine();
+		boolean wrongPhone = false;
+		while(true){
+			PrintUtil.title();
+			if(!wrongPhone){
+			System.out.printf("\t[%s]님의 전화번호를 입력해주세요\n\n",name);
+			System.out.printf("\t휴대폰 번호 입력시에는\n\n");
+			System.out.printf("\t본인 확인이 진행됩니다\n");
+			}else{
+				System.out.printf("\t[%s]님의 전화번호를 입력해주세요\n\n",name);
+				System.out.printf("\t⚠에러! 방금 입력한 번호는⚠\n\n");
+				System.out.printf("\t이미 존재하는 번호입니다.\n");
+			}
+			PrintUtil.printBar2();
+			phone = ScanUtil.nextLine();
+			if(!userDao.isPhoneExist(phone))	//번호가 존재하지 않으면 입력완료
+				break;
+			else wrongPhone= true;
+		}
+		PrintUtil.title();
+		System.out.printf("\t[%s]님의 모든 입력이 완료되었습니다.\n\n",nickname);
+		System.out.printf("\t이름 : %s, 전화번호 : %s\n\n",name,phone);
+		System.out.printf("\t확인 후 엔터키를 눌러주세요.\n");
+		PrintUtil.printBar2();
+		ScanUtil.nextLine();
+		
+		userDao.putDetail(userId,name,phone);
+
+	}
+
+	
 
 	public int pickList(){
 		List<Map<String,Object>> list = getPickList();	// ↓ 메뉴 및 페이징 처리를 위한 변수들입니다

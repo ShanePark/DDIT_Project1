@@ -33,7 +33,7 @@ public class UserDao {
 	}
 	
 	public Map<String, Object> userSignIn(String userId, String password){	
-		String sql = "SELECT USER_ID, PASSWORD, NICKNAME"
+		String sql = "SELECT *"
 				+ " FROM USERS"
 				+ " WHERE USER_ID = ?"
 				+ " AND PASSWORD = ?";
@@ -272,6 +272,34 @@ public class UserDao {
 		List<Object> p = new ArrayList<>();
 		p.add(resId);
 		return jdbc.selectList(sql,p);
+	}
+	
+	public boolean isDetailedAccount(String userId){
+		String sql = "select name from users where user_id = ?";
+		List<Object> p = new ArrayList<>();
+		p.add(userId);
+		Map<String, Object> result = jdbc.selectOne(sql,p);
+		if(result.get("NAME") == null)
+			return false;
+		else return true;
+	}
+	
+	public int putDetail(String userId, String name, String phone){
+		String sql = "update users set name=?,money=0,phone=?"
+				+" where user_id = ?";
+		List<Object> p = new ArrayList<>();
+		p.add(name);
+		p.add(phone);
+		p.add(userId);
+		return jdbc.update(sql, p);
+	}
+	
+	public boolean isPhoneExist(String phone){
+		String sql = "select count(*) cnt from users where phone = ?";
+		List<Object> p = new ArrayList<>();
+		p.add(phone);
+		Map<String, Object> result = jdbc.selectOne(sql,p);
+		return !result.get("CNT").toString().equals("0");
 	}
 
 }
