@@ -255,6 +255,7 @@ public class UserService {
 			if(nickname.equals("관리자"))	return View.ADMIN_MAIN;
 			if(nickname.equals("비회원")) return View.SIGNIN;
 			else return View.MYPAGE;
+		case 7: return View.BOARD_MAIN;
 		}
 		return View.USER_MAIN;
 

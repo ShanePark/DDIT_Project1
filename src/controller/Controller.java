@@ -3,6 +3,7 @@ package controller;
 import java.util.Map;
 
 import service.AdminService;
+import service.BoardService;
 import service.BoxService;
 import service.UserService;
 import util.PrintUtil;
@@ -63,7 +64,7 @@ public class Controller {
 	private UserService userService = UserService.getInstance();
 	private AdminService adminService = AdminService.getInstance();
 	private BoxService boxService = BoxService.getInstance();
-	
+	private BoardService boardService = BoardService.getInstance();
 	
 	
 	private void start(){	
@@ -88,6 +89,13 @@ public class Controller {
 			case View.SEARCH_NAME : view = userService.searchByName();		break;
 			case View.MANAGE_ACCOUNT : view = userService.manageAccount();	break;
 			case View.BOX_DAEJEON : view = boxService.daejeonMain();		break;
+			case View.BOARD_MAIN: view = boardService.boardList(); 			break;
+			case View.BOARD_ADD: view = boardService.boardAdd();			break;
+			case View.BOARD_MANAGE2: view = boardService.boardSelect();		break;
+			case View.BOARD_ALTER: view = boardService.boardAlter(); 		break;
+			case View.BOARD_DELETE: view = boardService.boardDelete(); 		break;
+			case View.BOARD_ADMIN: view = boardService.boardList(); 		break;//수정
+			case View.BOARD_USER: view = boardService.boardList(); 			break;//수정
 			default : 
 				System.out.println("해당 View 번호에 대한 case가 start()에 존재하지 않습니다.");
 				ScanUtil.nextLine();
