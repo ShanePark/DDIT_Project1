@@ -30,7 +30,7 @@ public class Controller {
 		Controller.user = user;
 		////////////////////////// USER 테스팅할 코드 ↓
 		
-		boxService.boxOrder("대전도시락","user3");
+		boxService.payment("user",-3000);
 		
 		////////////////////////// USER 테스팅할 코드 ↑
 	}
@@ -41,7 +41,7 @@ public class Controller {
 		Controller.user = user;
 		////////////////////////// USER 테스팅할 코드 ↓
 		
-		userService.notDetailed();
+		userService.buyCredit();
 		
 		////////////////////////// USER 테스팅할 코드 ↑
 	}

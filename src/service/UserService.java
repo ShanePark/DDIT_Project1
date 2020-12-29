@@ -9,6 +9,7 @@ import util.ScanUtil;
 import util.Util;
 import util.View;
 import controller.Controller;
+import dao.BoxDao;
 import dao.UserDao;
 
 public class UserService {
@@ -442,15 +443,32 @@ public class UserService {
 		}
 
 		switch(select){
-		case 1: putDetail(); return View.MANAGE_ACCOUNT;// 개인정보 입력
-//		case 2: return; 	// 적립금 충전
+		case 1:
+			if(detail) return View.MANAGE_ACCOUNT;// 개인정보 입력
+			else {putDetail(); return View.MANAGE_ACCOUNT;}
+		case 2:
+			if(!detail){notDetailed(); return View.MANAGE_ACCOUNT;}
+			else{
+			buyCredit(); return View.MANAGE_ACCOUNT;// 적립금 충전
+			}
 //		case 3: return;		// 회원정보 수정
 		case 4: return View.MAIN;		// 로그아웃
 		case 5: return View.MYPAGE;		// 뒤로가기
 		default:
 			return View.MYPAGE;
 		}
-
+	}
+	
+	public void buyCredit(){
+		
+		PrintUtil.title();
+		System.out.println("\t           💳 적립금 충전 💳\n");
+		System.out.println("\t적립금 잔액 : "+Controller.user.get("MONEY")+" ₩");
+		System.out.println("        적립금 충전은 현재 관리자를 통해서만 가능합니다.");
+		System.out.println("        관리자에게 직접 문의해주세요. 확인후 엔터키를 눌러주세요.\n");
+		PrintUtil.printBar();
+		ScanUtil.nextLine();
+		
 	}
 	
 	public void putDetail(){

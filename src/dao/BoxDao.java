@@ -65,5 +65,39 @@ public class BoxDao {
 		Map<String, Object> user = jdbc.selectOne(sql, p);
 		return Integer.parseInt(user.get("MONEY").toString());
 	}
+	
+	public boolean payment(String userId, int price){
+		String sql = "update users set money = money - ?"
+					+" where  user_id = ?";
+		List<Object> p = new ArrayList<>();
+		p.add(price);
+		p.add(userId);
+		return jdbc.update(sql, p)==1;
+	}
+	
+	public boolean cancelOrder(String boxName,String userId){
+		String sql = "delete from box_order where box_name = ?"
+				+" and user_id = ? and to_date(order_date) = to_date(sysdate)";
+		List<Object> p = new ArrayList<>();
+		p.add(boxName);
+		p.add(userId);
+		
+		return jdbc.update(sql,p) == 1;
+	}
+	
+	public boolean orderBox(String boxName, String userId){
+		String sql = "insert into box_order(order_num,box_name, user_id, order_date, price)"
+	       +" values((select nvl(max(order_num),0)+1 from box_order),?,?,sysdate,"
+	       +"(select price from boxmenu where box_name = ? and box_date = to_date(sysdate)))";
+		
+		List<Object> p = new ArrayList<>();
+		p.add(boxName);
+		p.add(userId);
+		p.add(boxName);
+		
+		return jdbc.update(sql,p)==1;
+                                  
+		
+	}
 
 }
