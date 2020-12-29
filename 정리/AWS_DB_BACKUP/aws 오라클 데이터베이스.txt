@@ -1,0 +1,15 @@
+aws 오라클
+admin
+ddit302java
+
+
+
+엔드포인트
+database-1.ce9wwqcz4ow8.us-east-2.rds.amazonaws.com
+포트
+1521
+
+
+
+
+DESKTOP-G10VH48
