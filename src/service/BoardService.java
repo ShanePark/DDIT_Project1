@@ -33,7 +33,7 @@ public class BoardService {
 	private int boardNum;
 	public int boardList()
 	{
-		select = 1;
+		
 		boardDao.BoardArray();
 		List<Map<String,Object>> boardList = boardDao.selectBoardList();
 		int perpage = 3;
