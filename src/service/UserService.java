@@ -30,23 +30,24 @@ public class UserService {
 		System.out.println("          PW : \n\n\t\t       뒤로 가러면 [Enter] 키를 누르세요");
 		PrintUtil.printBar();
 		System.out.print("ID> ");
-		String userID = ScanUtil.nextLine();
-		if("".equals(userID))	return View.MAIN;	//  그냥 엔터키를 누르면 뒤로 이동
+		String userId = ScanUtil.nextLine();
+		if("".equals(userId))	return View.MAIN;	//  그냥 엔터키를 누르면 뒤로 이동
 		PrintUtil.printBar();
 		PrintUtil.title();
-		System.out.print("\n\n          ID : "+userID+"\n");
+		System.out.print("\n\n          ID : "+userId+"\n");
 		System.out.println("          PW : \n\n");
 		PrintUtil.printBar();
 		System.out.print("PASSWORD> ");
 		String password = ScanUtil.nextLine();
+		
+		boolean idPassOk = userDao.isIdPassOk(userId,password);
 
-		Map<String, Object> user = userDao.userSignIn(userID,password);
 
-		if(user.size() ==0){	//user == null
+		if(!idPassOk){	// 아이디 비번 일치 실패시  로그인 에러 발생
 			signInError();
 		}else{
+			Map<String, Object> user = userDao.userSignIn(userId,password);
 			Controller.user = user;
-
 			return View.USER_MAIN;
 		}
 
