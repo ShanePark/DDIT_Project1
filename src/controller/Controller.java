@@ -6,6 +6,7 @@ import service.AdminService;
 import service.BoardService;
 import service.BoxService;
 import service.UserService;
+import util.LoadingUtil;
 import util.PrintUtil;
 import util.ScanUtil;
 import util.View;
@@ -15,7 +16,7 @@ import dao.UserDao;
 public class Controller {
 
 	public static void main(String[] args) {
-		
+		LoadingUtil.loading();
 		new Controller().start();
 		
 //		new Controller().boxTesting();		// 도시락 기능 테스트용

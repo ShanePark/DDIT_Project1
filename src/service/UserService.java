@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import util.LodingUtil;
+import util.LoadingUtil;
 import util.PrintUtil;
 import util.ScanUtil;
 import util.Util;
@@ -189,7 +189,7 @@ public class UserService {
 
 		userMain:while(true){
 			if(selectMain < 5){
-				LodingUtil.mainUi(selectMain,nickname);
+				LoadingUtil.mainUi(selectMain,nickname);
 				}
 			switch(selectMain){
 				case 2: list = cntList; break;
