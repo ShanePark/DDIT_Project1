@@ -636,6 +636,50 @@ public class UserService {
 			return View.USER_MAIN;
 		}
 	}
+	
+	public int searchByCousine(){
+		String[] menu = {"뒤로가기","한식","중식","일식","분식","패스트푸드"};
+		int select = 1;
+		vol:while(true){
+			PrintUtil.title();
+			System.out.println("          [음식스타일]로 검색합니다");
+			System.out.println("               원하는 음식스타일을 선택해주세요\n");
+			for(int i = 0; i < menu.length; i++){
+			if(select == i+1)
+				System.out.print("■ ");
+			else System.out.print("□ ");
+			System.out.print(menu[i] +"  ");
+			}
+			System.out.println();
+			PrintUtil.joystick4();
+			
+			switch(ScanUtil.nextLine()){
+			case "1" : 
+				if(select == 1)
+					select = menu.length;
+				else if(select > 1) 
+					select--;
+				break;
+			case "3" : 
+				if(select == menu.length)
+					select = 1;
+				else if(select < menu.length) 
+					select++; 
+				break;
+			case "" : break vol; 
+			
+			}
+		}
+		switch(select){
+		case 1 : return View.SEARCH_RES;
+		case 2 : return resList(userDao.resByCousine("한식")); 
+		case 3 : return resList(userDao.resByCousine("중식")); 
+		case 4 : return resList(userDao.resByCousine("일식"));   
+		case 5 : return resList(userDao.resByCousine("분식"));   
+		case 6 : return resList(userDao.resByCousine("패스트푸드"));   
+		default : return View.SEARCH_RES;
+		}
+	}
 
 
 	public int searchByName(){

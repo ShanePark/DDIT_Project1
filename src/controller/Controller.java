@@ -88,6 +88,7 @@ public class Controller {
 			case View.SEARCH_NAME : view = userService.searchByName();		break;
 			case View.MANAGE_ACCOUNT : view = userService.manageAccount();	break;
 			case View.BOX_DAEJEON : view = boxService.daejeonMain();		break;
+			case View.SEARCH_COUSINE : view = userService.searchByCousine();break;
 			default : 
 				System.out.println("해당 View 번호에 대한 case가 start()에 존재하지 않습니다.");
 				ScanUtil.nextLine();
