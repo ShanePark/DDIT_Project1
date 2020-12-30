@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import util.LodingUtil;
 import util.PrintUtil;
 import util.ScanUtil;
 import util.Util;
@@ -175,6 +176,9 @@ public class UserService {
 		int resNameLength = 8;	// 식당 이름을 몇 글자까지 표시해줄지 정하는 변수
 
 		userMain:while(true){
+			if(select < 5){
+				LodingUtil.mainUi(select);
+				}
 			switch(select){
 				case 2: list = cntList; break;
 				case 3: list = disList; break;
