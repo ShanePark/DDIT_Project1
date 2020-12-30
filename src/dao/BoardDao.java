@@ -18,21 +18,17 @@ public class BoardDao {
 	}
 	
 	private JDBCUtil jdbc = JDBCUtil.getInstance();
-	public List<Map<String, Object>> selectBoardList(int page){
-		int perpage = 3;
-		int start = 1 + (page-1)*perpage;
-		int end =perpage*page;
+	public List<Map<String, Object>> selectBoardList(){
+		
 		String sql = "SELECT A.BOARD_NO, A.TITLE, A.CONTENT, B.NICKNAME, SUBSTR(A.B_DATE,1,10), A.CATEGORY"
 				+ " FROM BOARD A"
 				+ " LEFT OUTER JOIN USERS B"
 				+ " ON A.USER_ID = B.USER_ID"
-				+ " WHERE BOARD_NO BETWEEN ? AND ?"
+//				+ " WHERE BOARD_NO BETWEEN ? AND ?"
 				+ " ORDER BY CASE WHEN B.NICKNAME LIKE '관리자' THEN 1 ELSE 2 END"
-				+ " ,A.BOARD_NO DESC";
-				List<Object> p = new ArrayList<>();
-				p.add(start);
-				p.add(end);
-		return jdbc.selectList(sql,p);
+				+ " ,A.BOARD_NO DESC ";
+				
+		return jdbc.selectList(sql);
 				
 	}
 	
