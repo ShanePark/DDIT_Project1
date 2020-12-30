@@ -301,12 +301,5 @@ public class UserDao {
 		Map<String, Object> result = jdbc.selectOne(sql,p);
 		return !result.get("CNT").toString().equals("0");
 	}
-	
-	public List<Map<String,Object>> resByCousine(String cousine){
-		String sql = "select * from RESTAURANTS where COUSINE = ?";
-		List<Object> p = new ArrayList<>();
-		p.add(cousine);
-		return jdbc.selectList(sql, p);
-	}
 
 }
