@@ -189,7 +189,7 @@ public class UserService {
 
 		userMain:while(true){
 			if(select < 5){
-				LodingUtil.mainUi(select);
+				LodingUtil.mainUi(select,nickname);
 				}
 			switch(select){
 				case 2: list = cntList; break;
