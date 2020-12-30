@@ -83,10 +83,21 @@ public class UserService {
 		System.out.println("                                    🥄회원가입🥢");
 		System.out.print("        ID : ");System.out.print(userID+"\n");
 		System.out.print("        PW : \n");
-		System.out.print("                 닉네임 : \n\n\n");
+		System.out.print("                 닉네임 : \n");
+		System.out.print("             추가 개인정보는 가입 완료후 마이페이지에서 등록해주세요.\n\n");
 		PrintUtil.printBar();
 		System.out.print("PASSWORD> ");
 		password = ScanUtil.nextLine();
+		while(password.equals("") || password.contains(" ")){
+			PrintUtil.title();
+			System.out.println("                                    🥄회원가입🥢");
+			System.out.print("        ID : ");System.out.print(userID+"\n");
+			System.out.print("        PW : \n");
+			System.out.print("\n             비밀번호는 공백을 포함할 수 없습니다.\n\n");
+			PrintUtil.printBar();
+			System.out.print("PASSWORD> ");
+			password = ScanUtil.nextLine();
+		}
 
 
 		PrintUtil.title();
@@ -95,11 +106,12 @@ public class UserService {
 		System.out.print("        PW : ");
 		for(int i=0; i<password.length(); i++)
 			System.out.print("*");
-		System.out.print("\n                 닉네임 : \n\n\n");
+		System.out.print("\n                 닉네임 : \n");
+		System.out.print("             추가 개인정보는 가입 완료후 마이페이지에서 등록해주세요.\n\n");
 		PrintUtil.printBar();
 		System.out.print("닉네임 > ");
 		nickname = ScanUtil.nextLine();
-		if(userDao.isNicknameExist(nickname))	// 닉네임 중복검사
+		if(nickname.equals("") || userDao.isNicknameExist(nickname))	// 닉네임 중복검사
 			nickname = nicknameExist();
 
 
@@ -115,7 +127,7 @@ public class UserService {
 			user.put("USER_ID", userID);
 			user.put("NICKNAME", nickname);
 			Controller.user = user;
-			System.out.println("회원가입 성공");
+			PrintUtil.loading();
 			return View.USER_MAIN;	// 가입에 성공하면 USER_MAIN 화면으로 갑니다.
 		}else{
 			System.out.println("회원가입 실패");
@@ -138,11 +150,11 @@ public class UserService {
 	public String nicknameExist(){
 		while(true){
 			PrintUtil.title();
-			System.out.println("\n                     이미 존재하는 닉네임입니다.");
+			System.out.println("\n                     사용할 수 없는 닉네임입니다.");
 			System.out.println("\n\n                  닉네임을 다시 입력해주세요.\n");
 			PrintUtil.printBar();
 			String nickname=ScanUtil.nextLine();
-			if(!userDao.isNicknameExist(nickname))
+			if(!nickname.equals("") && !userDao.isNicknameExist(nickname))
 				return nickname;
 		}
 	}
