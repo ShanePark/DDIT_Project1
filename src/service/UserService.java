@@ -9,7 +9,6 @@ import util.ScanUtil;
 import util.Util;
 import util.View;
 import controller.Controller;
-import dao.BoxDao;
 import dao.UserDao;
 
 public class UserService {
