@@ -16,13 +16,13 @@ public class Controller {
 
 	public static void main(String[] args) {
 		
-//		new Controller().start();
+		new Controller().start();
 		
 //		new Controller().boxTesting();		// 도시락 기능 테스트용
 //		new Controller().userTesting();		// 유저 기능 테스트용
 //		new Controller().adminTesting();	// 관리자 기능 테스트용
 //		new Controller().error();			// Controller Method 테스트용
-		new Controller().boardTesting();	// board 테스팅용
+//		new Controller().boardTesting();	// board 테스팅용
 		
 	}
 	private void boardTesting(){
@@ -31,7 +31,7 @@ public class Controller {
 		Controller.user = user;
 		////////////////////////// BOX 테스팅할 코드 ↓
 		
-		boardService.boardRes_user();
+		boardService.boardRes_admin();
 		
 		////////////////////////// BOX 테스팅할 코드 ↑
 	}
@@ -109,6 +109,7 @@ public class Controller {
 			case View.BOARD_DELETE: view = boardService.boardDelete(); 		break;
 			case View.BOARD_ADMIN: view = boardService.boardRes_admin(); 		break;//수정
 			case View.BOARD_USER: view = boardService.boardRes_user(); 			break;//수정
+			case View.BOARD_ADMIN_MANAGE: view = boardService.boardSelectAdmin(); 			break;//수정
 			default : 
 				System.out.println("해당 View 번호에 대한 case가 start()에 존재하지 않습니다.");
 				ScanUtil.nextLine();

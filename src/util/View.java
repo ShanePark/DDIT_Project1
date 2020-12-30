@@ -30,6 +30,7 @@ public class View {
 	public static final int BOARD_DELETE = 407;		//고객센터 게시판 삭제		
 	public static final int BOARD_ADMIN = 408;		//식당건의사항 관리자	
 	public static final int BOARD_USER = 409;		//식당건의사항 유저
+	public static final int BOARD_ADMIN_MANAGE = 410;		//식당건의사항 관리자 조회
 	
 
 }

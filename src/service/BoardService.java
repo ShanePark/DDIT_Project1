@@ -8,6 +8,7 @@ import util.PrintUtil;
 import util.ScanUtil;
 import util.View;
 import controller.Controller;
+import dao.AdminDao;
 import dao.BoardDao;
 
 public class BoardService {
@@ -23,7 +24,7 @@ public class BoardService {
 	}
 	
 	private BoardDao boardDao = BoardDao.getInstance();
-	
+	private AdminDao adminDao = AdminDao.getInstance();
 	private int currentBoardNo;
 	
 	private int page = 1;
@@ -35,11 +36,13 @@ public class BoardService {
 		
 		boardDao.BoardArray();
 		List<Map<String,Object>> boardList = boardDao.selectBoardList();
+		int perpage = 3;
+		int start = (page-1)*perpage;
+		int end =perpage*page;
+		int maxpage = (boardList.size()-1)/perpage+1;
 		boar:while(true)
 		{
-			int perpage = 3;
-			int start = 1 + (page-1)*perpage;
-			int end =perpage*page;
+			
 		PrintUtil.title2();
 		System.out.println("번호     말머리 \t제목\t작성자\t작성일");
 		System.out.println("----------------------------------------");
@@ -47,29 +50,29 @@ public class BoardService {
 		
 		for(int i=start; i <= end; i++)
 		{
+			if(boardList.size() <= i)
+			{
+				System.out.println();
+				continue;
+			}
+			
 			Map<String, Object> board = boardList.get(i);
+			
 			String title = (String)board.get("TITLE");
 			if(title.length()>3)
 			{
 				title = title.substring(0, 3) + "..";
 			}
+			
 			System.out.println( board.get("BOARD_NO")+ "     "
 					+board.get("CATEGORY") + " \t"
 					+title + "\t"
 					+board.get("NICKNAME") + "\t"
 					+board.get("SUBSTR(A.B_DATE,1,10)"));
 			
+			}
 		
-		}
-		if(end%perpage == 2)
-		{
-			System.out.println();
-		}
-		 if(end%3 == 1&&end%3 != 2)
-		{
-			System.out.println();
-			System.out.println();
-		}
+		
 		
 
 		
@@ -149,8 +152,8 @@ public class BoardService {
 		{
 		case 1: if(page != 1){page--;}
 				break;
-		case 2: long size = boardList.size();
-				if(page <= size){page++;}
+		case 2: double size = boardList.size()/perpage;
+				if(page != maxpage){page++;}
 				select = 2;
 				break;
 		case 3:System.out.print("게시글 번호 입력 >");
@@ -442,41 +445,45 @@ public class BoardService {
 	//식당문의 확인(관리자)
 	public int boardRes_admin()
 	{
+		boardDao.ResBoardArray();
+		select = 1;
 		page = 1;
-		List<Map<String,Object>> boardList = boardDao.selectBoardRes(page);
+		int perpage = 3;
+		int start =(page-1)*perpage;
+		int end =perpage*page;
+		List<Map<String,Object>> boardaList = boardDao.selectBoardRes();
+		int maxpage = (boardaList.size()-1)/perpage+1;
 		boar:while(true)
 		{
-			
 		PrintUtil.title2();
 		System.out.println("번호\t승인여부\t식당이름\t음식종류\t작성자");
 		System.out.println("----------------------------------------");
-		if(boardList.size()%3 == 2)
-		{
-			System.out.println();
-		}
 		
-		for(int i=0; i< boardList.size(); i++)
+		
+		
+		for(int i=start; i <= end; i++)
 		{
-			Map<String, Object> board = boardList.get(i);
-			String resNAME = (String)board.get("RES_NAME");
+			if(boardaList.size() <= i)
+			{
+				System.out.println();
+				continue;
+			}
+			Map<String, Object> boarda = boardaList.get(i);
+			String resNAME = (String)boarda.get("RES_NAME");
 			if(resNAME.length()>3)
 			{
 				resNAME = resNAME.substring(0, 3) + "..";
 			}
-			System.out.println( board.get("RES_BOARD_NO")+ "\t"
-					+board.get("AVAIL") + "\t"
-					+board.get("RES_NAME") + "\t"
+			System.out.println( boarda.get("RES_BOARD_NO")+ "\t"
+					+boarda.get("AVAIL") + "\t"
 					+resNAME + "\t"
-					+board.get("COUSINE") + "\t"
-					+board.get("USER_ID"));
+					+boarda.get("COUSINE") + "\t"
+					+boarda.get("USER_ID"));
 			
 		
 		}
-		 if(boardList.size()%3 == 1&&boardList.size()%3 != 2)
-		{
-			System.out.println();
-			System.out.println();
-		}
+		
+		
 		
 
 		
@@ -512,8 +519,8 @@ public class BoardService {
 			System.out.print( "■뒤로가기");
 			
 		}
-		if(select ==4){select = 1;}
-		if(select ==0){select = 3;}
+		if(select ==5){select = 1;}
+		if(select ==0){select = 4;}
 		System.out.print("\n                           (1,3)← → (⏎)확인 \n");
 		System.out.print("□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■\n>");
 		String input = ScanUtil.nextLine();
@@ -530,40 +537,17 @@ public class BoardService {
 		{
 		case 1: if(page != 1){page--;}
 				break;
-		case 2: long size = boardList.size();
-				if(page <= size){page++;}
+		case 2: long size = boardaList.size()/perpage;
+				if(page != maxpage){page++;}
 				select = 2;
 				break;
 		case 3:System.out.print("게시글 번호 입력 >");
-				return View.BOARD_MANAGE2;
-		case 4:if(Controller.user.get("USER_ID").toString().equals("guest"))
-					{  PrintUtil.boardbase1();
-					System.out.println("로그인이 필요한 서비스입니다");
-				    PrintUtil.boardbase2();
-					String temp = ScanUtil.nextLine();
-					return View.SIGNUP;}
-				return View.BOARD_ADD;
-		case 5:
-			if(Controller.user.get("USER_ID").toString().equals("guest"))
-					{  
-						PrintUtil.boardbase1();
-						System.out.println("로그인이 필요한 서비스입니다");
-					    PrintUtil.boardbase2();
-						String temp = ScanUtil.nextLine();
-						return View.SIGNUP;
-					}
-			else if(Controller.user.get("USER_ID").toString().equals("admin"))
-					{
-						return View.BOARD_ADMIN;
-					}
-			else 
-					{ 
-						return View.BOARD_USER;
-					}
-		case 6:return View.USER_MAIN;
-			default : return View.BOARD_MAIN;
+				return View.BOARD_ADMIN_MANAGE;
+		case 4: return View.BOARD_MAIN;
+				
+			default : return View.BOARD_ADMIN;
 		}
-		 return View.BOARD_MAIN;
+		 return View.BOARD_ADMIN;
 		
 		}
 		
@@ -574,9 +558,10 @@ public class BoardService {
 	//유저 식당문의
 	public int boardRes_user()
 	{
+		
 		int select = 1;
 		int[] complete = {0,0,0}; 
-		String resName="",cousine="",add1="",openTime="",closeTime="",userID = Controller.user.get("USER_ID").toString(),avail = "대기";
+		String resName="",cousine="",add1="",openTime="",closeTime="",userID = Controller.user.get("USER_ID").toString(), avail = "미승인";
 		int distance=0;
 
 		addRes:while(true){
@@ -724,6 +709,81 @@ public class BoardService {
 		    String tes =ScanUtil.nextLine();
 			return View.BOARD_MAIN;	
 			}
+		
+		
+		
+	}
+	
+	
+	//식당문의 상세조회
+	public int boardSelectAdmin()
+	{
+
+		int boardNum = ScanUtil.nextInt();
+
+		int select = 1;
+		Map<String, Object> board = boardDao.selectBoardOneRes(boardNum);
+		String resName = board.get("RES_NAME").toString();
+		String avAil = board.get("AVAIL").toString();
+		String disTance = board.get("DISTANCE").toString();
+		String openTime = board.get("OPEN_TIME").toString();
+		String Add = board.get("ADD1").toString();			
+		String closeTime = board.get("CLOSE_TIME").toString();
+		String couSine = board.get("COUSINE").toString();
+		String userID = board.get("USER_ID").toString();
+		boardone:while(true)
+		{
+			
+			
+			PrintUtil.title2();
+			System.out.println("식당명 : "+resName);
+			System.out.println("승인여부 : "+avAil);
+			System.out.println("주소 :" +Add);
+			System.out.println("거리 : "+disTance);
+			System.out.println("영업시간 : "+openTime+"~"+closeTime);
+			System.out.println("음식장르 : "+couSine);
+			System.out.println("작성자 : "+userID);
+
+			if(select == 1){System.out.println("■승인		□미승인");}
+			if(select == 2){System.out.println("□승인		■미승인");}
+			System.out.print("\n                           (1,3)← → (⏎)확인 \n");
+			System.out.print("□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■\n>");
+			String tes = ScanUtil.nextLine();
+			switch(tes)
+			{
+			case "1" :if(select == 1)select =2;else select--;break;
+			case "3" :if(select == 2)select =1;else select++;break;
+			case "" : break boardone;
+			}
+		}
+				
+			switch(select)
+			{
+			case 1 : Map<String, Object> param = new HashMap<String, Object>();
+					 param.put("RES_NAME", resName);
+					 param.put("COUSINE", couSine);
+					 param.put("OPEN_TIME", openTime);
+					 param.put("CLOSE_TIME", closeTime);
+					 param.put("ADD1", Add);
+					 param.put("DISTANCE", disTance);
+					 
+					 int result = adminDao.resAdd(param);
+					 
+					 if(0 < result)
+					 {
+						boardDao.ResBoardDelete(boardNum);
+					 	System.out.println("식당 등록 성공");
+					 	return View.BOARD_ADMIN;	
+					 }else
+					 {
+						System.out.println("식당 등록 실패");
+						return View.BOARD_ADMIN;	
+					 }
+				
+			case 2 : return View.BOARD_ADMIN;
+			
+			}
+			return View.BOARD_ADMIN;
 		
 	}
 	
