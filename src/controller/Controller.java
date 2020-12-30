@@ -89,6 +89,7 @@ public class Controller {
 			case View.SEARCH_NAME : view = userService.searchByName();		break;
 			case View.MANAGE_ACCOUNT : view = userService.manageAccount();	break;
 			case View.BOX_DAEJEON : view = boxService.daejeonMain();		break;
+			case View.SEARCH_COUSINE : view = userService.searchByCousine();break;
 			case View.BOARD_MAIN: view = boardService.boardList(); 			break;
 			case View.BOARD_ADD: view = boardService.boardAdd();			break;
 			case View.BOARD_MANAGE2: view = boardService.boardSelect();		break;
