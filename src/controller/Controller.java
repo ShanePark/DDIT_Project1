@@ -53,7 +53,7 @@ public class Controller {
 		Controller.user = user;
 		////////////////////////// USER 테스팅할 코드 ↓
 		
-		userService.changePassword();
+		userService.searchByMenu();
 		
 		////////////////////////// USER 테스팅할 코드 ↑
 	}

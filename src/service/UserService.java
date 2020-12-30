@@ -885,9 +885,14 @@ public class UserService {
 	}
 	
 	public int searchByMenu(){
-		System.out.println(userDao.searchByMenu("밥"));
-		
-		return View.SEARCH_RES;
+		PrintUtil.title();
+		System.out.println("\n\n\t    검색할 메뉴를 입력해주세요\n\n");
+		System.out.println("\t\t       뒤로 가러면 [Enter] 키를 누르세요");
+		PrintUtil.printBar();
+		String resMenu = ScanUtil.nextLine();
+//		System.out.println(userDao.searchByMenu("밥"));
+		if(resMenu.equals("")) return View.USER_MAIN;
+		return resList(userDao.searchByMenu(resMenu));
 	}
 
 
