@@ -12,7 +12,7 @@ public class View {
 	public static final int RESTAURANT_MOD = 302;	// 식당수정 화면
 	public static final int BOARD_MANAGE = 31;		// 게시판관리 화면
 	public static final int USER_MAIN = 4;			// 사용자용 홈화면
-	public static final int SEARCH_RES = 44;		// 식당 이름으로 검색하기
+	public static final int SEARCH_RES = 44;		// 식당 검색하기
 	public static final int SEARCH_NAME = 441;		// 식당 이름으로 검색하기
 	public static final int SEARCH_COUSINE = 442;	// 음식스타일로 검색하기
 	public static final int SEARCH_MENU = 443;		// 메뉴 이름으로 검색하기
