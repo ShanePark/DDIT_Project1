@@ -176,7 +176,7 @@ public class UserService {
 		int resNameLength = 8;	// 식당 이름을 몇 글자까지 표시해줄지 정하는 변수
 
 		userMain:while(true){
-			if(select < 4){
+			if(select < 5){
 				LodingUtil.mainUi(select);
 				}
 			switch(select){
