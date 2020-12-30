@@ -18,7 +18,7 @@ public class Controller {
 		
 		new Controller().start();
 		
-//		new Controller().boxTesting();		// 유저 기능 테스트용
+//		new Controller().boxTesting();		// 도시락 기능 테스트용
 //		new Controller().userTesting();		// 유저 기능 테스트용
 //		new Controller().adminTesting();	// 관리자 기능 테스트용
 //		new Controller().error();			// Controller Method 테스트용
@@ -29,11 +29,11 @@ public class Controller {
 		UserDao userDao = UserDao.getInstance();
 		Map<String, Object> user = userDao.userSignIn("user3","1234");
 		Controller.user = user;
-		////////////////////////// USER 테스팅할 코드 ↓
+		////////////////////////// BOX 테스팅할 코드 ↓
 		
 		boxService.payment("user",-3000);
 		
-		////////////////////////// USER 테스팅할 코드 ↑
+		////////////////////////// BOX 테스팅할 코드 ↑
 	}
 	
 	private void userTesting(){
@@ -42,7 +42,7 @@ public class Controller {
 		Controller.user = user;
 		////////////////////////// USER 테스팅할 코드 ↓
 		
-		userService.searchRes();
+		userService.myOrder();
 		
 		////////////////////////// USER 테스팅할 코드 ↑
 	}
@@ -85,6 +85,7 @@ public class Controller {
 			case View.MYPAGE: view = userService.myPage();					break;
 			case View.MYREVIEW: view = userService.myReview();				break;
 			case View.PICK_LIST: view = userService.pickList();				break;
+			case View.MY_ORDER_LIST : view = userService.myOrder();			break;
 			case View.SEARCH_RES : view = userService.searchRes();			break;
 			case View.SEARCH_NAME : view = userService.searchByName();		break;
 			case View.MANAGE_ACCOUNT : view = userService.manageAccount();	break;

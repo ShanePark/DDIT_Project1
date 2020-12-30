@@ -327,7 +327,14 @@ public class UserDao {
 		p.add(password);
 		return jdbc.selectOne(sql, p).get("CNT").toString().equals("1");
 		
+	}
+	
+	public List<Map<String, Object>> myOrder(String userId){
+		String sql = "select * from box_order where user_id = ? order by order_date desc";
+		List<Object> p = new ArrayList<>();
+		p.add(userId);
 		
+		return jdbc.selectList(sql, p);
 	}
 
 }

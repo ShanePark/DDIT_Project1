@@ -357,13 +357,63 @@ public class UserService {
 		}
 
 		switch(select){
-		case 1: return View.PICK_LIST;	
-		case 2: return View.ERROR;		// 주문내역 view 만들어야 합니다///////////
-		case 3: return View.MYREVIEW;	// 내 리뷰 보기
-		case 4: return View.MANAGE_ACCOUNT;	// 계정관리 view 만들어야 합니다////////
-		case 5: return View.USER_MAIN;	// 뒤로가기///////////////////////
+		case 1: return View.PICK_LIST;		// 찜리스트
+		case 2: return View.MY_ORDER_LIST;	// 주문내역
+		case 3: return View.MYREVIEW;		// 내 리뷰 보기
+		case 4: return View.MANAGE_ACCOUNT;	// 계정관리 
+		case 5: return View.USER_MAIN;		// 뒤로가기
 		}
 		return View.MYPAGE;
+	}
+
+	public int myOrder(){
+		String userId = Controller.user.get("USER_ID").toString();
+		List<Map<String, Object>> list = userDao.myOrder(userId);
+		int select = 1;
+		int page = 1;
+		int perPage = 3;
+		int maxPage = (list.size()-1)/perPage + 1;
+		while(true){
+		loop:while(true){
+			PrintUtil.title();
+			System.out.printf("\t             🍱 내 주문 내역 🍱 (%d/%d)\n\n",page,maxPage);
+			for(int i=0; i<perPage; i++){
+				int startNum = (page-1)*perPage;
+				if(startNum+i>=list.size()){
+					System.out.println();
+					continue;
+				}
+				int orderNum = list.size()-(startNum+i);
+				Map<String, Object> order = list.get(startNum+i);
+				String boxName = order.get("BOX_NAME").toString();
+				String price = order.get("PRICE").toString();
+				String date = order.get("ORDER_DATE").toString().substring(0, 11);
+				System.out.printf("\t%d. %s %s ₩ %s\n",orderNum,boxName, price, date);
+			}
+
+			String[] menu = {"뒤로가기","이전페이지","다음페이지  "};
+
+			for(int i=0; i<menu.length; i++){
+				if(select ==i+1)	System.out.print(" ■ ");
+				else				System.out.print(" □ ");
+				System.out.print(menu[i]);
+			}
+			PrintUtil.joystick3();
+			switch(ScanUtil.nextLine()){
+			case "1":	if(select==1)	select=menu.length;		else select--;	break;
+			case "3":	if(select==menu.length)	select=1;		else select++;	break;
+			case "":	break loop;
+			default:	break;			}
+		}
+
+		switch(select){
+		case 1: return View.MYPAGE;	
+		case 2: if(page!=1) page--; break;
+		case 3: if(page!=maxPage) page++; break;
+		default : return View.MYPAGE;
+		}
+		}
+
 	}
 
 	public int myReview(){
