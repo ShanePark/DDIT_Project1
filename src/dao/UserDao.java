@@ -57,7 +57,7 @@ public class UserDao {
 						     +" group by res_id) c"
 					  +" where a.res_id = b.res_id(+)"
 					   + " and a.res_id= c.res_id(+)"
-				     +" order by distance";
+				     +" order by distance, score desc";
 		List<Map<String,Object>> list = jdbc.selectList(sql);
 		
 		return list;
@@ -74,7 +74,7 @@ public class UserDao {
 					     +" group by res_id) c"
 				  +" where a.res_id = b.res_id(+)"
 				   + " and a.res_id= c.res_id(+)"
-				  +" order by score desc";
+				  +" order by score desc, rv_cnt desc";
 				     
 		List<Map<String,Object>> list = jdbc.selectList(sql);
 		
@@ -92,7 +92,7 @@ public class UserDao {
 				     +" group by res_id) c"
 			  +" where a.res_id = b.res_id(+)"
 			   + " and a.res_id= c.res_id(+)"
-			  +" order by rv_cnt desc";
+			  +" order by rv_cnt desc, score desc";
 		List<Map<String,Object>> list = jdbc.selectList(sql);
 		
 		return list;
@@ -314,7 +314,7 @@ public class UserDao {
 			  +" where a.res_id = b.res_id(+)"
 			   + " and a.res_id= c.res_id(+)"
 			    +" and cousine like ?"
-			  +" order by rv_cnt desc";
+			  +" order by score desc";
 		List<Object> p = new ArrayList<>();
 		p.add(cousine);
 		return jdbc.selectList(sql, p);
