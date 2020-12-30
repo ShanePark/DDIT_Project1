@@ -33,12 +33,12 @@ public class BoardService {
 	private int boardNum;
 	public int boardList()
 	{
-		
+		select = 1;
 		boardDao.BoardArray();
 		List<Map<String,Object>> boardList = boardDao.selectBoardList();
 		int perpage = 3;
 		int start = (page-1)*perpage;
-		int end =perpage*page;
+		int end =perpage*page-1;
 		int maxpage = (boardList.size()-1)/perpage+1;
 		boar:while(true)
 		{
