@@ -321,10 +321,10 @@ public class UserDao {
 	}
 	
 	public List<Map<String, Object>> searchByMenu(String menu){
-		String sql = "select distinct a.*, nvl(c.score,0) score, nvl(c.re_cnt,0) re_cnt, "
-					+" nvl(d.p_cnt,0) p_cnt from RESTAURANTS a, menu b, (select res_id , " 
-                    +" round(avg(grade),1) score, count(*) re_cnt from review"
-				    +" group by res_id) c, (select res_id, count(*) p_cnt from user_pick group by res_id) d"
+		String sql = "select distinct a.*, nvl(c.score,0) score, nvl(c.rv_cnt,0) rv_cnt, "
+					+" nvl(d.pick_cnt,0) pick_cnt from RESTAURANTS a, menu b, (select res_id , " 
+                    +" round(avg(grade),1) score, count(*) rv_cnt from review"
+				    +" group by res_id) c, (select res_id, count(*) pick_cnt from user_pick group by res_id) d"
 				    +" where a.RES_ID=b.RES_ID and a.RES_ID=c.RES_ID(+) and a.RES_ID=d.RES_ID(+)"
 				    +" and FOOD like ? order by score desc";
 		List<Object> p = new ArrayList<>();
