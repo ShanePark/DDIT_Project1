@@ -53,7 +53,7 @@ public class Controller {
 		Controller.user = user;
 		////////////////////////// USER 테스팅할 코드 ↓
 		
-		userService.myOrder();
+		userService.changePassword();
 		
 		////////////////////////// USER 테스팅할 코드 ↑
 	}
@@ -100,8 +100,14 @@ public class Controller {
 			case View.SEARCH_RES : view = userService.searchRes();			break;
 			case View.SEARCH_NAME : view = userService.searchByName();		break;
 			case View.MANAGE_ACCOUNT : view = userService.manageAccount();	break;
+			case View.MANAGE_PROFILE : view = userService.manageProfile();	break;
+			case View.CHANGE_NICKNAME : view = userService.changeNickname();break;
+			case View.CHANGE_PHONE : view = userService.changePhone();		break;
+			case View.CHANGE_PASSWORD : view = userService.changePassword();break;
+			case View.DELETE_ACCOUNT : view = userService.deleteAccount();	break;
 			case View.BOX_DAEJEON : view = boxService.daejeonMain();		break;
 			case View.SEARCH_COUSINE : view = userService.searchByCousine();break;
+			case View.SEARCH_MENU : view = userService.searchByMenu();		break;
 			case View.BOARD_MAIN: view = boardService.boardList(); 			break;
 			case View.BOARD_ADD: view = boardService.boardAdd();			break;
 			case View.BOARD_MANAGE2: view = boardService.boardSelect();		break;
