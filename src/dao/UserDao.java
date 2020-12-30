@@ -303,7 +303,18 @@ public class UserDao {
 	}
 	
 	public List<Map<String,Object>> resByCousine(String cousine){
-		String sql = "select * from RESTAURANTS where COUSINE = ?";
+		String sql =  "select a.*, nvl(score,0) score, nvl(rv_cnt,0) rv_cnt, nvl(c.cnt,0) pick_cnt"
+		          +" from restaurants a, "
+				   +" (select res_id , round(avg(grade),1) score, count(*) rv_cnt"
+					  +" from review"
+					 +" group by res_id) b,"
+				   +" (select res_id, count(*) cnt"
+					  +" from user_pick"
+				     +" group by res_id) c"
+			  +" where a.res_id = b.res_id(+)"
+			   + " and a.res_id= c.res_id(+)"
+			    +" and cousine like ?"
+			  +" order by rv_cnt desc";
 		List<Object> p = new ArrayList<>();
 		p.add(cousine);
 		return jdbc.selectList(sql, p);
