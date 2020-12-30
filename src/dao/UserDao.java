@@ -319,5 +319,22 @@ public class UserDao {
 		p.add(cousine);
 		return jdbc.selectList(sql, p);
 	}
+	
+	public boolean isIdPassOk(String userId, String password){
+		String sql = "select count(*) cnt from users where user_id = ? and password = ?";
+		List<Object> p = new ArrayList<>();
+		p.add(userId);
+		p.add(password);
+		return jdbc.selectOne(sql, p).get("CNT").toString().equals("1");
+		
+	}
+	
+	public List<Map<String, Object>> myOrder(String userId){
+		String sql = "select * from box_order where user_id = ? order by order_date desc";
+		List<Object> p = new ArrayList<>();
+		p.add(userId);
+		
+		return jdbc.selectList(sql, p);
+	}
 
 }

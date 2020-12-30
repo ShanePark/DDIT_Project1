@@ -20,11 +20,12 @@ public class View {
 	public static final int BOX_DAEJEON = 451;		// 대전 도시락 주문하기
 	public static final int MYPAGE = 46;			// 마이페이지
 	public static final int PICK_LIST = 461;		// 찜리스트
+	public static final int MY_ORDER_LIST = 462;	// 주문 내역
 	public static final int MYREVIEW = 463;			// 내 리뷰
 	public static final int MANAGE_ACCOUNT = 464;	// 계정관리
 	public static final int BOARD_MAIN = 403;		//고객센터 게시판 전체
 	public static final int BOARD_ADD = 405;		//고객센터 게시판 작성
-	public static final int BOARD_MANAGE2 = 404;		//고객센터 게시판 조회		
+	public static final int BOARD_MANAGE2 = 404;	//고객센터 게시판 조회		
 	public static final int BOARD_ALTER = 406;		//고객센터 게시판 수정		
 	public static final int BOARD_DELETE = 407;		//고객센터 게시판 삭제		
 	public static final int BOARD_ADMIN = 408;		//식당건의사항 관리자	
