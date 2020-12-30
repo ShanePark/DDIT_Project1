@@ -9,7 +9,6 @@ import util.ScanUtil;
 import util.Util;
 import util.View;
 import controller.Controller;
-import dao.BoxDao;
 import dao.UserDao;
 
 public class UserService {
@@ -794,8 +793,8 @@ public class UserService {
 		
 		switch(select){
 		case 1: break;
-		case 2: viewMenu(resId); break;
-		case 3: resReview(resId); break;	
+		case 2: viewMenu(resId); resDetail(resId); break;
+		case 3: resReview(resId); resDetail(resId); break;	
 		case 4: 
 			if(Controller.user.get("USER_ID").toString().equals("admin")){//관리자면 식당관리
 				AdminService.getInstance().resManage(resId);
@@ -821,7 +820,7 @@ public class UserService {
 		List<Map<String,Object>> review = userDao.reviewList(resId);
 		boolean isReviewExist = userDao.isReviewExist(Controller.user.get("USER_ID").toString(),resId);
 
-		resReview:while(true){
+		while(true){
 			
 			int maxPage = (review.size()-1)/perPage+1;
 			select:while(true){
