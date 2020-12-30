@@ -823,6 +823,7 @@ public class UserService {
 		}
 	}
 	
+	
 	public int searchByCousine(){
 		String[] menu = {"뒤로가기","한식","중식","일식","분식","패스트푸드"};
 		int select = 1;
@@ -865,6 +866,12 @@ public class UserService {
 		case 6 : return resList(userDao.resByCousine("패스트푸드"));   
 		default : return View.SEARCH_RES;
 		}
+	}
+	
+	public int searchByMenu(){
+		System.out.println(userDao.searchByMenu("밥"));
+		
+		return View.SEARCH_RES;
 	}
 
 

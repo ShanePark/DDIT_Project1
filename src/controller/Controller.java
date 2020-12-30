@@ -107,6 +107,7 @@ public class Controller {
 			case View.DELETE_ACCOUNT : view = userService.deleteAccount();	break;
 			case View.BOX_DAEJEON : view = boxService.daejeonMain();		break;
 			case View.SEARCH_COUSINE : view = userService.searchByCousine();break;
+			case View.SEARCH_MENU : view = userService.searchByMenu();		break;
 			case View.BOARD_MAIN: view = boardService.boardList(); 			break;
 			case View.BOARD_ADD: view = boardService.boardAdd();			break;
 			case View.BOARD_MANAGE2: view = boardService.boardSelect();		break;
