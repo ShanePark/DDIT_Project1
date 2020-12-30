@@ -53,20 +53,7 @@ public class PrintUtil {
 			System.out.println();
 	}
 
-	public static void loading(int time){
-		System.out.print(
-						"□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■\n\n"
-						+"                                    🍽️ 오늘 뭐먹지? 🍽️ \n"
-						+" □ 평점기준                   \n"
-						+" □ 리뷰수기준             1. \n"
-						+" □ 거리기준                2. \n"
-						+" □ 검색                      3.  \n"
-						+" □ 도시락주문             4. \n"
-						+" □ 로그인                   5. \n"
-						+" □ 고객센터                                             (2)↓ (5)↑ (⏎)확인\n"
-						+"□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■");
 
-	}
 	static public void boardbase1(){
 		System.out.println("\n\n□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■\n");
 		System.out.println("                                    🍽️ 오늘 뭐먹지? 🍽️");
@@ -76,5 +63,41 @@ public class PrintUtil {
 		System.out.println("\n\n");
 		System.out.println("                                     (⏎)확인 ");
 		System.out.print("□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■\n> ");
+	}
+	
+	static public void guestLogin(){
+		title();
+		System.out.println("\n\n                              🧑 게스트로 접속중.   🧑\n\n\n");
+		printBar();
+		Util.wait(700);;
+		title();
+		System.out.println("\n\n                              🧑 게스트로 접속중..  🧑\n\n\n");
+		printBar();
+		Util.wait(700);;
+		title();
+		System.out.println("\n\n                              🧑 게스트로 접속중... 🧑\n\n\n");
+		printBar();
+	}
+
+	public static void loading(){
+		title();
+		System.out.println("\n\n                              🧑  접속중.   🧑\n\n\n");
+		printBar();
+		Util.wait(700);;
+		title();
+		System.out.println("\n\n                              🧑  접속중..  🧑\n\n\n");
+		printBar();
+		Util.wait(700);;
+		title();
+		System.out.println("\n\n                              🧑  접속중... 🧑\n\n\n");
+		printBar();
+	}
+	
+	public static void onlyForMember(){
+		title();
+		System.out.println("\n\n                         🧑  회원만 이용 가능한 서비스입니다. 🧑\n");
+		System.out.println("                    계속 하려면 엔터키를 눌러주세요.\n");
+		printBar();
+		ScanUtil.nextLine();
 	}
 }

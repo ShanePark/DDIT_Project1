@@ -48,6 +48,7 @@ public class UserService {
 		}else{
 			Map<String, Object> user = userDao.userSignIn(userId,password);
 			Controller.user = user;
+			PrintUtil.loading();
 			return View.USER_MAIN;
 		}
 
@@ -244,8 +245,10 @@ public class UserService {
 		case 3: resList(resByDistance()); break;
 		case 4: return View.SEARCH_RES;
 		case 5:	
-			if(userId.equals("guest"))
-				return View.SIGNIN;
+			if(userId.equals("guest")){
+				PrintUtil.onlyForMember();
+				return View.USER_MAIN;
+			}
 			else if(!userDao.isDetailedAccount(userId)){
 				notDetailed(); 
 				return View.USER_MAIN;
@@ -327,7 +330,7 @@ public class UserService {
 		Map<String, Object> user = userDao.userSignIn("guest","guest");	//guest 로 로그인
 
 		Controller.user = user;
-		System.out.println("비회원으로 이용합니다.");
+		PrintUtil.guestLogin();
 
 		return View.USER_MAIN;
 
@@ -847,22 +850,26 @@ public class UserService {
 		case 2: viewMenu(resId); resDetail(resId); break;
 		case 3: resReview(resId); resDetail(resId); break;	
 		case 4: 
-			if(Controller.user.get("USER_ID").toString().equals("admin")){//관리자면 식당관리
+			if(userId.equals("admin"))//관리자면 식당관리
 				AdminService.getInstance().resManage(resId);
+			else if(userId.equals("guest")) // 게스트면 멤버전용표시
+				PrintUtil.onlyForMember();
+			else{
+				if(userDao.isPick(resId, userId))	userDao.resUnPick(resId, userId);
+				else userDao.resPick(resId,userId);	// 찜했으면 찜취소, 찜 안했으면 찜하기
 			}
-			if(userDao.isPick(resId, userId))	userDao.resUnPick(resId, userId);
-			else userDao.resPick(resId,userId);	// 찜했으면 찜취소, 찜 안했으면 찜하기
 			resDetail(resId);	// 찜(or취소) 이후 해당 식당 다시 재귀호출
 		default:
 			break;
 		}
 		
 	}
-	
+
 	public void resReview(String resId){
 		Map<String,Object> res = userDao.resDetail(resId);
 		String resName = res.get("RES_NAME").toString();
 		String rvCnt = res.get("RV_CNT").toString();
+		String userId = Controller.user.get("USER_ID").toString();
 		float score = Float.parseFloat(res.get("SCORE").toString());
 		int select = 1;
 		int page = 1;
@@ -871,61 +878,77 @@ public class UserService {
 		List<Map<String,Object>> review = userDao.reviewList(resId);
 		boolean isReviewExist = userDao.isReviewExist(Controller.user.get("USER_ID").toString(),resId);
 
+		int maxPage = (review.size()-1)/perPage+1;
+		
 		while(true){
-			
-			int maxPage = (review.size()-1)/perPage+1;
-			select:while(true){
-				PrintUtil.title2();
-				System.out.printf(" [%s] %s %.2f점(리뷰 %s개)\n",
-						resName,Util.scoreToStars(score),score,rvCnt);
-				System.out.println("리뷰일       평점         작성자        내용");
-				
-				int start = perPage * (page-1);
-				print:for(int i=0; i<perPage; i++){
-					if(review.size()<= start+i){
-						System.out.println();
-						continue print;
-						}
-					String date=review.get(start+i).get("YYMM").toString();
-					float gradescore=Float.parseFloat(review.get(start+i).get("GRADE").toString());
-					String grade = Util.scoreToStars(gradescore);
-					String nickname=review.get(start+i).get("NICKNAME").toString();
-					nickname = Util.cutString(nickname, nicknameLength);
-					String content=review.get(start+i).get("R_CONTENT").toString();
-					System.out.printf("%s  %s   %s %s\n",date,grade,nickname,content);
+		select:while(true){
+			PrintUtil.title2();
+			System.out.printf(" [%s] %s %.2f점(리뷰 %s개)\n",
+					resName,Util.scoreToStars(score),score,rvCnt);
+			System.out.println("리뷰일       평점         작성자        내용");
+
+			int start = perPage * (page-1);
+			print:for(int i=0; i<perPage; i++){
+				if(review.size()<= start+i){
+					System.out.println();
+					continue print;
 				}
-
-				String[] selects = {" 뒤로가기  "," 리뷰작성  "," 이전페이지  "," 다음페이지  "};
-				
-				if(isReviewExist)
-					selects[1] = "내리뷰관리";	// 사용자가 해당 식당에 작성한 리뷰가 있을 경우
-
-				for(int i=0; i<selects.length; i++){
-					if(select ==i+1)	System.out.print("■");
-					else				System.out.print("□");
-					System.out.print(selects[i]);
-				}
-				System.out.printf("[페이지%d/%d]",page,maxPage);
-				PrintUtil.printBar2();
-
-				switch(ScanUtil.nextLine()){
-				case "1":	if(select==1)	select=selects.length;		else select--;			break;
-				case "3":	if(select==selects.length)	select=1;		else select++;			break;
-				case "":	break select;
-				default:	break;			}
+				String date=review.get(start+i).get("YYMM").toString();
+				float gradescore=Float.parseFloat(review.get(start+i).get("GRADE").toString());
+				String grade = Util.scoreToStars(gradescore);
+				String nickname=review.get(start+i).get("NICKNAME").toString();
+				nickname = Util.cutString(nickname, nicknameLength);
+				String content=" ";
+				if(review.get(start+i).get("R_CONTENT")!=null)
+					content=review.get(start+i).get("R_CONTENT").toString();
+				System.out.printf("%s  %s   %s %s\n",date,grade,nickname,content);
 			}
+
+			String[] selects = {" 뒤로가기  "," 리뷰작성  "," 이전페이지  "," 다음페이지  "};
+
+			if(isReviewExist)
+				selects[1] = "내리뷰관리";	// 사용자가 해당 식당에 작성한 리뷰가 있을 경우
+
+			for(int i=0; i<selects.length; i++){
+				if(select ==i+1)	System.out.print("■");
+				else				System.out.print("□");
+				System.out.print(selects[i]);
+			}
+			System.out.printf("[페이지%d/%d]",page,maxPage);
+			PrintUtil.printBar2();
+
+			switch(ScanUtil.nextLine()){
+			case "1":	if(select==1)	select=selects.length;		else select--;			break;
+			case "3":	if(select==selects.length)	select=1;		else select++;			break;
+			case "":	break select;
+			default:	break;			}
+		}
 
 		switch(select){
 		case 1: return;
 		case 2: 
-			if(userDao.isReviewExist(Controller.user.get("USER_ID").toString(),resId))
-				{modReview(resId); return;}
-			else {newReview(resId); return;}
+			if(userId.equals("guest"))
+				PrintUtil.onlyForMember();
+			else if(userDao.isReviewExist(userId,resId))
+				modReview(resId);
+			else newReview(resId);
+			/////////////////////////////////////// 리뷰를 새로 달거나 수정했을 경우
+			res = userDao.resDetail(resId);
+			resName = res.get("RES_NAME").toString();
+			rvCnt = res.get("RV_CNT").toString();
+			userId = Controller.user.get("USER_ID").toString();
+			score = Float.parseFloat(res.get("SCORE").toString());	
+			review = userDao.reviewList(resId);
+			isReviewExist = userDao.isReviewExist(Controller.user.get("USER_ID").toString(),resId);
+			maxPage = (review.size()-1)/perPage+1;
+			/////////////////////////////////////// 리뷰에 대한 정보를 다시 받아옵니다.
+			break;
 		case 3: if(page!=1) page--;			break;//이전페이지
 		case 4: if(page!=maxPage) page++;	break;//다음페이지
 		default:
 			break;		}
-		}
+	}
+
 	}
 	
 	public void modReview(String resId){
@@ -936,7 +959,9 @@ public class UserService {
 			PrintUtil.title();
 			String score = Util.scoreToStars(Integer.parseInt(review.get("GRADE").toString()));
 			String date = review.get("RE_DATE").toString();
-			String content = review.get("R_CONTENT").toString();
+			String content=" ";
+			if(review.get("R_CONTENT")!=null)
+				content = review.get("R_CONTENT").toString();
 			System.out.printf("\t\t[%s]\n",resName);
 			System.out.println("\t내 별점 : "+score);
 			System.out.println("\t작성일 : "+date);
@@ -968,7 +993,6 @@ public class UserService {
 			userDao.delReview(resId,Controller.user.get("USER_ID").toString());
 			break;
 		default: break;}
-		resReview(resId);
 	}
 
 	public void newReview(String resId){
@@ -1030,8 +1054,6 @@ public class UserService {
 			content = ScanUtil.nextLine();
 		}else
 			System.out.println("리뷰작성 실패 버그 신고해주세요");
-		
-		resReview(resId);
 	}
 
 	public int resList(List<Map<String, Object>> list){
