@@ -53,7 +53,7 @@ public class Controller {
 		Controller.user = user;
 		////////////////////////// USER 테스팅할 코드 ↓
 		
-		userService.myOrder();
+		userService.changePassword();
 		
 		////////////////////////// USER 테스팅할 코드 ↑
 	}
@@ -100,6 +100,11 @@ public class Controller {
 			case View.SEARCH_RES : view = userService.searchRes();			break;
 			case View.SEARCH_NAME : view = userService.searchByName();		break;
 			case View.MANAGE_ACCOUNT : view = userService.manageAccount();	break;
+			case View.MANAGE_PROFILE : view = userService.manageProfile();	break;
+			case View.CHANGE_NICKNAME : view = userService.changeNickname();break;
+			case View.CHANGE_PHONE : view = userService.changePhone();		break;
+			case View.CHANGE_PASSWORD : view = userService.changePassword();break;
+			case View.DELETE_ACCOUNT : view = userService.deleteAccount();	break;
 			case View.BOX_DAEJEON : view = boxService.daejeonMain();		break;
 			case View.SEARCH_COUSINE : view = userService.searchByCousine();break;
 			case View.BOARD_MAIN: view = boardService.boardList(); 			break;
@@ -107,8 +112,8 @@ public class Controller {
 			case View.BOARD_MANAGE2: view = boardService.boardSelect();		break;
 			case View.BOARD_ALTER: view = boardService.boardAlter(); 		break;
 			case View.BOARD_DELETE: view = boardService.boardDelete(); 		break;
-			case View.BOARD_ADMIN: view = boardService.boardRes_admin(); 		break;//수정
-			case View.BOARD_USER: view = boardService.boardRes_user(); 			break;//수정
+			case View.BOARD_ADMIN: view = boardService.boardRes_admin(); 	break;//수정
+			case View.BOARD_USER: view = boardService.boardRes_user(); 		break;//수정
 			default : 
 				System.out.println("해당 View 번호에 대한 case가 start()에 존재하지 않습니다.");
 				ScanUtil.nextLine();

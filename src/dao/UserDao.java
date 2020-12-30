@@ -336,5 +336,29 @@ public class UserDao {
 		
 		return jdbc.selectList(sql, p);
 	}
+	
+	public boolean updateNickname(String userId, String nickname){
+		String sql = "update users set nickname = ? where user_id = ?";
+		List<Object> p = new ArrayList<>();
+		p.add(nickname);
+		p.add(userId);
+		return 1==jdbc.update(sql, p);
+	}
+	
+	public boolean updatePhone(String userId, String phone){
+		String sql = "update users set phone = ? where user_id = ?";
+		List<Object> p = new ArrayList<>();
+		p.add(phone);
+		p.add(userId);
+		return 1==jdbc.update(sql, p);
+	}
+	
+	public boolean updatePassword(String userId, String password){
+		String sql = "update users set password = ? where user_id = ?";
+		List<Object> p = new ArrayList<>();
+		p.add(password);
+		p.add(userId);
+		return 1==jdbc.update(sql, p);
+	}
 
 }

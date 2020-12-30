@@ -145,6 +145,18 @@ public class UserService {
 				return nickname;
 		}
 	}
+	
+	public String phoneExist(){
+		while(true){
+			PrintUtil.title();
+			System.out.println("\n                     이미 존재하는 전화번호 입니다.");
+			System.out.println("\n\n                  전화번호 다시 입력해주세요.\n");
+			PrintUtil.printBar();
+			String phone=ScanUtil.nextLine();
+			if(!userDao.isNicknameExist(phone))
+				return phone;
+		}
+	}
 
 
 
@@ -318,7 +330,7 @@ public class UserService {
 
 		switch(select){
 		case 1: return View.BOX_DAEJEON;	// 대전도시락 주문하기로 갑니다.
-		case 2: return View.ERROR;	// 토마토도시락 주문하기 view 만들어야 합니다
+		case 2: return View.LUNCHBOX_ORDER;	// 토마토도시락 주문하기 미구현 상태입니다.
 		default:return View.USER_MAIN;
 		}
 
@@ -507,14 +519,134 @@ public class UserService {
 			else{
 			buyCredit(); return View.MANAGE_ACCOUNT;// 적립금 충전
 			}
-//		case 3: return;		// 회원정보 수정
-		case 4: return View.MAIN;		// 로그아웃
-		case 5: return View.MYPAGE;		// 뒤로가기
+		case 3: return View.MANAGE_PROFILE ;		// 회원정보 수정
+		case 4: return View.MAIN;					// 로그아웃
+		case 5: return View.MYPAGE;					// 뒤로가기
 		default:
 			return View.MYPAGE;
 		}
 	}
 	
+	public int manageProfile(){
+		int select = 1;
+		loop:while(true){
+			PrintUtil.title();
+
+			String[] menu = {"닉네임변경\n","전화번호변경\n","비밀번호변경\n","회원탈퇴\n","뒤로가기 🔙"};
+
+			for(int i=0; i<menu.length; i++){
+				if(select ==i+1)	System.out.print("            ■ ");
+				else				System.out.print("            □ ");
+				System.out.print(menu[i]);
+			}
+
+			PrintUtil.joystick();
+			switch(ScanUtil.nextLine()){
+			case "5":	if(select==1)	select=menu.length;		else select--;	break;
+			case "2":	if(select==menu.length)	select=1;		else select++;	break;
+			case "":	break loop;
+			default:	break;			}
+		}
+
+		switch(select){
+		case 1: return View.CHANGE_NICKNAME;	// 닉네임 변경
+		case 2: return View.CHANGE_PHONE;		// 전화번호 변경
+		case 3: return View.CHANGE_PASSWORD;	// 비밀번호 변경
+		case 4: return View.DELETE_ACCOUNT;		// 회원 탈퇴
+		case 5: return View.MANAGE_ACCOUNT;		// 계정관리로 돌아가기
+		default : return View.MANAGE_PROFILE;
+		}
+	}
+	
+	public int changeNickname(){
+		String userId = Controller.user.get("USER_ID").toString();
+		String nickname="";
+		PrintUtil.title();
+		System.out.println("\n\n\t 새로운 닉네임을 입력해주세요. \n\n\n");
+		PrintUtil.printBar();
+		nickname = ScanUtil.nextLine();
+		if(userDao.isNicknameExist(nickname))	// 닉네임 중복검사
+			nickname = nicknameExist();
+		
+		if(!userDao.updateNickname(userId, nickname))
+			System.out.println("닉네임 변경 실패 에러 발생");
+		else{
+			PrintUtil.boardbase1();
+			System.out.printf("\t성공적으로 닉네임을 %s(으)로 변경하였습니다.",nickname);
+			PrintUtil.boardbase2();
+			ScanUtil.nextLine();
+		}
+		return View.MANAGE_PROFILE;
+	}
+	public int changePhone(){
+		String userId = Controller.user.get("USER_ID").toString();
+		String phone="";
+		PrintUtil.title();
+		System.out.println("\n\n\t 새로운 전화번호 입력해주세요. \n\n\n");
+		PrintUtil.printBar();
+		phone = ScanUtil.nextLine();
+		if(userDao.isPhoneExist(phone))	// 닉네임 중복검사
+			phone = phoneExist();
+		
+		if(!userDao.updatePhone(userId, phone))
+			System.out.println("전화번호 변경 실패 에러 발생");
+		else{
+			PrintUtil.boardbase1();
+			System.out.print("     성공적으로 전화번호를");
+			if(phone.length()==11){
+			System.out.print(phone.substring(0, 3));
+			System.out.print("-"+phone.substring(3, 7));
+			System.out.print("-"+phone.substring(7, 11));
+			}
+			else
+				System.out.print(phone);
+			System.out.print("(으)로 변경하였습니다.");
+			PrintUtil.boardbase2();
+			ScanUtil.nextLine();
+		}
+		return View.MANAGE_PROFILE;
+	}
+	public int changePassword(){
+		String userId = Controller.user.get("USER_ID").toString();
+		String password="", password2="";
+		PrintUtil.title();
+		System.out.println("\n\n\t 새로운 비밀번호를 입력해주세요. \n\n\n");
+		PrintUtil.printBar();
+		password = ScanUtil.nextLine();
+		
+		PrintUtil.title();
+		System.out.println("\n\n\t 비밀번호를 한번 더 입력해주세요. \n\n\n");
+		PrintUtil.printBar();
+		password2 = ScanUtil.nextLine();
+		
+		if(!password.equals(password2)){
+			PrintUtil.title();
+			System.out.println("\n\n\t 입력한 비밀번호가 서로 다릅니다.");
+			System.out.println("\n\t 계속하려면  엔터키를 눌러주세요.\n");
+			PrintUtil.printBar();
+			ScanUtil.nextLine();
+			return View.MANAGE_PROFILE;
+		}
+		
+		if(!userDao.updatePassword(userId, password))
+			System.out.println("비밀번호 변경 실패 에러 발생");
+		else{
+			PrintUtil.boardbase1();
+			System.out.print("\t성공적으로 비밀번호를 변경하였습니다.");
+			PrintUtil.boardbase2();
+			ScanUtil.nextLine();
+		}
+		return View.MANAGE_PROFILE;
+	}
+	public int deleteAccount(){
+		PrintUtil.title();
+		System.out.println("\n\n\t 계정 삭제는 관리자에게 문의해주세요. \n");
+		System.out.println("\t계속 하려면 엔터키를 눌러주세요.\n");
+		PrintUtil.printBar();
+		ScanUtil.nextLine();
+		return View.MANAGE_PROFILE;
+	}
+
 	public void buyCredit(){
 		
 		PrintUtil.title();

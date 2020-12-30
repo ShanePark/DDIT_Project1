@@ -23,6 +23,11 @@ public class View {
 	public static final int MY_ORDER_LIST = 462;	// 주문 내역
 	public static final int MYREVIEW = 463;			// 내 리뷰
 	public static final int MANAGE_ACCOUNT = 464;	// 계정관리
+	public static final int MANAGE_PROFILE = 4643;	// 회원정보 수정
+	public static final int CHANGE_NICKNAME = 46432;// 닉네임 변경
+	public static final int CHANGE_PHONE = 46433;	// 전화번호 변경
+	public static final int CHANGE_PASSWORD = 46434;// 비밀번호 변경
+	public static final int DELETE_ACCOUNT = 46435;	// 회원 탈퇴
 	public static final int BOARD_MAIN = 403;		//고객센터 게시판 전체
 	public static final int BOARD_ADD = 405;		//고객센터 게시판 작성
 	public static final int BOARD_MANAGE2 = 404;	//고객센터 게시판 조회		
