@@ -22,6 +22,7 @@ public class UserService {
 		}
 		return instance;
 	}
+	private int selectMain = 1;
 
 	private UserDao userDao = UserDao.getInstance();
 
@@ -181,25 +182,24 @@ public class UserService {
 		List<Map<String, Object>> cntList = resByRvcnt();
 		List<Map<String, Object>> disList = resByDistance();
 		List<Map<String, Object>> scoreList = resByScore();
-		int select = 1;
 		String orderby="", resName="", distance="", rvCnt="";
 		float score=0;
 		String[] res = new String[5];	//페이지당 식당 수를 배열 크기로 지정하세요
 		int resNameLength = 8;	// 식당 이름을 몇 글자까지 표시해줄지 정하는 변수
 
 		userMain:while(true){
-			if(select < 5){
-				LodingUtil.mainUi(select,nickname);
+			if(selectMain < 5){
+				LodingUtil.mainUi(selectMain,nickname);
 				}
-			switch(select){
+			switch(selectMain){
 				case 2: list = cntList; break;
 				case 3: list = disList; break;
 				default : list = scoreList; break;
 			}
 			int nicknameLength=6;	// 해당 길이보다 긴 닉네임은 ..으로 표시합니다
-			if(select==2){
+			if(selectMain==2){
 				orderby = "리뷰수";
-			}else if(select==3){
+			}else if(selectMain==3){
 				orderby = "거리순";
 			}else{
 				orderby = "평점순";
@@ -214,37 +214,37 @@ public class UserService {
 				rvCnt = list.get(i).get("RV_CNT").toString();
 
 				res[i]=Util.cutString(resName,resNameLength)+" [평점 "+score+"] ";
-				if(select==2)
+				if(selectMain==2)
 					res[i] += "(리뷰"+rvCnt+"개)";
-				if(select==3)
+				if(selectMain==3)
 					res[i] += distance+"m";
 			}
-			if(select ==1)		System.out.print(" ■");
+			if(selectMain ==1)		System.out.print(" ■");
 			else				System.out.print(" □");
 			System.out.print(" 평점기준                   ");
 			System.out.printf("🥘 [%s] BEST 5 🍝\n",orderby);
 
-			if(select ==2)		System.out.print(" ■");
+			if(selectMain ==2)		System.out.print(" ■");
 			else				System.out.print(" □");
 			System.out.print(" 리뷰수기준             1. ");
 			System.out.println(res[0]);
 
-			if(select ==3)		System.out.print(" ■");
+			if(selectMain ==3)		System.out.print(" ■");
 			else				System.out.print(" □");
 			System.out.print(" 거리기준                2. ");
 			System.out.println(res[1]);
 
-			if(select ==4)		System.out.print(" ■");
+			if(selectMain ==4)		System.out.print(" ■");
 			else				System.out.print(" □");
 			System.out.print(" 검색                      3. ");
 			System.out.println(res[2]);
 
-			if(select ==5)		System.out.print(" ■");
+			if(selectMain ==5)		System.out.print(" ■");
 			else				System.out.print(" □");
 			System.out.print(" 도시락주문             4. ");
 			System.out.println(res[3]);
 
-			if(select ==6)		System.out.print(" ■");
+			if(selectMain ==6)		System.out.print(" ■");
 			else				System.out.print(" □");
 			if(nickname.equals("관리자"))
 				System.out.print(" 관리자전용             5. ");
@@ -254,20 +254,20 @@ public class UserService {
 
 			System.out.println(res[4]);
 
-			if(select ==7)		System.out.print(" ■");
+			if(selectMain ==7)		System.out.print(" ■");
 			else				System.out.print(" □");
 			System.out.print(" 고객센터                        ");
 			System.out.print("                     (2)↓ (5)↑ (⏎)확인\n");
 			PrintUtil.printBar();
 
 			switch(ScanUtil.nextLine()){	// 방향키 입력받는 switch 문
-			case "5": if(select==1)	select=7;	else select--;		break;
-			case "2": if(select==7)	select=1;	else select++;		break;
+			case "5": if(selectMain==1)	selectMain=7;	else selectMain--;		break;
+			case "2": if(selectMain==7)	selectMain=1;	else selectMain++;		break;
 			case "":	break userMain;
 			default:	break;		   }
 
 		}
-		switch(select){
+		switch(selectMain){
 		case 1: resList(resByScore()); break;
 		case 2: resList(resByRvcnt()); break;
 		case 3: resList(resByDistance()); break;
