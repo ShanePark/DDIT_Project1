@@ -34,19 +34,18 @@ public class BoardService {
 	{
 		
 		boardDao.BoardArray();
-		List<Map<String,Object>> boardList = boardDao.selectBoardList(page);
+		List<Map<String,Object>> boardList = boardDao.selectBoardList();
 		boar:while(true)
 		{
-			
+			int perpage = 3;
+			int start = 1 + (page-1)*perpage;
+			int end =perpage*page;
 		PrintUtil.title2();
 		System.out.println("번호     말머리 \t제목\t작성자\t작성일");
 		System.out.println("----------------------------------------");
-		if(boardList.size()%3 == 2)
-		{
-			System.out.println();
-		}
+		if(end > boardList.size()){end = boardList.size()-1;}
 		
-		for(int i=0; i< boardList.size(); i++)
+		for(int i=start; i <= end; i++)
 		{
 			Map<String, Object> board = boardList.get(i);
 			String title = (String)board.get("TITLE");
@@ -62,7 +61,11 @@ public class BoardService {
 			
 		
 		}
-		 if(boardList.size()%3 == 1&&boardList.size()%3 != 2)
+		if(end%perpage == 2)
+		{
+			System.out.println();
+		}
+		 if(end%3 == 1&&end%3 != 2)
 		{
 			System.out.println();
 			System.out.println();
