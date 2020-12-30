@@ -48,6 +48,7 @@ public class UserService {
 		}else{
 			Map<String, Object> user = userDao.userSignIn(userId,password);
 			Controller.user = user;
+			PrintUtil.loading();
 			return View.USER_MAIN;
 		}
 
@@ -142,6 +143,18 @@ public class UserService {
 			String nickname=ScanUtil.nextLine();
 			if(!userDao.isNicknameExist(nickname))
 				return nickname;
+		}
+	}
+	
+	public String phoneExist(){
+		while(true){
+			PrintUtil.title();
+			System.out.println("\n                     이미 존재하는 전화번호 입니다.");
+			System.out.println("\n\n                  전화번호 다시 입력해주세요.\n");
+			PrintUtil.printBar();
+			String phone=ScanUtil.nextLine();
+			if(!userDao.isNicknameExist(phone))
+				return phone;
 		}
 	}
 
@@ -244,8 +257,10 @@ public class UserService {
 		case 3: resList(resByDistance()); break;
 		case 4: return View.SEARCH_RES;
 		case 5:	
-			if(userId.equals("guest"))
-				return View.SIGNIN;
+			if(userId.equals("guest")){
+				PrintUtil.onlyForMember();
+				return View.USER_MAIN;
+			}
 			else if(!userDao.isDetailedAccount(userId)){
 				notDetailed(); 
 				return View.USER_MAIN;
@@ -315,7 +330,7 @@ public class UserService {
 
 		switch(select){
 		case 1: return View.BOX_DAEJEON;	// 대전도시락 주문하기로 갑니다.
-		case 2: return View.ERROR;	// 토마토도시락 주문하기 view 만들어야 합니다
+		case 2: return View.LUNCHBOX_ORDER;	// 토마토도시락 주문하기 미구현 상태입니다.
 		default:return View.USER_MAIN;
 		}
 
@@ -327,7 +342,7 @@ public class UserService {
 		Map<String, Object> user = userDao.userSignIn("guest","guest");	//guest 로 로그인
 
 		Controller.user = user;
-		System.out.println("비회원으로 이용합니다.");
+		PrintUtil.guestLogin();
 
 		return View.USER_MAIN;
 
@@ -504,14 +519,134 @@ public class UserService {
 			else{
 			buyCredit(); return View.MANAGE_ACCOUNT;// 적립금 충전
 			}
-//		case 3: return;		// 회원정보 수정
-		case 4: return View.MAIN;		// 로그아웃
-		case 5: return View.MYPAGE;		// 뒤로가기
+		case 3: return View.MANAGE_PROFILE ;		// 회원정보 수정
+		case 4: return View.MAIN;					// 로그아웃
+		case 5: return View.MYPAGE;					// 뒤로가기
 		default:
 			return View.MYPAGE;
 		}
 	}
 	
+	public int manageProfile(){
+		int select = 1;
+		loop:while(true){
+			PrintUtil.title();
+
+			String[] menu = {"닉네임변경\n","전화번호변경\n","비밀번호변경\n","회원탈퇴\n","뒤로가기 🔙"};
+
+			for(int i=0; i<menu.length; i++){
+				if(select ==i+1)	System.out.print("            ■ ");
+				else				System.out.print("            □ ");
+				System.out.print(menu[i]);
+			}
+
+			PrintUtil.joystick();
+			switch(ScanUtil.nextLine()){
+			case "5":	if(select==1)	select=menu.length;		else select--;	break;
+			case "2":	if(select==menu.length)	select=1;		else select++;	break;
+			case "":	break loop;
+			default:	break;			}
+		}
+
+		switch(select){
+		case 1: return View.CHANGE_NICKNAME;	// 닉네임 변경
+		case 2: return View.CHANGE_PHONE;		// 전화번호 변경
+		case 3: return View.CHANGE_PASSWORD;	// 비밀번호 변경
+		case 4: return View.DELETE_ACCOUNT;		// 회원 탈퇴
+		case 5: return View.MANAGE_ACCOUNT;		// 계정관리로 돌아가기
+		default : return View.MANAGE_PROFILE;
+		}
+	}
+	
+	public int changeNickname(){
+		String userId = Controller.user.get("USER_ID").toString();
+		String nickname="";
+		PrintUtil.title();
+		System.out.println("\n\n\t 새로운 닉네임을 입력해주세요. \n\n\n");
+		PrintUtil.printBar();
+		nickname = ScanUtil.nextLine();
+		if(userDao.isNicknameExist(nickname))	// 닉네임 중복검사
+			nickname = nicknameExist();
+		
+		if(!userDao.updateNickname(userId, nickname))
+			System.out.println("닉네임 변경 실패 에러 발생");
+		else{
+			PrintUtil.boardbase1();
+			System.out.printf("\t성공적으로 닉네임을 %s(으)로 변경하였습니다.",nickname);
+			PrintUtil.boardbase2();
+			ScanUtil.nextLine();
+		}
+		return View.MANAGE_PROFILE;
+	}
+	public int changePhone(){
+		String userId = Controller.user.get("USER_ID").toString();
+		String phone="";
+		PrintUtil.title();
+		System.out.println("\n\n\t 새로운 전화번호 입력해주세요. \n\n\n");
+		PrintUtil.printBar();
+		phone = ScanUtil.nextLine();
+		if(userDao.isPhoneExist(phone))	// 닉네임 중복검사
+			phone = phoneExist();
+		
+		if(!userDao.updatePhone(userId, phone))
+			System.out.println("전화번호 변경 실패 에러 발생");
+		else{
+			PrintUtil.boardbase1();
+			System.out.print("     성공적으로 전화번호를");
+			if(phone.length()==11){
+			System.out.print(phone.substring(0, 3));
+			System.out.print("-"+phone.substring(3, 7));
+			System.out.print("-"+phone.substring(7, 11));
+			}
+			else
+				System.out.print(phone);
+			System.out.print("(으)로 변경하였습니다.");
+			PrintUtil.boardbase2();
+			ScanUtil.nextLine();
+		}
+		return View.MANAGE_PROFILE;
+	}
+	public int changePassword(){
+		String userId = Controller.user.get("USER_ID").toString();
+		String password="", password2="";
+		PrintUtil.title();
+		System.out.println("\n\n\t 새로운 비밀번호를 입력해주세요. \n\n\n");
+		PrintUtil.printBar();
+		password = ScanUtil.nextLine();
+		
+		PrintUtil.title();
+		System.out.println("\n\n\t 비밀번호를 한번 더 입력해주세요. \n\n\n");
+		PrintUtil.printBar();
+		password2 = ScanUtil.nextLine();
+		
+		if(!password.equals(password2)){
+			PrintUtil.title();
+			System.out.println("\n\n\t 입력한 비밀번호가 서로 다릅니다.");
+			System.out.println("\n\t 계속하려면  엔터키를 눌러주세요.\n");
+			PrintUtil.printBar();
+			ScanUtil.nextLine();
+			return View.MANAGE_PROFILE;
+		}
+		
+		if(!userDao.updatePassword(userId, password))
+			System.out.println("비밀번호 변경 실패 에러 발생");
+		else{
+			PrintUtil.boardbase1();
+			System.out.print("\t성공적으로 비밀번호를 변경하였습니다.");
+			PrintUtil.boardbase2();
+			ScanUtil.nextLine();
+		}
+		return View.MANAGE_PROFILE;
+	}
+	public int deleteAccount(){
+		PrintUtil.title();
+		System.out.println("\n\n\t 계정 삭제는 관리자에게 문의해주세요. \n");
+		System.out.println("\t계속 하려면 엔터키를 눌러주세요.\n");
+		PrintUtil.printBar();
+		ScanUtil.nextLine();
+		return View.MANAGE_PROFILE;
+	}
+
 	public void buyCredit(){
 		
 		PrintUtil.title();
@@ -688,6 +823,7 @@ public class UserService {
 		}
 	}
 	
+	
 	public int searchByCousine(){
 		String[] menu = {"뒤로가기","한식","중식","일식","분식","패스트푸드"};
 		int select = 1;
@@ -730,6 +866,12 @@ public class UserService {
 		case 6 : return resList(userDao.resByCousine("패스트푸드"));   
 		default : return View.SEARCH_RES;
 		}
+	}
+	
+	public int searchByMenu(){
+		System.out.println(userDao.searchByMenu("밥"));
+		
+		return View.SEARCH_RES;
 	}
 
 
@@ -847,22 +989,26 @@ public class UserService {
 		case 2: viewMenu(resId); resDetail(resId); break;
 		case 3: resReview(resId); resDetail(resId); break;	
 		case 4: 
-			if(Controller.user.get("USER_ID").toString().equals("admin")){//관리자면 식당관리
+			if(userId.equals("admin"))//관리자면 식당관리
 				AdminService.getInstance().resManage(resId);
+			else if(userId.equals("guest")) // 게스트면 멤버전용표시
+				PrintUtil.onlyForMember();
+			else{
+				if(userDao.isPick(resId, userId))	userDao.resUnPick(resId, userId);
+				else userDao.resPick(resId,userId);	// 찜했으면 찜취소, 찜 안했으면 찜하기
 			}
-			if(userDao.isPick(resId, userId))	userDao.resUnPick(resId, userId);
-			else userDao.resPick(resId,userId);	// 찜했으면 찜취소, 찜 안했으면 찜하기
 			resDetail(resId);	// 찜(or취소) 이후 해당 식당 다시 재귀호출
 		default:
 			break;
 		}
 		
 	}
-	
+
 	public void resReview(String resId){
 		Map<String,Object> res = userDao.resDetail(resId);
 		String resName = res.get("RES_NAME").toString();
 		String rvCnt = res.get("RV_CNT").toString();
+		String userId = Controller.user.get("USER_ID").toString();
 		float score = Float.parseFloat(res.get("SCORE").toString());
 		int select = 1;
 		int page = 1;
@@ -871,61 +1017,77 @@ public class UserService {
 		List<Map<String,Object>> review = userDao.reviewList(resId);
 		boolean isReviewExist = userDao.isReviewExist(Controller.user.get("USER_ID").toString(),resId);
 
+		int maxPage = (review.size()-1)/perPage+1;
+		
 		while(true){
-			
-			int maxPage = (review.size()-1)/perPage+1;
-			select:while(true){
-				PrintUtil.title2();
-				System.out.printf(" [%s] %s %.2f점(리뷰 %s개)\n",
-						resName,Util.scoreToStars(score),score,rvCnt);
-				System.out.println("리뷰일       평점         작성자        내용");
-				
-				int start = perPage * (page-1);
-				print:for(int i=0; i<perPage; i++){
-					if(review.size()<= start+i){
-						System.out.println();
-						continue print;
-						}
-					String date=review.get(start+i).get("YYMM").toString();
-					float gradescore=Float.parseFloat(review.get(start+i).get("GRADE").toString());
-					String grade = Util.scoreToStars(gradescore);
-					String nickname=review.get(start+i).get("NICKNAME").toString();
-					nickname = Util.cutString(nickname, nicknameLength);
-					String content=review.get(start+i).get("R_CONTENT").toString();
-					System.out.printf("%s  %s   %s %s\n",date,grade,nickname,content);
+		select:while(true){
+			PrintUtil.title2();
+			System.out.printf(" [%s] %s %.2f점(리뷰 %s개)\n",
+					resName,Util.scoreToStars(score),score,rvCnt);
+			System.out.println("리뷰일       평점         작성자        내용");
+
+			int start = perPage * (page-1);
+			print:for(int i=0; i<perPage; i++){
+				if(review.size()<= start+i){
+					System.out.println();
+					continue print;
 				}
-
-				String[] selects = {" 뒤로가기  "," 리뷰작성  "," 이전페이지  "," 다음페이지  "};
-				
-				if(isReviewExist)
-					selects[1] = "내리뷰관리";	// 사용자가 해당 식당에 작성한 리뷰가 있을 경우
-
-				for(int i=0; i<selects.length; i++){
-					if(select ==i+1)	System.out.print("■");
-					else				System.out.print("□");
-					System.out.print(selects[i]);
-				}
-				System.out.printf("[페이지%d/%d]",page,maxPage);
-				PrintUtil.printBar2();
-
-				switch(ScanUtil.nextLine()){
-				case "1":	if(select==1)	select=selects.length;		else select--;			break;
-				case "3":	if(select==selects.length)	select=1;		else select++;			break;
-				case "":	break select;
-				default:	break;			}
+				String date=review.get(start+i).get("YYMM").toString();
+				float gradescore=Float.parseFloat(review.get(start+i).get("GRADE").toString());
+				String grade = Util.scoreToStars(gradescore);
+				String nickname=review.get(start+i).get("NICKNAME").toString();
+				nickname = Util.cutString(nickname, nicknameLength);
+				String content=" ";
+				if(review.get(start+i).get("R_CONTENT")!=null)
+					content=review.get(start+i).get("R_CONTENT").toString();
+				System.out.printf("%s  %s   %s %s\n",date,grade,nickname,content);
 			}
+
+			String[] selects = {" 뒤로가기  "," 리뷰작성  "," 이전페이지  "," 다음페이지  "};
+
+			if(isReviewExist)
+				selects[1] = "내리뷰관리";	// 사용자가 해당 식당에 작성한 리뷰가 있을 경우
+
+			for(int i=0; i<selects.length; i++){
+				if(select ==i+1)	System.out.print("■");
+				else				System.out.print("□");
+				System.out.print(selects[i]);
+			}
+			System.out.printf("[페이지%d/%d]",page,maxPage);
+			PrintUtil.printBar2();
+
+			switch(ScanUtil.nextLine()){
+			case "1":	if(select==1)	select=selects.length;		else select--;			break;
+			case "3":	if(select==selects.length)	select=1;		else select++;			break;
+			case "":	break select;
+			default:	break;			}
+		}
 
 		switch(select){
 		case 1: return;
 		case 2: 
-			if(userDao.isReviewExist(Controller.user.get("USER_ID").toString(),resId))
-				{modReview(resId); return;}
-			else {newReview(resId); return;}
+			if(userId.equals("guest"))
+				PrintUtil.onlyForMember();
+			else if(userDao.isReviewExist(userId,resId))
+				modReview(resId);
+			else newReview(resId);
+			/////////////////////////////////////// 리뷰를 새로 달거나 수정했을 경우
+			res = userDao.resDetail(resId);
+			resName = res.get("RES_NAME").toString();
+			rvCnt = res.get("RV_CNT").toString();
+			userId = Controller.user.get("USER_ID").toString();
+			score = Float.parseFloat(res.get("SCORE").toString());	
+			review = userDao.reviewList(resId);
+			isReviewExist = userDao.isReviewExist(Controller.user.get("USER_ID").toString(),resId);
+			maxPage = (review.size()-1)/perPage+1;
+			/////////////////////////////////////// 리뷰에 대한 정보를 다시 받아옵니다.
+			break;
 		case 3: if(page!=1) page--;			break;//이전페이지
 		case 4: if(page!=maxPage) page++;	break;//다음페이지
 		default:
 			break;		}
-		}
+	}
+
 	}
 	
 	public void modReview(String resId){
@@ -936,7 +1098,9 @@ public class UserService {
 			PrintUtil.title();
 			String score = Util.scoreToStars(Integer.parseInt(review.get("GRADE").toString()));
 			String date = review.get("RE_DATE").toString();
-			String content = review.get("R_CONTENT").toString();
+			String content=" ";
+			if(review.get("R_CONTENT")!=null)
+				content = review.get("R_CONTENT").toString();
 			System.out.printf("\t\t[%s]\n",resName);
 			System.out.println("\t내 별점 : "+score);
 			System.out.println("\t작성일 : "+date);
@@ -968,7 +1132,6 @@ public class UserService {
 			userDao.delReview(resId,Controller.user.get("USER_ID").toString());
 			break;
 		default: break;}
-		resReview(resId);
 	}
 
 	public void newReview(String resId){
@@ -1030,8 +1193,6 @@ public class UserService {
 			content = ScanUtil.nextLine();
 		}else
 			System.out.println("리뷰작성 실패 버그 신고해주세요");
-		
-		resReview(resId);
 	}
 
 	public int resList(List<Map<String, Object>> list){
