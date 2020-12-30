@@ -47,6 +47,11 @@ public class PrintUtil {
 		System.out.println();
 		printBar();
 	}
+	
+	static public void printBar3(){
+		System.out.print("                       \t\t       뒤로 가러면 [Enter] 키를 누르세요\n");
+		System.out.print("□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■\n> ");
+	}
 
 	public static void printBlank(int n){
 		for(int i=0; i<n; i++)

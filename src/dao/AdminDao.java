@@ -52,5 +52,5 @@ public class AdminDao {
 		return jdbc.update(sql,p);
 	}
 
-
+	
 }
