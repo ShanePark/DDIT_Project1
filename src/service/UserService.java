@@ -29,7 +29,7 @@ public class UserService {
 	public int signIn(){	
 		PrintUtil.title();
 		System.out.println("\n\n          ID : ");
-		System.out.println("          PW : \n\n\t\t       뒤로 가러면 [Enter] 키를 누르세요");
+		System.out.println("          PW : \n\n\n\t\t       뒤로 가려면 [Enter] 키를 누르세요\n");
 		PrintUtil.printBar();
 		System.out.print("ID> ");
 		String userId = ScanUtil.nextLine();
@@ -57,11 +57,11 @@ public class UserService {
 		return View.SIGNIN;
 	}
 
-	void signInError(){
+	public void signInError(){
 		Util.wait(300);
 		PrintUtil.title();
-		System.out.println("\n\n\t⛔  ID와 비밀번호가 일치하지 않습니다  ⛔\n");
-		System.out.println("        ■ 다시 로그인 하려면 엔터키를 입력 하세요\n");
+		System.out.println("\n\n                       ⛔  ID와 비밀번호가 일치하지 않습니다  ⛔\n\n");
+		System.out.println("            다시 로그인 하려면 엔터키를 입력 하세요..\n\n");
 		PrintUtil.printBar();
 		ScanUtil.nextLine();
 	}
@@ -69,10 +69,10 @@ public class UserService {
 	public int signUp(){	
 		String userID="", password="",nickname="";
 		PrintUtil.title();
-		System.out.println("                                    🥄회원가입🥢");
+		System.out.println("                                    🥄회원가입🥢\n");
 		System.out.print("        ID : \n");
 		System.out.print("        PW : \n");
-		System.out.print("                 닉네임 : \n\n\t\t       뒤로 가러면 [Enter] 키를 누르세요\n");
+		System.out.print("                 닉네임 : \n\n\t\t       뒤로 가려면 [Enter] 키를 누르세요\n\n");
 		PrintUtil.printBar();
 		System.out.print("ID> ");
 		userID = ScanUtil.nextLine();
@@ -81,20 +81,20 @@ public class UserService {
 			userID = idExist();
 
 		PrintUtil.title();
-		System.out.println("                                    🥄회원가입🥢");
+		System.out.println("                                    🥄회원가입🥢\n");
 		System.out.print("        ID : ");System.out.print(userID+"\n");
 		System.out.print("        PW : \n");
 		System.out.print("                 닉네임 : \n");
-		System.out.print("             추가 개인정보는 가입 완료후 마이페이지에서 등록해주세요.\n\n");
+		System.out.print("\n                           비밀번호를 입력해주세요.\n\n");
 		PrintUtil.printBar();
 		System.out.print("PASSWORD> ");
 		password = ScanUtil.nextLine();
 		while(password.equals("") || password.contains(" ")){
 			PrintUtil.title();
-			System.out.println("                                    🥄회원가입🥢");
+			System.out.println("                                    🥄회원가입🥢\n");
 			System.out.print("        ID : ");System.out.print(userID+"\n");
 			System.out.print("        PW : \n");
-			System.out.print("\n             비밀번호는 공백을 포함할 수 없습니다.\n\n");
+			System.out.print("\n             비밀번호는 공백을 포함할 수 없습니다.\n\n\n");
 			PrintUtil.printBar();
 			System.out.print("PASSWORD> ");
 			password = ScanUtil.nextLine();
@@ -102,13 +102,13 @@ public class UserService {
 
 
 		PrintUtil.title();
-		System.out.println("                                    🥄회원가입🥢 ");
+		System.out.println("                                    🥄회원가입🥢\n ");
 		System.out.print("        ID : ");System.out.print(userID+"\n");
 		System.out.print("        PW : ");
 		for(int i=0; i<password.length(); i++)
 			System.out.print("*");
-		System.out.print("\n                 닉네임 : \n");
-		System.out.print("             추가 개인정보는 가입 완료후 마이페이지에서 등록해주세요.\n\n");
+		System.out.print("\n                 닉네임 : \n\n");
+		System.out.print("       닉네임 입력 후 추가 개인정보는 가입 완료후 마이페이지에서 등록해주세요.\n\n");
 		PrintUtil.printBar();
 		System.out.print("닉네임 > ");
 		nickname = ScanUtil.nextLine();
@@ -139,8 +139,8 @@ public class UserService {
 	public String idExist(){
 		while(true){
 			PrintUtil.title();
-			System.out.println("\n                     이미 존재하는 아이디입니다.");
-			System.out.println("\n\n                  아이디를 다시 입력해주세요.\n");
+			System.out.println("\n\n                         ⛔ 이미 존재하는 아이디입니다 ⛔");
+			System.out.println("\n\n                 아래에 아이디를 다시 입력해주세요.\n\n");
 			PrintUtil.printBar();
 			String id=ScanUtil.nextLine();
 			if(!userDao.isIdExist(id))
@@ -151,8 +151,8 @@ public class UserService {
 	public String nicknameExist(){
 		while(true){
 			PrintUtil.title();
-			System.out.println("\n                     사용할 수 없는 닉네임입니다.");
-			System.out.println("\n\n                  닉네임을 다시 입력해주세요.\n");
+			System.out.println("\n\n                    ⛔ 사용할 수 없는 닉네임입니다 ⛔");
+			System.out.println("\n\n                   닉네임을 다시 입력해주세요.\n\n");
 			PrintUtil.printBar();
 			String nickname=ScanUtil.nextLine();
 			if(!nickname.equals("") && !userDao.isNicknameExist(nickname))
@@ -163,8 +163,8 @@ public class UserService {
 	public String phoneExist(){
 		while(true){
 			PrintUtil.title();
-			System.out.println("\n                     이미 존재하는 전화번호 입니다.");
-			System.out.println("\n\n                  전화번호 다시 입력해주세요.\n");
+			System.out.println("\n\n                    ⛔ 이미 존재하는 전화번호 입니다 ⛔");
+			System.out.println("\n\n               아래에 전화번호를 다시 입력해주세요.\n\n");
 			PrintUtil.printBar();
 			String phone=ScanUtil.nextLine();
 			if(!userDao.isNicknameExist(phone))
@@ -206,7 +206,7 @@ public class UserService {
 			}
 			PrintUtil.title3();
 			System.out.print("     "+Util.cutString2(nickname,nicknameLength));
-			System.out.print("(으)로 접속중\n");
+			System.out.print("(으)로 접속중\n\n");
 			for(int i=0; i<res.length; i++){
 				resName = list.get(i).get("RES_NAME").toString();
 				score = Float.parseFloat(list.get(i).get("SCORE").toString());
@@ -219,47 +219,47 @@ public class UserService {
 				if(selectMain==3)
 					res[i] += distance+"m";
 			}
-			if(selectMain ==1)		System.out.print(" ■");
-			else				System.out.print(" □");
+			if(selectMain ==1)		System.out.print("  ■");
+			else				System.out.print("  □");
 			System.out.print(" 평점기준                   ");
 			System.out.printf("🥘 [%s] BEST 5 🍝\n",orderby);
 
-			if(selectMain ==2)		System.out.print(" ■");
-			else				System.out.print(" □");
-			System.out.print(" 리뷰수기준             1. ");
+			if(selectMain ==2)		System.out.print("  ■");
+			else				System.out.print("  □");
+			System.out.print(" 리뷰수기준          1. ");
 			System.out.println(res[0]);
 
-			if(selectMain ==3)		System.out.print(" ■");
-			else				System.out.print(" □");
-			System.out.print(" 거리기준                2. ");
+			if(selectMain ==3)		System.out.print("  ■");
+			else				System.out.print("  □");
+			System.out.print(" 거리기준             2. ");
 			System.out.println(res[1]);
 
-			if(selectMain ==4)		System.out.print(" ■");
-			else				System.out.print(" □");
-			System.out.print(" 검색                      3. ");
+			if(selectMain ==4)		System.out.print("  ■");
+			else				System.out.print("  □");
+			System.out.print(" 검색                   3. ");
 			System.out.println(res[2]);
 
-			if(selectMain ==5)		System.out.print(" ■");
-			else				System.out.print(" □");
+			if(selectMain ==5)		System.out.print("  ■");
+			else				System.out.print("  □");
 			if(nickname.equals("관리자"))
-				System.out.print(" 도시락관리             4. ");
-			else System.out.print(" 도시락주문             4. ");
+				System.out.print(" 도시락관리          4. ");
+			else System.out.print(" 도시락주문          4. ");
 			System.out.println(res[3]);
 
-			if(selectMain ==6)		System.out.print(" ■");
-			else				System.out.print(" □");
+			if(selectMain ==6)		System.out.print("  ■");
+			else				System.out.print("  □");
 			if(nickname.equals("관리자"))
-				System.out.print(" 관리자전용             5. ");
+				System.out.print(" 관리자전용          5. ");
 			else if(nickname.equals("비회원"))
-				System.out.print(" 로그인                   5. ");	// 비회원일때 마이페이지 대신 어떤 기능을 넣을지 정해야합니다
-			else System.out.print(" 마이페이지             5. ");
+				System.out.print(" 로그인                5. ");	// 비회원일때 마이페이지 대신 어떤 기능을 넣을지 정해야합니다
+			else System.out.print(" 마이페이지          5. ");
 
 			System.out.println(res[4]);
 
-			if(selectMain ==7)		System.out.print(" ■");
-			else				System.out.print(" □");
-			System.out.print(" 고객센터                        ");
-			System.out.print("                     (2)↓ (5)↑ (⏎)확인\n");
+			if(selectMain ==7)		System.out.print("  ■");
+			else				System.out.print("  □");
+			System.out.print(" 고객센터\n");
+			System.out.print("                           (2)↓ (5)↑ (⏎)확인\n");
 			PrintUtil.printBar();
 
 			switch(ScanUtil.nextLine()){	// 방향키 입력받는 switch 문
@@ -303,8 +303,8 @@ public class UserService {
 
 			String[] menu = {"뒤로가기","개인정보입력"};
 
-			System.out.println("\t    『  ☎ 개인정보 등록  』 ");
-			System.out.println("\t 이후에 사용이 가능한 기능입니다.\n");
+			System.out.println("\n\t    『  ☎ 개인정보 등록  』 ");
+			System.out.println("\t 이후에 사용이 가능한 기능입니다.\n\n");
 
 			for(int i=0; i<menu.length; i++){
 				if(select ==i+1)		System.out.print("        ■");
@@ -331,8 +331,8 @@ public class UserService {
 		int select = 1;
 		lunchboxOrder:while(true){
 			PrintUtil.title();
-			System.out.println("\t        🍱도시락 주문하기🥡\n");
-			String[] menu = {"대전 도시락\n","토마토 도시락\n","뒤로가기"};
+			System.out.println("\t         🍱도시락 주문하기🥡\n\n");
+			String[] menu = {"대전 도시락\n","토마토 도시락\n","뒤로가기\n"};
 
 			for(int i=0; i<menu.length; i++){
 				if(select ==i+1)	System.out.print("             ■ ");
@@ -372,8 +372,8 @@ public class UserService {
 		int select = 1;
 		lunchboxOrder:while(true){
 			PrintUtil.title();
-			System.out.println("\t               🧑마이페이지👩");
-			String[] menu = {"찜리스트\n","주문내역\n","내 리뷰 확인\n","계정관리\n","뒤로가기            "};
+			System.out.println("\t               🧑마이페이지👩\n");
+			String[] menu = {"찜리스트\n","주문내역\n","내 리뷰 확인\n","계정관리\n","뒤로가기"};
 
 			for(int i=0; i<menu.length; i++){
 				if(select ==i+1)	System.out.print("             ■ ");
@@ -381,7 +381,7 @@ public class UserService {
 				System.out.print(menu[i]);
 			}
 
-			PrintUtil.joystick2();;
+			PrintUtil.joystick();;
 
 			switch(ScanUtil.nextLine()){
 			case "5":	if(select==1)	select=menu.length;		else select--;	break;
@@ -411,7 +411,7 @@ public class UserService {
 		while(true){
 		loop:while(true){
 			PrintUtil.title();
-			System.out.printf("\t             🍱 내 주문 내역 🍱 (%d/%d)\n\n",page,maxPage);
+			System.out.printf("\t             🍱 내 주문 내역 🍱 \n\n");
 			for(int i=0; i<perPage; i++){
 				int startNum = (page-1)*perPage;
 				if(startNum+i>=list.size()){
@@ -426,14 +426,15 @@ public class UserService {
 				System.out.printf("\t%d. %s %s ₩ %s\n",orderNum,boxName, price, date);
 			}
 
-			String[] menu = {"뒤로가기","이전페이지","다음페이지  "};
-
+			String[] menu = {"뒤로가기","이전페이지","다음페이지 "};
+			System.out.println();
 			for(int i=0; i<menu.length; i++){
 				if(select ==i+1)	System.out.print(" ■ ");
 				else				System.out.print(" □ ");
 				System.out.print(menu[i]);
 			}
-			PrintUtil.joystick3();
+			System.out.printf("     페이지 (%d/%d)",page,maxPage);
+			PrintUtil.joystick4();
 			switch(ScanUtil.nextLine()){
 			case "1":	if(select==1)	select=menu.length;		else select--;	break;
 			case "3":	if(select==menu.length)	select=1;		else select++;	break;
@@ -456,13 +457,14 @@ public class UserService {
 		List<Map<String, Object>> review = userDao.myReview(userId);
 		int select = 1;
 		int page = 1;
-		int perPage = 4;
+		int perPage = 5;
 		int maxPage = (review.size()-1)/perPage+1;
 		int resNameLength = 8;
 		while(true){
 			menu:while(true){
 				PrintUtil.title();
-				System.out.println("\t               📋내 리뷰📋");
+				System.out.println("\t               📋 내 리뷰 목록 📋");
+				System.out.println("         식당이름             별점            리뷰내용");
 
 				for(int i=0; i<perPage; i++){
 					if((page-1)*perPage+i >= review.size()){
@@ -474,10 +476,9 @@ public class UserService {
 					resName = Util.cutString(resName, resNameLength);
 					String grade = Util.scoreToStars(reviewMap.get("GRADE").toString());
 					String content = reviewMap.get("R_CONTENT").toString();
-					System.out.printf(" %d) %s  %s    %s\n",
+					System.out.printf("  %d. %s  %s    %s\n",
 							review.size()-(page-1)*perPage-i,resName,grade,content);
 				}
-
 				String[] menu = {"뒤로가기","이전페이지","다음페이지 "};
 				for(int i=0; i<menu.length; i++){
 					if(select ==i+1)	System.out.print(" ■ ");
@@ -509,7 +510,7 @@ public class UserService {
 
 		menu:while(true){
 			PrintUtil.title();
-			System.out.println("\t                🧑 계정관리 👩");
+			System.out.println("\t                🧑 계정관리 👩\n");
 
 			String[] menu = {"개인정보입력\n","적립금 충전\n","회원정보 수정\n","로그아웃\n","뒤로가기 "};
 			if(detail)
@@ -520,7 +521,7 @@ public class UserService {
 				else				System.out.print("             □ ");
 				System.out.print(menu[i]);
 			}
-			PrintUtil.joystick2();
+			PrintUtil.joystick();
 
 			switch(ScanUtil.nextLine()){
 			case "5":	if(select==1)	select=menu.length;	else select--;	break;
@@ -551,9 +552,9 @@ public class UserService {
 		int select = 1;
 		loop:while(true){
 			PrintUtil.title();
-
-			String[] menu = {"닉네임변경\n","전화번호변경\n","비밀번호변경\n","회원탈퇴\n","뒤로가기 🔙"};
-
+			System.out.println("\t              🧑 회원정보 수정 👩");
+			String[] menu = {"닉네임변경\n","전화번호변경\n","비밀번호변경\n","회원탈퇴\n","뒤로가기"};
+			System.out.println();
 			for(int i=0; i<menu.length; i++){
 				if(select ==i+1)	System.out.print("            ■ ");
 				else				System.out.print("            □ ");
@@ -582,7 +583,8 @@ public class UserService {
 		String userId = Controller.user.get("USER_ID").toString();
 		String nickname="";
 		PrintUtil.title();
-		System.out.println("\n\n\t 새로운 닉네임을 입력해주세요. (엔터:뒤로가기) \n\n\n");
+		System.out.println("\n\n\t 아래에 새로운 닉네임을 입력해주세요.\n\n");
+		System.out.println("\t 뒤로 다시 돌아가려면 공백을 입력해주세요..\n\n");
 		PrintUtil.printBar();
 		nickname = ScanUtil.nextLine();
 		if(nickname.equals(""))
@@ -606,7 +608,8 @@ public class UserService {
 		String userId = Controller.user.get("USER_ID").toString();
 		String phone="";
 		PrintUtil.title();
-		System.out.println("\n\n\t 새로운 전화번호 입력해주세요.(엔터:뒤로가기) \n\n\n");
+		System.out.println("\n\n\t 아래에 새로운 전화번호를 입력해주세요.\n\n");
+		System.out.println("\t 뒤로 다시 돌아가려면 공백을 입력해주세요..\n\n");
 		PrintUtil.printBar();
 		phone = ScanUtil.nextLine();
 		if(phone.equals(""))
@@ -636,7 +639,8 @@ public class UserService {
 		String userId = Controller.user.get("USER_ID").toString();
 		String password="", password2="";
 		PrintUtil.title();
-		System.out.println("\n\n\t 새로운 비밀번호를 입력해주세요. (엔터:뒤로가기) \n\n\n");
+		System.out.println("\n\n\t 아래에 새로운 비밀번호를 입력해주세요.\n\n");
+		System.out.println("\t 뒤로 다시 돌아가려면 공백을 입력해주세요..\n\n");
 		PrintUtil.printBar();
 		password = ScanUtil.nextLine();
 		if(password.equals(""))
@@ -669,8 +673,8 @@ public class UserService {
 	}
 	public int deleteAccount(){
 		PrintUtil.title();
-		System.out.println("\n\n\t 계정 삭제는 관리자에게 문의해주세요. \n");
-		System.out.println("\t계속 하려면 엔터키를 눌러주세요.\n");
+		System.out.println("\n\n\t 계정 삭제는 관리자에게 문의해주세요. \n\n");
+		System.out.println("\t계속 하려면 엔터키를 눌러주세요...\n\n");
 		PrintUtil.printBar();
 		ScanUtil.nextLine();
 		return View.MANAGE_PROFILE;
@@ -680,9 +684,9 @@ public class UserService {
 		
 		PrintUtil.title();
 		System.out.println("\t           💳 적립금 충전 💳\n");
-		System.out.println("\t적립금 잔액 : "+Controller.user.get("MONEY")+" ₩");
+		System.out.println("\t[ 적립금 잔액 : "+Controller.user.get("MONEY")+" ₩ ]\n");
 		System.out.println("        적립금 충전은 현재 관리자를 통해서만 가능합니다.");
-		System.out.println("        관리자에게 직접 문의해주세요. 확인후 엔터키를 눌러주세요.\n");
+		System.out.println("        관리자에게 직접 문의해주세요. 확인후 엔터키를 눌러주세요..\n\n");
 		PrintUtil.printBar();
 		ScanUtil.nextLine();
 		
@@ -694,9 +698,9 @@ public class UserService {
 		String name="",phone="";
 
 		PrintUtil.title();
-		System.out.printf("\t[%s]님의 실명을 입력해주세요\n\n",nickname);
+		System.out.printf("\n\t[%s]님의 실명을 입력해주세요\n\n",nickname);
 		System.out.printf("\t한글 입력시에는 화살표 오른쪽을\n\n");
-		System.out.printf("\t클릭하고 입력하기를 권장합니다 (엔터 : 뒤로가기)\n");
+		System.out.printf("\t클릭하고 입력하기를 권장합니다 (엔터 : 뒤로가기)\n\n");
 		PrintUtil.printBar2();
 		name = ScanUtil.nextLine();
 		if(name.equals(""))
@@ -744,7 +748,7 @@ public class UserService {
 			String[] resNumber = new String[perPage];	// 식당 번호를 저장해둘 배열입니다 (resDetail 호출을 위해 필요)
 			pickList: while(true){
 				PrintUtil.title();
-				System.out.println("                                     ❤️ 찜리스트 ❤️");
+				System.out.println("                                     ❤️ 찜리스트 ❤️\n");
 
 				for(int i=0; i<perPage; i++){
 					int resNum = (page-1) * perPage + i;
@@ -762,7 +766,7 @@ public class UserService {
 					if(!resName.equals("")) System.out.printf("%s　　%s (평점 %.2f)\n",resName,star,score);
 					else System.out.println();
 				}
-
+				System.out.println();
 				String[] menu = {"뒤로가기 ","이전페이지 ","다음페이지 "};
 				for(int i=0; i<menu.length; i++){
 					if(select ==perPage+i+1)	System.out.print(" ■ ");
@@ -830,10 +834,11 @@ public class UserService {
 		loop:while(true){
 			String[] menu = {"식당 이름으로 검색\n","음식 스타일로 검색\n","메뉴명으로 검색\n","뒤로가기\n"};
 			PrintUtil.title();
+			System.out.println("\t             🍴 식당 검색하기 🍴\n");
 			
 			for(int i=0; i<menu.length; i++){
-				if(select ==i+1)	System.out.print("\t■ ");
-				else				System.out.print("\t□ ");
+				if(select ==i+1)	System.out.print("\t   ■ ");
+				else				System.out.print("\t   □ ");
 				System.out.print(menu[i]);
 			}
 			
@@ -864,12 +869,12 @@ public class UserService {
 		int select = 1;
 		vol:while(true){
 			PrintUtil.title();
-			System.out.println("          [음식스타일]로 검색합니다");
+			System.out.println("\n          [음식스타일]로 검색합니다\n");
 			System.out.println("               원하는 음식스타일을 선택해주세요\n");
 			for(int i = 0; i < menu.length; i++){
 			if(select == i+1)
-				System.out.print("■ ");
-			else System.out.print("□ ");
+				System.out.print(" ■");
+			else System.out.print(" □");
 			System.out.print(menu[i] +"  ");
 			}
 			System.out.println();
@@ -905,8 +910,8 @@ public class UserService {
 	
 	public int searchByMenu(){
 		PrintUtil.title();
-		System.out.println("\n\n\t    검색할 메뉴를 입력해주세요\n\n");
-		System.out.println("\t\t       뒤로 가러면 [Enter] 키를 누르세요");
+		System.out.println("\n\n\n\t    검색할 메뉴를 입력해주세요\n\n\n");
+		System.out.println("\t\t       뒤로 가려면 [Enter] 키를 누르세요");
 		PrintUtil.printBar();
 		String resMenu = ScanUtil.nextLine();
 //		System.out.println(userDao.searchByMenu("밥"));
@@ -918,8 +923,8 @@ public class UserService {
 
 	public int searchByName(){
 		PrintUtil.title();
-		System.out.println("\n\n\t    검색할 가게명을 입력해주세요\n\n");
-		System.out.println("\t\t       뒤로 가러면 [Enter] 키를 누르세요");
+		System.out.println("\n\n\n\t    검색할 가게명을 입력해주세요\n\n\n");
+		System.out.println("\t\t       뒤로 가려면 [Enter] 키를 누르세요");
 		PrintUtil.printBar();
 		String resName = ScanUtil.nextLine();
 		if(resName.equals("")) return View.USER_MAIN;	
@@ -938,7 +943,7 @@ public class UserService {
 		while(true){
 			loop:while(true){
 				PrintUtil.title();
-				System.out.println("\t        🥄 메뉴 목록 🥢");
+				System.out.println("\t        🥄 메뉴 목록 🥢\n");
 				printMenu:for(int i=0; i<perPage; i++){
 					if(i+page >= menu.size()){
 						System.out.println();
@@ -949,14 +954,15 @@ public class UserService {
 					System.out.print(Util.cutString(menuName, menuLength));
 					System.out.println(menu.get(i+page).get("PRICE")+" ₩");
 				}
-				String[] list = {"뒤로가기    ","↑","↓"};
+				System.out.println();
+				String[] list = {"뒤로가기    ","↑ ","↓ "};
 
 				for(int i=0; i<list.length; i++){
 					if(select ==i+1)	System.out.print(" ■ ");
 					else				System.out.print(" □ ");
 					System.out.print(list[i]);
 				}
-				System.out.print("           ");
+				System.out.print("      ");
 				PrintUtil.joystick3();
 
 				switch(ScanUtil.nextLine()){
@@ -994,8 +1000,8 @@ public class UserService {
 		else
 			time= res.get("OPEN_TIME").toString()+" - "+res.get("CLOSE_TIME").toString();
 		PrintUtil.title2();
-		System.out.printf("\t\t\t\t좋아하는 사람 %s명\n",pickCnt);
-		System.out.printf("\t          %s (%s)\n",resName, cousine);
+		System.out.printf("\n\t          %s (%s)\n",resName, cousine);
+		System.out.printf("\t\t\t          좋아하는 사람 %s명\n",pickCnt);
 		System.out.printf("            ✔️ 평점 : %.2f (리뷰 %s개)\n",score, rv_cnt);
 		System.out.printf("            ✔️ 영업시간 : %s\n",time);
 		System.out.printf("            ✔️ 주소 : %s (거리 %sm)\n\n",add, distance);
@@ -1013,8 +1019,7 @@ public class UserService {
 			System.out.print(selects[i]);
 		}
 		
-		System.out.print(" ");
-		PrintUtil.joystick3();
+		PrintUtil.joystick4();
 		
 		switch(ScanUtil.nextLine()){
 		case "1":	if(select==1)	select=selects.length;		else select--;			break;
@@ -1062,7 +1067,7 @@ public class UserService {
 		while(true){
 		select:while(true){
 			PrintUtil.title2();
-			System.out.printf(" [%s] %s %.2f점(리뷰 %s개)\n",
+			System.out.printf("\n [%s] %s %.2f점(리뷰 %s개)\n\n",
 					resName,Util.scoreToStars(score),score,rvCnt);
 			System.out.println("리뷰일       평점         작성자        내용");
 
@@ -1141,10 +1146,10 @@ public class UserService {
 			String content=" ";
 			if(review.get("R_CONTENT")!=null)
 				content = review.get("R_CONTENT").toString();
-			System.out.printf("\t\t[%s]\n",resName);
+			System.out.printf("         [%s]\n\n",resName);
 			System.out.println("\t내 별점 : "+score);
 			System.out.println("\t작성일 : "+date);
-			System.out.println("\t내용 : "+content);
+			System.out.println("\n\t내용 : "+content);
 			System.out.println();
 			String[] menu = {"뒤로가기","리뷰다시작성","리뷰삭제"};
 			for(int i=0; i<menu.length; i++){
@@ -1184,7 +1189,7 @@ public class UserService {
 		loop:while(true){
 			menu:while(true){
 				PrintUtil.title();
-				System.out.printf("             [%s]\n",resName);
+				System.out.printf("\n         [%s]\n\n",resName);
 				System.out.println("\t\t"+Util.scoreToStars(star));
 				System.out.println("\n\t    주고싶은 평점을 선택해주세요\n");
 				String[] selects = {"뒤로가기 ","별 줄이기 ","별 늘리기 ","평점등록 "};
@@ -1268,7 +1273,7 @@ public class UserService {
 				}
 
 				PrintUtil.title2();
-				System.out.println("        이름                    음식             평점             거리           추천수");
+				System.out.println("\n        이름                    음식             평점             거리           추천수");
 
 				for(int i=0; i<resPerPage; i++){
 					if(select ==i+1)		System.out.print(" ■ ");
@@ -1278,7 +1283,7 @@ public class UserService {
 					}else System.out.println();
 				}
 
-				System.out.printf(" [현재 페이지 %d/%d]\t\t     (1)← (3)→ \n",page,maxPage);
+				System.out.printf("\n [현재 페이지 %d/%d]\t\t     (1)← (3)→ \n",page,maxPage);
 				if(select ==5)		System.out.print(" ■ ");	else System.out.print(" □ ");	
 				System.out.print("뒤로가기");
 				if(select ==6)		System.out.print(" ■ ");	else System.out.print(" □ ");	
