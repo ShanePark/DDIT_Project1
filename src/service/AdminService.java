@@ -31,10 +31,10 @@ public class AdminService {
 
 		main:while(true){
 			PrintUtil.title();
-			System.out.println("                                      👔관리자 전용                                              ");
+			System.out.println("                                      👔관리자 전용 ");
 			System.out.println(" ");              
 
-			String[] selects = {"식당관리\n","로그아웃\n","뒤로가기 "};
+			String[] selects = {"식당관리\n","로그아웃\n","뒤로가기\n\n"};
 			for(int i=0; i<selects.length; i++){
 				if(select ==i+1)	System.out.print("             ■ ");
 				else				System.out.print("             □ ");
@@ -63,9 +63,9 @@ public class AdminService {
 
 		main:while(true){
 			PrintUtil.title();
-			System.out.println("                                      🥄식당 관리🥢                                              ");
+			System.out.println("                                      🥄식당 관리🥢\n");
 			System.out.println(" ");       
-			String[] menu = {"식당추가\n","식당수정\n","뒤로가기 "};
+			String[] menu = {"식당추가\n","식당수정\n","뒤로가기\n"};
 			
 			for(int i=0; i<menu.length; i++){
 				if(select ==i+1)	System.out.print("             ■ ");
@@ -106,7 +106,7 @@ public class AdminService {
 				if(complete[0]==1 && complete[1]==1 && complete[2]==1)
 					max = 5;
 				PrintUtil.title();
-				System.out.println("                                    🥄식당 추가🥢");
+				System.out.println("                                    🥄식당 추가🥢\n");
 				if(select ==1)		System.out.print("           ■");
 				else				System.out.print("           □");
 				if(complete[0]==0)
@@ -133,6 +133,7 @@ public class AdminService {
 					else				System.out.print("\n           □");
 					System.out.print(" 입력 완료! 식당 등록하기 ");
 				}else System.out.println();
+				System.out.println();
 				System.out.print("\t\t");
 				if(!(complete[0]==1 && complete[1]==1 && complete[2]==1))
 					PrintUtil.joystick2();
@@ -161,14 +162,14 @@ public class AdminService {
 		else{
 			PrintUtil.title();
 			System.out.println("                                    🥄식당 추가🥢\n\n");
-			System.out.println("                      식당 이름을 입력해주세요\n\n");
+			System.out.println("\n                      식당 이름을 입력해주세요\n\n\n");
 			PrintUtil.printBar();
 			resName = ScanUtil.nextLine();
 
 			PrintUtil.title();
 			System.out.println("                                    🥄식당 추가🥢\n\n");
-			System.out.println("                       식당 이름 : " + resName);
-			System.out.println("                      음식스타일을 입력해주세요\n");
+			System.out.println("\n                       식당 이름 : " + resName);
+			System.out.println("                      음식스타일을 입력해주세요\n\n");
 			PrintUtil.printBar();
 			cousine = ScanUtil.nextLine();
 
@@ -180,14 +181,14 @@ public class AdminService {
 		else{
 			PrintUtil.title();
 			System.out.println("                                    🥄식당 추가🥢\n\n");
-			System.out.println("                        주소를 입력해주세요\n\n");
+			System.out.println("\n                        주소를 입력해주세요\n\n\n");
 			PrintUtil.printBar();
 			add1 = ScanUtil.nextLine();
 
 			PrintUtil.title();
 			System.out.println("                                    🥄식당 추가🥢\n\n");
 			System.out.println("                       주소 : " + add1);
-			System.out.println("               학원으로부터 거리(m)를 숫자로 입력해주세요\n");
+			System.out.println("\n               학원으로부터 거리(m)를 숫자로 입력해주세요\n\n");
 			PrintUtil.printBar();
 			distance = Integer.parseInt(ScanUtil.nextLine());
 
@@ -199,14 +200,14 @@ public class AdminService {
 		else{
 			PrintUtil.title();
 			System.out.println("                                    🥄식당 추가🥢\n\n");
-			System.out.println("                    오픈시간을 입력해주세요 (예)12:00\n\n");
+			System.out.println("\n                    오픈시간을 입력해주세요 (예)12:00\n\n\n");
 			PrintUtil.printBar();
 			openTime = ScanUtil.nextLine();
 
 			PrintUtil.title();
 			System.out.println("                                    🥄식당 추가🥢\n\n");
 			System.out.println("                       오픈시간 " + openTime);
-			System.out.println("                    마감시간을 입력해주세요 (예)12:00\n");
+			System.out.println("\n                    마감시간을 입력해주세요 (예)12:00\n\n");
 			PrintUtil.printBar();
 			closeTime = ScanUtil.nextLine();
 
@@ -244,7 +245,7 @@ public class AdminService {
 		String resName = adminDao.resIdToName(resId);
 		menu:while(true){
 		PrintUtil.title();
-		System.out.printf("\t[관리자용 식당관리모드]\n \t관리할 식당명 : %s\n",resName);
+		System.out.printf("\t [관리자용 식당관리모드]\n\n \t관리할 식당명 : %s\n\n",resName);
 		String[] menu = {"메뉴추가\n","영업시간변경\n","뒤로가기"};
 
 		for(int i=0; i<menu.length; i++){
