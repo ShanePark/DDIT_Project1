@@ -601,7 +601,7 @@ public class UserService {
 			PrintUtil.boardbase2();
 			ScanUtil.nextLine();
 		}
-		String password = Controller.user.get("PASSWORD").toString();
+		String password = userDao.getPass(userId);
 		Controller.user = userDao.userSignIn(userId, password); // 계정 새로고침
 		return View.MANAGE_PROFILE;
 	}
@@ -734,7 +734,7 @@ public class UserService {
 		ScanUtil.nextLine();
 		
 		userDao.putDetail(userId,name,phone);
-		String password = Controller.user.get("PASSWORD").toString();
+		String password = userDao.getPass(userId);
 		Controller.user = userDao.userSignIn(userId, password); // 계정 새로고침
 
 	}
