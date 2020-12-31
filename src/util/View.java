@@ -11,6 +11,9 @@ public class View {
 	public static final int RESTAURANT_ADD = 301;	// 식당추가 화면
 	public static final int RESTAURANT_MOD = 302;	// 식당수정 화면
 	public static final int BOARD_MANAGE = 31;		// 게시판관리 화면
+	public static final int BOX_MANAGE = 32;		// 도시락 관리 화면
+	public static final int LOAD_CREDIT = 321;		// 적립금 충전
+	public static final int BOX_ORDER_LIST = 322;	// 도시락 관리 화면
 	public static final int USER_MAIN = 4;			// 사용자용 홈화면
 	public static final int SEARCH_RES = 44;		// 식당 검색하기
 	public static final int SEARCH_NAME = 441;		// 식당 이름으로 검색하기

@@ -51,6 +51,25 @@ public class AdminDao {
 		p.add(price);
 		return jdbc.update(sql,p);
 	}
+	
+	public boolean loadCredit(String userId, int money){
+		String sql = "update users set money = money +?"
+					+" where  user_id = ?";
+		List<Object> p = new ArrayList<>();
+		p.add(money);
+		p.add(userId);
+		
+		return 1 == jdbc.update(sql, p);
+		
+	}
+	
+	public List<Map<String,Object>> boxOrderList(){
+		String sql = "select name,phone,price,box_name"
+					+" from box_order a, users b"
+					+" where to_date(order_date) = to_date(sysdate)"
+					+" and a.user_id = b.user_id";
+		return jdbc.selectList(sql);
+	}
 
 	
 }
