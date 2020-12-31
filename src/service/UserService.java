@@ -33,11 +33,12 @@ public class UserService {
 		PrintUtil.printBar();
 		System.out.print("ID> ");
 		String userId = ScanUtil.nextLine();
-		if("".equals(userId))	return View.MAIN;	//  그냥 엔터키를 누르면 뒤로 이동
 		PrintUtil.printBar();
+		if("".equals(userId))	return View.MAIN;	//  그냥 엔터키를 누르면 뒤로 이동
+		
 		PrintUtil.title();
 		System.out.print("\n\n          ID : "+userId+"\n");
-		System.out.println("          PW : \n\n");
+		System.out.println("          PW : \n\n\n\n");
 		PrintUtil.printBar();
 		System.out.print("PASSWORD> ");
 		String password = ScanUtil.nextLine();
@@ -709,7 +710,7 @@ public class UserService {
 		while(true){
 			PrintUtil.title();
 			if(!wrongPhone){
-			System.out.printf("\t[%s]님의 전화번호를 입력해주세요\n\n",name);
+			System.out.printf("\n\t[%s]님의 전화번호를 입력해주세요\n\n\n",name);
 			System.out.printf("\t휴대폰 번호 입력시에는\n\n");
 			System.out.printf("\t본인 확인이 진행됩니다 (엔터 : 뒤로가기)\n");
 			}else{
@@ -726,7 +727,7 @@ public class UserService {
 			else wrongPhone= true;
 		}
 		PrintUtil.title();
-		System.out.printf("\t[%s]님의 모든 입력이 완료되었습니다.\n\n",nickname);
+		System.out.printf("\n\t[%s]님의 모든 입력이 완료되었습니다.\n\n\n",nickname);
 		System.out.printf("\t이름 : %s, 전화번호 : %s\n\n",name,phone);
 		System.out.printf("\t확인 후 엔터키를 눌러주세요.\n");
 		PrintUtil.printBar2();
@@ -1273,7 +1274,7 @@ public class UserService {
 				}
 
 				PrintUtil.title2();
-				System.out.println("\n        이름                    음식             평점             거리           추천수");
+				System.out.println("\n        이름                    음식                평점             거리           추천수");
 
 				for(int i=0; i<resPerPage; i++){
 					if(select ==i+1)		System.out.print(" ■ ");
