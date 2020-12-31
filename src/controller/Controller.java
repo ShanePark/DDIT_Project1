@@ -16,7 +16,8 @@ import dao.UserDao;
 public class Controller {
 
 	public static void main(String[] args) {
-		LoadingUtil.loading();
+//		LoadingUtil.loadingTest();
+//		LoadingUtil.loading();
 		new Controller().start();
 		
 //		new Controller().boxTesting();		// 도시락 기능 테스트용

@@ -2,14 +2,22 @@ package util;
 
 public class LoadingUtil {
 	
+	static public void loadingTest(){
+		PrintUtil.bar();
+		PrintUtil.blank(9);;
+		PrintUtil.printBar();
+		ScanUtil.nextLine();
+	}
+	
 	static public void loading(){
 		String[] str = {"ㅇ","오","온","오느","오늘","오늘 ","오늘 ㅁ","오늘 무","오늘 뭐","오늘 뭐 ㅁ","오늘 뭐 머","오늘 뭐 먹"
 				,"오늘 뭐 먹ㅈ","오늘 뭐 먹지","오늘 뭐 먹지","오늘 뭐 먹지.","오늘 뭐 먹지..","오늘 뭐 먹지...","오늘 뭐 먹지...?　 "};
 		String[] name1 = {"👨 ㅂ","👨 바","👨 박","👨 밗","👨 박세","👨 박셓","👨 박세혀","👨 박세현"};
 		String[] name2 = {"👩 ㅇ","👩 유","👩 윤","👩 윥","👩 윤지","👩 윤짛","👩 윤지혜"};
-		String[] name3 = {"👦 ㅈ","👦 저","👦 정","👦 정ㅇ","👦 정이","👦 정잇","👦 정이사","👦 정이삭"};
+		String[] name3 = {"👦 ㅈ","👦 저","👦 정","👦 정ㅇ","👦 정이","👦 정잇","👦 정이사","👦 정이삭","👦 정이삭"};
 		int n1=0 ,n2=0, n3=0;
 		String pressEnter = "";
+		String eyes =  " • _ •│      ";
 		for(int i=0; i<str.length+name1.length+name2.length+name3.length; i++){
 			String str_1 = "",name_1="",name_2 = "", name_3 = "";
 		
@@ -24,9 +32,10 @@ public class LoadingUtil {
 				name_2 = name2[n2++];			}
 			if(i>= str.length+name1.length+name2.length){
 				if(n3>name3.length-1) n3=name3.length-1;
-				name_3 = name3[n3++];			}	
-			if(n3 == name3.length-1){
+				name_3 = name3[n3++];		}
+			if(i==str.length+name1.length+name2.length+name3.length-1){
 				Util.wait(1000);
+				eyes = " > _ <│      ";
 				pressEnter = " 계속하려면 엔터키를 입력...";
 			}
 
@@ -34,7 +43,7 @@ public class LoadingUtil {
 			System.out.println("\n\n\n□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■");
 			System.out.println();
 			System.out.println("      ╭∂∂∂∂∂∂╮    ╭──────────────╮                     ");
-			System.out.println("      ε • _ •│      "+str_1);
+			System.out.println("      ε"+eyes+str_1);
 			System.out.println("      ╰──┰┰──╯    ╰──────────────╯ ");
 			System.out.println("      ╭──╲╱──╮");
 			System.out.println("   ╞══╧══════╧═════════╡▒   "+name_1);
