@@ -16,8 +16,8 @@ import dao.UserDao;
 public class Controller {
 
 	public static void main(String[] args) {
-//		LoadingUtil.loadingTest();
-//		LoadingUtil.loading();
+		LoadingUtil.loadingTest();
+		LoadingUtil.loading();
 		new Controller().start();
 		
 //		new Controller().boxTesting();		// 도시락 기능 테스트용
@@ -33,7 +33,7 @@ public class Controller {
 		Controller.user = user;
 		////////////////////////// BOARD 테스팅할 코드 ↓
 		
-		boardService.boardRes_admin();
+		boardService.boardSelect();
 		
 		////////////////////////// BOARD 테스팅할 코드 ↑
 	}

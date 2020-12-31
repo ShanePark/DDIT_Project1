@@ -373,5 +373,12 @@ public class UserDao {
 		p.add(userId);
 		return 1==jdbc.update(sql, p);
 	}
+	
+	public String getPass(String userId){
+		String sql = "select password from users where user_id = ?";
+		List<Object> p = new ArrayList<>();
+		p.add(userId);
+		return jdbc.selectOne(sql, p).get("PASSWORD").toString();
+	}
 
 }
