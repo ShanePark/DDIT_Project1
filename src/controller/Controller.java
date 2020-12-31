@@ -44,7 +44,7 @@ public class Controller {
 		Controller.user = user;
 		////////////////////////// BOX 테스팅할 코드 ↓
 		
-		boxService.payment("user",-3000);
+		boxService.payment("user",1000);
 		
 		////////////////////////// BOX 테스팅할 코드 ↑
 	}
@@ -55,7 +55,7 @@ public class Controller {
 		Controller.user = user;
 		////////////////////////// USER 테스팅할 코드 ↓
 		
-		userService.searchByMenu();
+		userService.signUp();
 		
 		////////////////////////// USER 테스팅할 코드 ↑
 	}
@@ -136,7 +136,8 @@ public class Controller {
 		int select = 2;
 		main:while(true){
 			PrintUtil.title();
-			String[] menu = {" 회원가입\n"," 로그인\n"," 비회원 이용\n"," 종료\n"};
+			System.out.println();
+			String[] menu = {" 회원가입\n"," 로그인\n"," 비회원 이용\n"," 종료\n\n"};
 
 			for(int i=0; i<menu.length; i++){
 				if(select ==i+1)		System.out.print("           ■");

@@ -79,29 +79,29 @@ public class PrintUtil {
 	
 	static public void guestLogin(){
 		title();
-		System.out.println("\n\n                              🧑 게스트로 접속중.   🧑\n\n\n");
+		System.out.println("\n\n\n                              🧑 게스트로 접속중.   🧑\n\n\n\n");
 		printBar();
 		Util.wait(700);;
 		title();
-		System.out.println("\n\n                              🧑 게스트로 접속중..  🧑\n\n\n");
+		System.out.println("\n\n\n                              🧑 게스트로 접속중..  🧑\n\n\n\n");
 		printBar();
 		Util.wait(700);;
 		title();
-		System.out.println("\n\n                              🧑 게스트로 접속중... 🧑\n\n\n");
+		System.out.println("\n\n\n                              🧑 게스트로 접속중... 🧑\n\n\n\n");
 		printBar();
 	}
 
 	public static void loading(){
 		title();
-		System.out.println("\n\n                              🧑  접속중.   🧑\n\n\n");
+		System.out.println("\n\n\n                              🧑  접속중.   🧑\n\n\n\n");
 		printBar();
 		Util.wait(700);;
 		title();
-		System.out.println("\n\n                              🧑  접속중..  🧑\n\n\n");
+		System.out.println("\n\n\n                              🧑  접속중..  🧑\n\n\n\n");
 		printBar();
 		Util.wait(700);;
 		title();
-		System.out.println("\n\n                              🧑  접속중... 🧑\n\n\n");
+		System.out.println("\n\n\n                              🧑  접속중... 🧑\n\n\n\n");
 		printBar();
 	}
 	

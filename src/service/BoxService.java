@@ -41,7 +41,7 @@ public class BoxService {
 		loop:while(true){
 			boolean isOrdered = boxDao.isOrderedToday(boxName, userId);
 			PrintUtil.title();
-			System.out.printf("\t    🍱 %s %s 🍱\n",today,boxName);
+			System.out.printf("\t    🍱 %s %s 🍱\n\n",today,boxName);
 			System.out.printf("\t 금일의 가격 : %s ₩ (주문자 :%d명)\n\n",boxPrice,orderToday);
 			System.out.printf("         『%s』\n",boxMenu);
 			if(isOrdered)
@@ -58,7 +58,7 @@ public class BoxService {
 				System.out.print(menu[i]);
 			}
 
-			PrintUtil.joystick3();;
+			PrintUtil.joystick4();;
 
 			switch(ScanUtil.nextLine()){
 			case "1":	if(select==1)	select=menu.length;		else select--;	break;
@@ -84,10 +84,10 @@ public class BoxService {
 		
 		loop:while(true){
 		PrintUtil.title();
-		System.out.printf("\t적립금 잔액  : %5d ₩\n",money);
+		System.out.printf("\n\t적립금 잔액  : %5d ₩\n",money);
 		if(!isOrdered){
 			System.out.printf("\t주문 금액     : %5d ₩\n",price);
-			System.out.printf("\t주문 후 잔액 : %5d ₩\n",money-price);
+			System.out.printf("\t주문 후 잔액 : %5d ₩\n\n",money-price);
 			if(money-price>=0)
 				System.out.println();
 			else
@@ -151,10 +151,10 @@ public class BoxService {
 		else payment = "충전";
 		if(boxDao.payment(userId,price)){
 			PrintUtil.title();
-			System.out.printf("\t      💌 %s 완료 💌\n\n",payment);
+			System.out.printf("\n\t        💌 %s 완료 💌\n\n",payment);
 			System.out.printf("                   %s금액  : %d ₩\n",payment,(-price));
 			System.out.printf("                적립금 잔액 : %d ₩\n",boxDao.getMoney(userId));
-			System.out.printf("     %s 내용을 확인 후 계속하려면 엔터를 눌러주세요.\n\n",payment);
+			System.out.printf("\n     %s 내용을 확인 후 계속하려면 엔터를 눌러주세요.\n\n",payment);
 			PrintUtil.printBar();
 
 		}else
