@@ -63,8 +63,10 @@ public class LoadingUtil {
 		int count = 0;
 		String grade ="□" ,review = "□",distance ="□", serch ="□", order ="□",mypage ="□",board ="□";
 		String page = "마이페이지";
+		String adm = "도시락주문";
 		if(nickname.equals("비회원")){page = "로그인";}
-		if(nickname.equals("관리자")){page = "관리자전용";}
+		if(nickname.equals("관리자")){page = "관리자전용";adm = "도시락관리";}
+		
 		String x ="";
 		String a = "■";
 		switch(select)
@@ -92,7 +94,7 @@ public class LoadingUtil {
 						+ "  "+review+" 리뷰수기준\n"
 						+ "  "+distance+" 거리기준                	           ■ □\n"
 						+ "  "+serch+" 검색                     	           □ □\n"
-						+ "  "+order+" 도시락주문     \n"
+						+ "  "+order+" "+adm+"     \n"
 						+ "  "+mypage+" "+page+"             \n"
 						+ "  "+board+" 고객센터"
 						+ "\n                           (2)↓ (5)↑ (⏎)확인\n"
@@ -105,7 +107,7 @@ public class LoadingUtil {
 						+ "  "+review+" 리뷰수기준\n"
 						+ "  "+distance+" 거리기준                	           □ □\n"
 						+ "  "+serch+" 검색                     	           ■ □\n"
-						+ "  "+order+" 도시락주문     \n"
+						+ "  "+order+" "+adm+"     \n"
 						+ "  "+mypage+" "+page+"             \n"
 						+ "  "+board+" 고객센터"
 						+ "\n                           (2)↓ (5)↑ (⏎)확인\n"
@@ -118,7 +120,7 @@ public class LoadingUtil {
 						+ "  "+review+" 리뷰수기준\n"
 						+ "  "+distance+" 거리기준                	           □ □\n"
 						+ "  "+serch+" 검색                     	           □ ■\n"
-						+ "  "+order+" 도시락주문     \n"
+						+ "  "+order+" "+adm+"     \n"
 						+ "  "+mypage+" "+page+"             \n"
 						+ "  "+board+" 고객센터"
 						+ "\n                           (2)↓ (5)↑ (⏎)확인\n"
@@ -131,7 +133,7 @@ public class LoadingUtil {
 						+ "  "+review+" 리뷰수기준\n"
 						+ "  "+distance+" 거리기준                	           □ ■\n"
 						+ "  "+serch+" 검색                     	           □ □\n"
-						+ "  "+order+" 도시락주문     \n"
+						+ "  "+order+" "+adm+"     \n"
 						+ "  "+mypage+" "+page+"             \n"
 						+ "  "+board+" 고객센터"
 						+ "\n                           (2)↓ (5)↑ (⏎)확인\n"
