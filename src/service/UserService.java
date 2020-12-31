@@ -241,7 +241,9 @@ public class UserService {
 
 			if(selectMain ==5)		System.out.print(" ■");
 			else				System.out.print(" □");
-			System.out.print(" 도시락주문             4. ");
+			if(nickname.equals("관리자"))
+				System.out.print(" 도시락관리             4. ");
+			else System.out.print(" 도시락주문             4. ");
 			System.out.println(res[3]);
 
 			if(selectMain ==6)		System.out.print(" ■");
@@ -276,6 +278,8 @@ public class UserService {
 			if(userId.equals("guest")){
 				PrintUtil.onlyForMember();
 				return View.USER_MAIN;
+			}else if(userId.equals("admin")){
+				return View.BOX_MANAGE;
 			}
 			else if(!userDao.isDetailedAccount(userId)){
 				notDetailed(); 
@@ -578,9 +582,11 @@ public class UserService {
 		String userId = Controller.user.get("USER_ID").toString();
 		String nickname="";
 		PrintUtil.title();
-		System.out.println("\n\n\t 새로운 닉네임을 입력해주세요. \n\n\n");
+		System.out.println("\n\n\t 새로운 닉네임을 입력해주세요. (엔터:뒤로가기) \n\n\n");
 		PrintUtil.printBar();
 		nickname = ScanUtil.nextLine();
+		if(nickname.equals(""))
+			return View.MANAGE_PROFILE;
 		if(userDao.isNicknameExist(nickname))	// 닉네임 중복검사
 			nickname = nicknameExist();
 		
@@ -592,16 +598,20 @@ public class UserService {
 			PrintUtil.boardbase2();
 			ScanUtil.nextLine();
 		}
+		String password = Controller.user.get("PASSWORD").toString();
+		Controller.user = userDao.userSignIn(userId, password); // 계정 새로고침
 		return View.MANAGE_PROFILE;
 	}
 	public int changePhone(){
 		String userId = Controller.user.get("USER_ID").toString();
 		String phone="";
 		PrintUtil.title();
-		System.out.println("\n\n\t 새로운 전화번호 입력해주세요. \n\n\n");
+		System.out.println("\n\n\t 새로운 전화번호 입력해주세요.(엔터:뒤로가기) \n\n\n");
 		PrintUtil.printBar();
 		phone = ScanUtil.nextLine();
-		if(userDao.isPhoneExist(phone))	// 닉네임 중복검사
+		if(phone.equals(""))
+			return View.MANAGE_PROFILE;
+		if(userDao.isPhoneExist(phone))	// 전화번호 중복검사
 			phone = phoneExist();
 		
 		if(!userDao.updatePhone(userId, phone))
@@ -626,9 +636,12 @@ public class UserService {
 		String userId = Controller.user.get("USER_ID").toString();
 		String password="", password2="";
 		PrintUtil.title();
-		System.out.println("\n\n\t 새로운 비밀번호를 입력해주세요. \n\n\n");
+		System.out.println("\n\n\t 새로운 비밀번호를 입력해주세요. (엔터:뒤로가기) \n\n\n");
 		PrintUtil.printBar();
 		password = ScanUtil.nextLine();
+		if(password.equals(""))
+			return View.MANAGE_PROFILE;
+		
 		
 		PrintUtil.title();
 		System.out.println("\n\n\t 비밀번호를 한번 더 입력해주세요. \n\n\n");
@@ -683,23 +696,27 @@ public class UserService {
 		PrintUtil.title();
 		System.out.printf("\t[%s]님의 실명을 입력해주세요\n\n",nickname);
 		System.out.printf("\t한글 입력시에는 화살표 오른쪽을\n\n");
-		System.out.printf("\t클릭하고 입력하기를 권장합니다\n");
+		System.out.printf("\t클릭하고 입력하기를 권장합니다 (엔터 : 뒤로가기)\n");
 		PrintUtil.printBar2();
 		name = ScanUtil.nextLine();
+		if(name.equals(""))
+			return;
 		boolean wrongPhone = false;
 		while(true){
 			PrintUtil.title();
 			if(!wrongPhone){
 			System.out.printf("\t[%s]님의 전화번호를 입력해주세요\n\n",name);
 			System.out.printf("\t휴대폰 번호 입력시에는\n\n");
-			System.out.printf("\t본인 확인이 진행됩니다\n");
+			System.out.printf("\t본인 확인이 진행됩니다 (엔터 : 뒤로가기)\n");
 			}else{
 				System.out.printf("\t[%s]님의 전화번호를 입력해주세요\n\n",name);
-				System.out.printf("\t⚠에러! 방금 입력한 번호는⚠\n\n");
-				System.out.printf("\t이미 존재하는 번호입니다.\n");
+				System.out.printf("\t⚠에러! 이미 존재하는 번호입니다⚠\n\n");
+				System.out.printf("\t번호를 다시 입력해주세요.. (엔터 : 뒤로가기)\n");
 			}
 			PrintUtil.printBar2();
 			phone = ScanUtil.nextLine();
+			if(phone.equals(""))
+				return;
 			if(!userDao.isPhoneExist(phone))	//번호가 존재하지 않으면 입력완료
 				break;
 			else wrongPhone= true;
@@ -712,6 +729,8 @@ public class UserService {
 		ScanUtil.nextLine();
 		
 		userDao.putDetail(userId,name,phone);
+		String password = Controller.user.get("PASSWORD").toString();
+		Controller.user = userDao.userSignIn(userId, password); // 계정 새로고침
 
 	}
 

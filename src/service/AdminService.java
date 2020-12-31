@@ -1,12 +1,12 @@
 package service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import util.PrintUtil;
 import util.ScanUtil;
 import util.View;
-import controller.Controller;
 import dao.AdminDao;
 
 public class AdminService {
@@ -34,7 +34,7 @@ public class AdminService {
 			System.out.println("                                      👔관리자 전용                                              ");
 			System.out.println(" ");              
 
-			String[] selects = {"식당관리\n","뒤로가기\n","로그아웃 "};
+			String[] selects = {"식당관리\n","로그아웃\n","뒤로가기 "};
 			for(int i=0; i<selects.length; i++){
 				if(select ==i+1)	System.out.print("             ■ ");
 				else				System.out.print("             □ ");
@@ -52,8 +52,8 @@ public class AdminService {
 
 		switch(select){
 		case 1: return View.RESTAURANT_MANAGE;
-		case 2: return View.USER_MAIN;
-		case 3: return View.MAIN;
+		case 2: return View.MAIN;
+		case 3: return View.USER_MAIN;
 		default: return View.ADMIN_MAIN;
 		}
 	}
@@ -290,8 +290,122 @@ public class AdminService {
 		System.out.println("메뉴 추가하기가 종료되었습니다.");
 		
 	}
-
 	
+	public int boxManage(){
+		int select = 1;
+		loop:while(true){
+			PrintUtil.title();
+			System.out.println("\n\t         🍱 도시락 관리 🍱\n");
+			String[] menu = {"적립금 충전\n","주문자 확인\n","뒤로가기\n"};
+			for(int i=0; i<menu.length; i++){
+				if(select ==i+1)	System.out.print("           ■ ");
+				else				System.out.print("           □ ");
+				System.out.print(menu[i]);
+			}
+			PrintUtil.joystick();;
+
+			switch(ScanUtil.nextLine()){
+			case "5":	if(select==1)	select=menu.length;		else select--;	break;
+			case "2":	if(select==menu.length)	select=1;		else select++;	break;
+			case "":	break loop;
+			default:	break;			}
+
+			
+		}
+		
+		switch(select){
+		case 1: return View.LOAD_CREDIT;
+		case 2: return View.BOX_ORDER_LIST;
+		case 3: return View.USER_MAIN;			
+		}
+		
+		return View.USER_MAIN;
+	}
+	
+	public int loadCredit(){
+		String userId ="";
+		int money = 0;
+		PrintUtil.title();
+		System.out.println("\n\t         💸  적립금 충전 💸 \n\n");
+		System.out.println("        적립금을 충전시킬 충전 시킬 아이디를 입력 해주세요\n");
+		System.out.println("\t\t\t(엔터키 입력 :뒤로가기)\n");
+		PrintUtil.printBar();
+		userId = ScanUtil.nextLine();
+		if(userId.equals(""))
+			return View.BOX_MANAGE;
+
+		PrintUtil.title();
+		System.out.println("\n\t         💸  적립금 충전 💸 \n\n");
+		System.out.println("        적립금을 충전시킬 충전 시킬 아이디 : "+userId);
+		System.out.println("\n                충전시킬 금액을 입력해주세요.\n ");
+		PrintUtil.printBar();
+		money = ScanUtil.nextInt();
+		
+		if(adminDao.loadCredit(userId, money)){
+			PrintUtil.title();
+			System.out.println("\n\t         💸  적립금 충전 💸 \n\n");
+			System.out.println("        적립금을 충전시킬 충전 시킬 아이디 : "+userId);
+			System.out.println("        충전 금액 : "+money+" ₩");
+			System.out.println("        충전이 완료되었습니다. 엔터키를 눌러서 계속..\n");
+			PrintUtil.printBar();
+			ScanUtil.nextLine();
+		}else
+			System.out.println("충전실패. 에러 사유 확인 바람.");
+		
+		return View.BOX_MANAGE;
+	}
+
+	public int boxOrderList(){
+		List<Map<String,Object>> list = adminDao.boxOrderList();
+		int select = 1;
+		int page = 1;
+		int perPage = 4;
+		int maxPage = (list.size()-1)/perPage+1;
+		String[] menu = {" 뒤로가기  "," 이전페이지  "," 다음페이지 "};
+		while(true){
+			loop:while(true){
+				PrintUtil.title();
+				System.out.printf("      주문자   업체명        가격      전화번호  [총주문수 : %d명]\n",list.size());
+				int start = perPage * (page-1);
+				print:for(int i=0; i<perPage; i++){
+					if(list.size() <= start+i){
+						System.out.println();
+						continue print;
+					}
+					Map<String,Object> map = list.get(start+i);
+					String name = map.get("NAME").toString();
+					String phone = map.get("PHONE").toString();
+					String price = map.get("PRICE").toString();
+					String boxName = map.get("BOX_NAME").toString();
+					System.out.printf("      %s  %s  %s  %s\n",name,boxName,price,phone);
+				}
+				
+				System.out.println();
+				for(int i=0; i<menu.length; i++){
+					if(select ==i+1)	System.out.print(" ■");
+					else				System.out.print(" □");
+					System.out.print(menu[i]);
+				}
+				System.out.printf("  (페이지 %d / %d)",page,maxPage);
+				PrintUtil.joystick4();
+				switch(ScanUtil.nextLine()){
+				case "1":	if(select==1)	select=menu.length;		else select--;			break;
+				case "3":	if(select==menu.length)	select=1;		else select++;			break;
+				case "":	break loop;
+				default:	break;			}
+
+			}
+
+		switch(select){
+		case 1: return View.BOX_MANAGE;
+		case 2: if(page!=1) page--;			break;//이전페이지
+		case 3: if(page!=maxPage) page++;	break;//다음페이지
+		}
+
+		}
+
+	}
+
 	
 	
 	
