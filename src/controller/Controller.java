@@ -16,15 +16,15 @@ import dao.UserDao;
 public class Controller {
 
 	public static void main(String[] args) {
-//		LoadingUtil.loadingTest();
-//		LoadingUtil.loading();
+		LoadingUtil.loadingTest();
+		LoadingUtil.loading();
 		new Controller().start();
 		
 //		new Controller().boxTesting();		// 도시락 기능 테스트용
 //		new Controller().userTesting();		// 유저 기능 테스트용
 //		new Controller().adminTesting();	// 관리자 기능 테스트용
 //		new Controller().error();			// Controller Method 테스트용
-		new Controller().boardTesting();	// board 테스팅용
+//		new Controller().boardTesting();	// board 테스팅용
 		
 	}
 	private void boardTesting(){
