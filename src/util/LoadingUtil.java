@@ -4,7 +4,7 @@ public class LoadingUtil {
 	
 	static public void loadingTest(){
 		PrintUtil.bar();
-		PrintUtil.blank(9);;
+		PrintUtil.blank(11);;
 		PrintUtil.printBar();
 		ScanUtil.nextLine();
 	}
@@ -42,6 +42,7 @@ public class LoadingUtil {
 			Util.wait(150);
 			System.out.println("\n\n\n□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■");
 			System.out.println();
+			System.out.println();
 			System.out.println("      ╭∂∂∂∂∂∂╮    ╭──────────────╮                     ");
 			System.out.println("      ε"+eyes+str_1);
 			System.out.println("      ╰──┰┰──╯    ╰──────────────╯ ");
@@ -50,6 +51,7 @@ public class LoadingUtil {
 			System.out.println("   │　　대덕인재개발원　302호　│▒   "+name_2);
 			System.out.println("   └───────────────────┘▒   "+name_3);
 			System.out.println("   ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒   ");
+			System.out.println();
 			System.out.print("□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■\n>"+pressEnter);  
 		}
 		ScanUtil.nextLine();
