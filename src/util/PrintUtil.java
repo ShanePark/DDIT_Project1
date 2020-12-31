@@ -1,6 +1,13 @@
 package util;
 
 public class PrintUtil {
+	static public void bar(){
+		System.out.println("□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■");
+	}
+	static public void blank(int n){
+		for(int i=0; i<n; i++)
+		System.out.println("");
+	}
 	static public void title(){
 		System.out.println("\n\n□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■\n");
 		System.out.println("                                    🍽️ 오늘 뭐먹지? 🍽️\n");

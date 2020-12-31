@@ -16,6 +16,7 @@ import dao.UserDao;
 public class Controller {
 
 	public static void main(String[] args) {
+		LoadingUtil.loadingTest();
 		LoadingUtil.loading();
 		new Controller().start();
 		
