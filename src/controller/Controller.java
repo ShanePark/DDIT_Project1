@@ -24,7 +24,7 @@ public class Controller {
 //		new Controller().userTesting();		// 유저 기능 테스트용
 //		new Controller().adminTesting();	// 관리자 기능 테스트용
 //		new Controller().error();			// Controller Method 테스트용
-//		new Controller().boardTesting();	// board 테스팅용
+		new Controller().boardTesting();	// board 테스팅용
 		
 	}
 	private void boardTesting(){
@@ -33,7 +33,7 @@ public class Controller {
 		Controller.user = user;
 		////////////////////////// BOARD 테스팅할 코드 ↓
 		
-		boardService.boardRes_admin();
+		boardService.boardSelect();
 		
 		////////////////////////// BOARD 테스팅할 코드 ↑
 	}
