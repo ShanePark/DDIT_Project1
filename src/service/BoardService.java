@@ -44,7 +44,7 @@ public class BoardService {
 		{
 			
 		PrintUtil.title2();
-		System.out.println("번호     말머리 \t제목\t작성자\t작성일");
+		System.out.println("\n번호     말머리 \t제목\t작성자\t작성일");
 		System.out.println("----------------------------------------");
 		if(end > boardList.size()){end = boardList.size()-1;}
 		
@@ -52,7 +52,7 @@ public class BoardService {
 		{
 			if(boardList.size() <= i)
 			{
-				System.out.println();
+				System.out.println("..     ... \t..\t...\t...");
 				continue;
 			}
 			
@@ -78,6 +78,7 @@ public class BoardService {
 		
 		if( select == 1|| select == 7)
 		{
+			System.out.println();
 			System.out.print( "◀ "+page);
 			System.out.print( "page▷    ");			
 			System.out.print( "□게시글 조회  ");
@@ -87,6 +88,7 @@ public class BoardService {
 		}
 		if( select == 2)
 		{
+			System.out.println();
 			System.out.print( "◁ "+page);
 			System.out.print( "page▶    ");		
 			System.out.print( "□게시글 조회  ");
@@ -96,6 +98,7 @@ public class BoardService {
 		}
 		if(select == 3)
 		{
+			System.out.println();
 			System.out.print( "◁ "+page);
 			System.out.print( "page▷    ");	
 			System.out.print( "■게시글 조회  ");
@@ -106,6 +109,7 @@ public class BoardService {
 		}
 		if(select == 4)
 		{
+			System.out.println();
 			System.out.print( "◁ "+page);
 			System.out.print( "page▷    ");	
 			System.out.print( "□게시글 조회  ");
@@ -116,6 +120,7 @@ public class BoardService {
 		}
 		if(select == 5)
 		{
+			System.out.println();
 			System.out.print( "◁ "+page);
 			System.out.print( "page▷    ");	
 			System.out.print( "□게시글 조회  ");
@@ -126,6 +131,7 @@ public class BoardService {
 		}
 		if(select == 6||select == 0)
 		{
+			System.out.println();
 			System.out.print( "◁ "+page);
 			System.out.print( "page▷    ");	
 			System.out.print( "□게시글 조회  ");
@@ -160,7 +166,7 @@ public class BoardService {
 				return View.BOARD_MANAGE2;
 		case 4:if(Controller.user.get("USER_ID").toString().equals("guest"))
 					{  PrintUtil.boardbase1();
-					System.out.println("로그인이 필요한 서비스입니다");
+					System.out.println("\t로그인이 필요한 서비스입니다");
 				    PrintUtil.boardbase2();
 					String temp = ScanUtil.nextLine();
 					return View.BOARD_MAIN;}
@@ -169,7 +175,7 @@ public class BoardService {
 			if(Controller.user.get("USER_ID").toString().equals("guest"))
 					{  
 						PrintUtil.boardbase1();
-						System.out.println("로그인이 필요한 서비스입니다");
+						System.out.println("\t로그인이 필요한 서비스입니다");
 					    PrintUtil.boardbase2();
 						String temp = ScanUtil.nextLine();
 						return View.BOARD_MAIN;
@@ -198,7 +204,7 @@ public class BoardService {
 		String userId=Controller.user.get("USER_ID").toString();
 		String nickName = Controller.user.get("NICKNAME").toString();
 		
-		String cateGory = null ;  String tiTle = "___" ; String conTent = "___" ;
+		String cateGory = null ;  String tiTle = "   " ; String conTent = "   " ;
 		if(userId == "admin") {cateGory = "공지사항";}
 		else {cateGory = "건의사항";}
 		
@@ -212,30 +218,44 @@ public class BoardService {
 		
 		PrintUtil.title();
 		System.out.println("  📄건의사항✏️\n");
-		System.out.print("제목\t: " + tiTle + "\n");
-		System.out.print("내용\t: " + conTent + "\n\n");
+		System.out.print("작성자\t:  " + nickName + "\n");
+		System.out.print("제목\t: 『   " + tiTle + " 』\n");
+		System.out.print("내용\t: 『   " + conTent + " 』\n\n\n");
 		System.out.println("\t\t   뒤로 가러면 [Enter] 키를 누르세요");
 		PrintUtil.printBar();
 		
 		
-		
-		if(tiTle != "___"){
+		if(conTent != "   ")
+		{
+			PrintUtil.title();
+			System.out.println("  📄건의사항✏️\n");
+			System.out.print("작성자\t:  " + nickName + "\n");
+			System.out.print("제목\t: 『   " + tiTle + " 』\n");
+			System.out.print("내용\t: 『   " + conTent + " 』\n\n\n");
+			System.out.println("\t\t  완료 하시려면 [Enter] 키를 누르세요");
+			PrintUtil.printBar();
+			ScanUtil.nextLine();
+			break check;
+		}
+		if(tiTle != "   "){
 			System.out.print("내용 : ");
 				conTent = ScanUtil.nextLine();
 				if(conTent.equals(""))
 				{
 					return View.BOARD_MAIN;	
 				}
-					break check;
+				
 			}
-		if (tiTle == "___"){
+		if (tiTle == "   "){
 			System.out.print("제목 : ");
 			tiTle = ScanUtil.nextLine();
+			
 			if(tiTle.equals(""))
 			{
 				return View.BOARD_MAIN;	
 			}
 		}
+		
 		
 		
 		
@@ -252,10 +272,15 @@ public class BoardService {
 			int result = boardDao.centerBoardAdd(param);
 			
 			if(0 < result){
-				System.out.println("글 등록 성공");
+				PrintUtil.boardbase1();
+				System.out.println("\t글 등록 성공/n");
+				PrintUtil.boardbase2();
+				ScanUtil.nextLine();
 				return View.BOARD_MAIN;	
 			}else{
-				System.out.println("글 등록 실패");
+				PrintUtil.boardbase1();
+				System.out.println("\t글 등록 실패/n");
+				PrintUtil.boardbase2();
 				return View.BOARD_MAIN;	
 				}
 			}
@@ -282,14 +307,15 @@ public class BoardService {
 			String content = board.get("CONTENT").toString();
 			String userID = board.get("USER_ID").toString();
 			PrintUtil.title2();
+			System.out.println();
 			System.out.println("말머리 : "+category);
 			System.out.println("닉네임 : "+nickname);
 			System.out.println("제목 : "+title);
 			System.out.println("내용 : "+content);
 
-			if(select == 1){System.out.println("■게시글 수정	□게시글 삭제	□뒤로가기");}
-			if(select == 2){System.out.println("□게시글 수정	■게시글 삭제	□뒤로가기");}
-			if(select == 3){System.out.println("□게시글 수정	□게시글 삭제	■뒤로가기");}
+			if(select == 1){System.out.println("\n■게시글 수정	□게시글 삭제	□뒤로가기");}
+			if(select == 2){System.out.println("\n□게시글 수정	■게시글 삭제	□뒤로가기");}
+			if(select == 3){System.out.println("\n□게시글 수정	□게시글 삭제	■뒤로가기");}
 			System.out.print("\n                           (1,3)← → (⏎)확인 \n");
 			System.out.print("□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■\n>");
 			String tes = ScanUtil.nextLine();
@@ -304,7 +330,7 @@ public class BoardService {
 			case 1 : if(!Controller.user.get("USER_ID").toString().equals(userID))
 					{
 						PrintUtil.boardbase1();
-						System.out.println("본인계정이 아닙니다.");
+						System.out.println("\t본인계정이 아닙니다.\n");
 					    PrintUtil.boardbase2();
 						String temp = ScanUtil.nextLine();
 						break;
@@ -312,7 +338,7 @@ public class BoardService {
 					{
 						
 						PrintUtil.boardbase1();
-						System.out.println("로그인이 필요한 서비스입니다");
+						System.out.println("\t로그인이 필요한 서비스입니다\n");
 					    PrintUtil.boardbase2();
 						String temp = ScanUtil.nextLine();
 						return View.BOARD_MAIN;
@@ -320,14 +346,14 @@ public class BoardService {
 			case 2 : if(!Controller.user.get("USER_ID").toString().equals(userID))
 					{
 						PrintUtil.boardbase1();
-						System.out.println("본인계정이 아닙니다.");
+						System.out.println("\t본인계정이 아닙니다.\n");
 					    PrintUtil.boardbase2();
 						String temp = ScanUtil.nextLine();
 						break;
 					}else if(Controller.user.get("USER_ID").toString().equals("guest"))
 					{
 						PrintUtil.boardbase1();
-						System.out.println("로그인이 필요한 서비스입니다");
+						System.out.println("\t로그인이 필요한 서비스입니다\n");
 					    PrintUtil.boardbase2();
 						String temp = ScanUtil.nextLine();
 						return View.BOARD_MAIN;
@@ -354,18 +380,19 @@ public class BoardService {
 		boardone:while(true)
 		{
 			if(select == 0){select =3;}
-			if(select == 4){select =1;}
+			if(select == 5){select =1;}
 			
 			PrintUtil.title2();
+			System.out.println();
 			System.out.println("말머리 : "+category);
 			System.out.println("닉네임 : "+nickname);
 			System.out.println("제목 : "+title);
 			System.out.println("내용 : "+content);
 
-			if(select == 1){System.out.println("\t■제목     □내용     □확인     □취소");}
-			if(select == 2){System.out.println("\t□제목     ■내용     □확인     □취소");}
-			if(select == 3){System.out.println("\t□제목     □내용     ■확인     □취소");}
-			if(select == 4){System.out.println("\t□제목     □내용     □확인     ■취소");}
+			if(select == 1){System.out.println("\n\t■제목     □내용     □확인     □취소");}
+			if(select == 2){System.out.println("\n\t□제목     ■내용     □확인     □취소");}
+			if(select == 3){System.out.println("\n\t□제목     □내용     ■확인     □취소");}
+			if(select == 4){System.out.println("\n\t□제목     □내용     □확인     ■취소");}
 			System.out.print("\n                           (1,3)← → (⏎)확인 \n");
 			System.out.print("□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■\n>");
 			String tes = ScanUtil.nextLine();
@@ -379,14 +406,14 @@ public class BoardService {
 			{
 			case 1 :
 					PrintUtil.boardbase1();
-					System.out.println("제목을 입력하시오...");
+					System.out.println("\t제목을 입력하시오...\n");
 					PrintUtil.boardbase2();
 					System.out.print("제목 : ");
 					title = ScanUtil.nextLine();
 					break;
 			case 2 :
 					PrintUtil.boardbase1();
-					System.out.println("제목을 입력하시오...");
+					System.out.println("\t제목을 입력하시오...\n");
 					PrintUtil.boardbase2();
 					System.out.print("내용 : ");
 					content = ScanUtil.nextLine();
@@ -395,7 +422,7 @@ public class BoardService {
 					
 				    boardDao.selectBoardAlter(title,content,boardNum);
 				    PrintUtil.boardbase1();
-				    System.out.println("수정되었습니다.");
+				    System.out.println("\t수정되었습니다.\n");
 				    PrintUtil.boardbase2();
 				    tes =ScanUtil.nextLine();
 					return View.BOARD_MAIN;
@@ -413,7 +440,7 @@ public class BoardService {
 		int select = 1;
 		delete: while(true){
 		PrintUtil.boardbase1();
-	    System.out.println("정말 삭제하시겠습니까?");
+	    System.out.println("\t정말 삭제하시겠습니까?");
 	    System.out.println("\n");
 	    if(select%2 == 1){System.out.println("                  ■예     □아니오");}
 		if(select%2 == 0){System.out.println("                  □예     ■아니오");}
@@ -428,7 +455,7 @@ public class BoardService {
 					{
 					boardDao.BoardDelete(boardNum);
 					PrintUtil.boardbase1();
-				    System.out.println("삭제되었습니다.");
+				    System.out.println("\t삭제되었습니다.\n");
 				    PrintUtil.boardbase2();
 				    tes =ScanUtil.nextLine();
 				    return View.BOARD_MAIN;
@@ -465,7 +492,7 @@ public class BoardService {
 		{
 			if(boardaList.size() <= i)
 			{
-				System.out.println();
+				System.out.println("..     ... \t..\t...\t...");
 				continue;
 			}
 			Map<String, Object> boarda = boardaList.get(i);
@@ -489,21 +516,21 @@ public class BoardService {
 		
 		if( select == 1|| select == 5)
 		{
-			System.out.print( "◀ "+page);
+			System.out.print( "\n◀ "+page);
 			System.out.print( "page▷\t");			
 			System.out.print( "□게시글 조회  ");
 			System.out.print( "□뒤로가기");
 		}
 		if( select == 2)
 		{
-			System.out.print( "◁ "+page);
+			System.out.print( "\n◁ "+page);
 			System.out.print( "page▶\t");		
 			System.out.print( "□게시글 조회  ");	
 			System.out.print( "□뒤로가기");
 		}
 		if(select == 3)
 		{
-			System.out.print( "◁ "+page);
+			System.out.print( "\n◁ "+page);
 			System.out.print( "page▷\t");	
 			System.out.print( "■게시글 조회  ");		
 			System.out.print( "□뒤로가기");
@@ -513,7 +540,7 @@ public class BoardService {
 		
 		if(select == 4||select == 0)
 		{
-			System.out.print( "◁ "+page);
+			System.out.print( "\n◁ "+page);
 			System.out.print( "page▷\t");	
 			System.out.print( "□게시글 조회  ");
 			System.out.print( "■뒤로가기");
@@ -595,11 +622,12 @@ public class BoardService {
 				if(complete[0]==1 && complete[1]==1 && complete[2]==1){
 					if(select ==5)		System.out.print("\n           ■");
 					else				System.out.print("\n           □");
-					System.out.print(" 입력 완료! 식당 등록하기 ");
+					System.out.print(" 입력 완료! 식당 등록하기\n ");
 				}else System.out.println();
 				System.out.print("\t\t");
 				if(!(complete[0]==1 && complete[1]==1 && complete[2]==1))
-					PrintUtil.joystick2();
+					{System.out.println();
+					PrintUtil.joystick2();}
 				else
 					PrintUtil.printBar2();
 
@@ -624,16 +652,16 @@ public class BoardService {
 		case 1: if(complete[0]==1){break;}
 		else{
 			PrintUtil.title();
-			System.out.println("  📄건의사항✏️\n");
-			System.out.println("                      식당 이름을 입력해주세요\n\n");
-			PrintUtil.printBar();
+			System.out.println("  📄건의사항✏️\n\n");
+			System.out.println("                      식당 이름을 입력해주세요");
+			PrintUtil.boardbase2();
 			resName = ScanUtil.nextLine();
 
 			PrintUtil.title();
-			System.out.println("  📄건의사항✏️\n");
+			System.out.println("  📄건의사항✏️\n\n");
 			System.out.println("                       식당 이름 : " + resName);
-			System.out.println("                      음식스타일을 입력해주세요\n");
-			PrintUtil.printBar();
+			System.out.println("                      음식스타일을 입력해주세요");
+			PrintUtil.boardbase2();
 			cousine = ScanUtil.nextLine();
 
 			complete[0] = 1;
@@ -643,16 +671,16 @@ public class BoardService {
 		case 2:if(complete[1]==1){break;}
 		else{
 			PrintUtil.title();
-			System.out.println("  📄건의사항✏️\n");
-			System.out.println("                        주소를 입력해주세요\n\n");
-			PrintUtil.printBar();
+			System.out.println("  📄건의사항✏️\n\n");
+			System.out.println("                        주소를 입력해주세요");
+			PrintUtil.boardbase2();
 			add1 = ScanUtil.nextLine();
 
 			PrintUtil.title();
 			System.out.println("  📄건의사항✏️\n");
 			System.out.println("                       주소 : " + add1);
-			System.out.println("               학원으로부터 거리(m)를 숫자로 입력해주세요\n");
-			PrintUtil.printBar();
+			System.out.println("               학원으로부터 거리(m)를 숫자로 입력해주세요");
+			PrintUtil.boardbase2();
 			distance = Integer.parseInt(ScanUtil.nextLine());
 
 			complete[1] = 1;
@@ -662,16 +690,16 @@ public class BoardService {
 		case 3:if(complete[2]==1){break;}
 		else{
 			PrintUtil.title();
-			System.out.println("  📄건의사항✏️\n");
-			System.out.println("                    오픈시간을 입력해주세요 (예)12:00\n\n");
-			PrintUtil.printBar();
+			System.out.println("  📄건의사항✏️\n\n");
+			System.out.println("                    오픈시간을 입력해주세요 (예)12:00");
+			PrintUtil.boardbase2();
 			openTime = ScanUtil.nextLine();
 
 			PrintUtil.title();
-			System.out.println("  📄건의사항✏️\n");
+			System.out.println("  📄건의사항✏️\n\n");
 			System.out.println("                       오픈시간 " + openTime);
-			System.out.println("                    마감시간을 입력해주세요 (예)12:00\n");
-			PrintUtil.printBar();
+			System.out.println("                    마감시간을 입력해주세요 (예)12:00");
+			PrintUtil.boardbase2();
 			closeTime = ScanUtil.nextLine();
 
 			complete[2] = 1;
@@ -698,13 +726,13 @@ public class BoardService {
 		if(0 < result){
 			
 			PrintUtil.boardbase1();
-			System.out.println("글 등록 성공");
+			System.out.println("\t글 등록 성공\n");
 		    PrintUtil.boardbase2();
 		    String tes =ScanUtil.nextLine();
 			return View.BOARD_MAIN;	
 		}else{
 			PrintUtil.boardbase1();
-			System.out.println("글 등록 실패");
+			System.out.println("\t글 등록 실패\n");
 		    PrintUtil.boardbase2();
 		    String tes =ScanUtil.nextLine();
 			return View.BOARD_MAIN;	
@@ -736,7 +764,7 @@ public class BoardService {
 			
 			
 			PrintUtil.title2();
-			System.out.println("식당명 : "+resName);
+			System.out.print("식당명 : "+resName+"\t");
 			System.out.println("승인여부 : "+avAil);
 			System.out.println("주소 :" +Add);
 			System.out.println("거리 : "+disTance);
@@ -772,11 +800,11 @@ public class BoardService {
 					 if(0 < result)
 					 {
 						boardDao.ResBoardDelete(boardNum);
-					 	System.out.println("식당 등록 성공");
+					 	System.out.println("식당 등록 성공\n");
 					 	return View.BOARD_ADMIN;	
 					 }else
 					 {
-						System.out.println("식당 등록 실패");
+						System.out.println("식당 등록 실패\n");
 						return View.BOARD_ADMIN;	
 					 }
 				
