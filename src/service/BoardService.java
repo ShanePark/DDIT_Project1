@@ -166,7 +166,7 @@ public class BoardService {
 				return View.BOARD_MANAGE2;
 		case 4:if(Controller.user.get("USER_ID").toString().equals("guest"))
 					{  PrintUtil.boardbase1();
-					System.out.println("\t로그인이 필요한 서비스입니다");
+					System.out.println("\t로그인이 필요한 서비스입니다\n");
 				    PrintUtil.boardbase2();
 					String temp = ScanUtil.nextLine();
 					return View.BOARD_MAIN;}
@@ -175,7 +175,7 @@ public class BoardService {
 			if(Controller.user.get("USER_ID").toString().equals("guest"))
 					{  
 						PrintUtil.boardbase1();
-						System.out.println("\t로그인이 필요한 서비스입니다");
+						System.out.println("\t로그인이 필요한 서비스입니다\n");
 					    PrintUtil.boardbase2();
 						String temp = ScanUtil.nextLine();
 						return View.BOARD_MAIN;
