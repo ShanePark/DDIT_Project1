@@ -29,7 +29,7 @@ public class BoardService {
 	
 	private int page = 1;
 	
-	private int select = 1;
+	private int select = 2;
 	private int boardNum;
 	public int boardList()
 	{
@@ -163,7 +163,7 @@ public class BoardService {
 					System.out.println("로그인이 필요한 서비스입니다");
 				    PrintUtil.boardbase2();
 					String temp = ScanUtil.nextLine();
-					return View.SIGNUP;}
+					return View.BOARD_MAIN;}
 				return View.BOARD_ADD;
 		case 5:
 			if(Controller.user.get("USER_ID").toString().equals("guest"))
@@ -172,7 +172,7 @@ public class BoardService {
 						System.out.println("로그인이 필요한 서비스입니다");
 					    PrintUtil.boardbase2();
 						String temp = ScanUtil.nextLine();
-						return View.SIGNUP;
+						return View.BOARD_MAIN;
 					}
 			else if(Controller.user.get("USER_ID").toString().equals("admin"))
 					{
@@ -315,7 +315,7 @@ public class BoardService {
 						System.out.println("로그인이 필요한 서비스입니다");
 					    PrintUtil.boardbase2();
 						String temp = ScanUtil.nextLine();
-						return View.SIGNUP;
+						return View.BOARD_MAIN;
 					} return View.BOARD_ALTER;
 			case 2 : if(!Controller.user.get("USER_ID").toString().equals(userID))
 					{
@@ -330,7 +330,7 @@ public class BoardService {
 						System.out.println("로그인이 필요한 서비스입니다");
 					    PrintUtil.boardbase2();
 						String temp = ScanUtil.nextLine();
-						return View.SIGNUP;
+						return View.BOARD_MAIN;
 					}return View.BOARD_DELETE;
 			case 3 :break boardone;
 			}

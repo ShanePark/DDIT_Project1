@@ -31,11 +31,11 @@ public class Controller {
 		UserDao userDao = UserDao.getInstance();
 		Map<String, Object> user = userDao.userSignIn("admin","password");
 		Controller.user = user;
-		////////////////////////// BOX 테스팅할 코드 ↓
+		////////////////////////// BOARD 테스팅할 코드 ↓
 		
 		boardService.boardRes_admin();
 		
-		////////////////////////// BOX 테스팅할 코드 ↑
+		////////////////////////// BOARD 테스팅할 코드 ↑
 	}
 	
 	private void boxTesting(){
@@ -67,7 +67,7 @@ public class Controller {
 		Controller.user = user;
 		////////////////////////// ADMIN 테스팅할 코드 ↓
 		
-		adminService.resManage("1");
+		adminService.boxOrderList();
 		
 		////////////////////////// ADMIN 테스팅할 코드 ↑
 	}
@@ -115,9 +115,12 @@ public class Controller {
 			case View.BOARD_MANAGE2: view = boardService.boardSelect();		break;
 			case View.BOARD_ALTER: view = boardService.boardAlter(); 		break;
 			case View.BOARD_DELETE: view = boardService.boardDelete(); 		break;
-			case View.BOARD_ADMIN: view = boardService.boardRes_admin(); 		break;//수정
-			case View.BOARD_USER: view = boardService.boardRes_user(); 			break;//수정
-			case View.BOARD_ADMIN_MANAGE: view = boardService.boardSelectAdmin(); 			break;//수정
+			case View.BOARD_ADMIN: view = boardService.boardRes_admin(); 	break;//수정
+			case View.BOARD_USER: view = boardService.boardRes_user(); 		break;//수정
+			case View.BOARD_ADMIN_MANAGE: view = boardService.boardSelectAdmin(); 	break;//수정
+			case View.BOX_MANAGE : view = adminService.boxManage();			break;
+			case View.LOAD_CREDIT : view = adminService.loadCredit();		break;
+			case View.BOX_ORDER_LIST : view = adminService.boxOrderList();	break;
 			default : 
 				System.out.println("해당 View 번호에 대한 case가 start()에 존재하지 않습니다.");
 				ScanUtil.nextLine();
