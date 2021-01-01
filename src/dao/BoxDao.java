@@ -1,6 +1,7 @@
 package dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -35,7 +36,16 @@ public class BoxDao {
 					+" and to_date(box_date) = to_date(sysdate)";
 		List<Object> p = new ArrayList<>();
 		p.add(boxName);
-		return jdbc.selectOne(sql,p);
+		String sql2 = "select count(*) cnt from boxmenu where box_name = ?"
+				+" and to_date(box_date) = to_date(sysdate)";
+		if(Integer.parseInt(jdbc.selectOne(sql2, p).get("CNT").toString()) ==1)
+			return jdbc.selectOne(sql,p);
+		else{
+			Map<String, Object> map = new HashMap<>();
+			map.put("BOX_MENU", "오늘의 메뉴정보없음");
+			map.put("PRICE", 0);
+			return map;
+		}
 	}
 	
 	public boolean isOrderedToday(String boxName,String userId){
@@ -54,6 +64,10 @@ public class BoxDao {
 				+ " and box_date = to_date(sysdate)";
 		List<Object> p = new ArrayList<>();
 		p.add(boxName);
+		String sql2 = "select count(*) cnt from boxmenu where box_name = ?"
+				+ " and box_date = to_date(sysdate)";
+		if(Integer.parseInt(jdbc.selectOne(sql2, p).get("CNT").toString())==0)
+			return 0;
 		Map<String, Object> price = jdbc.selectOne(sql, p);
 		return Integer.parseInt(price.get("PRICE").toString());	
 	}
@@ -88,7 +102,7 @@ public class BoxDao {
 	public boolean orderBox(String boxName, String userId){
 		String sql = "insert into box_order(order_num,box_name, user_id, order_date, price)"
 	       +" values((select nvl(max(order_num),0)+1 from box_order),?,?,sysdate,"
-	       +"(select price from boxmenu where box_name = ? and box_date = to_date(sysdate)))";
+	       +"nvl((select price from boxmenu where box_name = ? and box_date = to_date(sysdate)),0))";
 		
 		List<Object> p = new ArrayList<>();
 		p.add(boxName);
