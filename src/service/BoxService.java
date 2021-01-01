@@ -42,7 +42,10 @@ public class BoxService {
 			boolean isOrdered = boxDao.isOrderedToday(boxName, userId);
 			PrintUtil.title();
 			System.out.printf("\t    🍱 %s %s 🍱\n\n",today,boxName);
-			System.out.printf("\t 금일의 가격 : %s ₩ (주문자 :%d명)\n\n",boxPrice,orderToday);
+			if(boxPrice==0)
+				System.out.printf("\t 금일의 가격 : 정보없음.추후청구 (주문자 :%d명)\n\n",orderToday);
+			else 
+				System.out.printf("\t 금일의 가격 : %s ₩ (주문자 :%d명)\n\n",boxPrice,orderToday);
 			System.out.printf("         『%s』\n",boxMenu);
 			if(isOrdered)
 				System.out.printf("\t🍛 %s님은 오늘 도시락을 이미 주문 했습니다.\n",userName);
