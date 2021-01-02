@@ -1217,9 +1217,9 @@ public class UserService {
 		
 		grade = Util.scoreToStars(score);
 		PrintUtil.title();
-		System.out.printf("\t\t[%s]\n",resName);
+		System.out.printf("\n\t\t[%s]\n",resName);
 		System.out.printf("\n\t내 별점 : %s\n\n",grade);
-		System.out.printf("\t%s에 대한 의견을 자유롭게 작성해주세요.\n",resName);
+		System.out.printf("\t%s에 대한 의견을 자유롭게 작성해주세요.\n\n",resName);
 		PrintUtil.printBar2();
 		content = ScanUtil.nextLine();
 
@@ -1231,9 +1231,9 @@ public class UserService {
 
 		if(userDao.newReview(review)==1){
 			PrintUtil.title();
-			System.out.printf("\t\t[%s]\n",resName);
+			System.out.printf("\n\t\t[%s]\n",resName);
 			System.out.printf("\t내 별점 : %s\n",grade);
-			System.out.printf("\t식당명 : %s \n\t리뷰 : %s\n",resName,content);
+			System.out.printf("\t식당명 : %s \n\n\t리뷰 : %s\n",resName,content);
 			System.out.println("\n\t계속 하려면 [엔터]키를 눌러주세요.");
 			PrintUtil.printBar();
 			content = ScanUtil.nextLine();
