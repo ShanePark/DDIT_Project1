@@ -150,7 +150,7 @@ public class BoxService {
 	public void payment(String userId, int price){
 		String payment = "";
 		if(price>0)
-			payment = "결재";
+			payment = "결제";
 		else payment = "충전";
 		if(boxDao.payment(userId,price)){
 			PrintUtil.title();
@@ -161,7 +161,7 @@ public class BoxService {
 			PrintUtil.printBar();
 
 		}else
-			System.out.println("결재에 실패했습니다. 관리자에게 문의하세요.");
+			System.out.println("결제에 실패했습니다. 관리자에게 문의하세요.");
 		ScanUtil.nextLine();
 		return;
 	}
