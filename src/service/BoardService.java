@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import sun.org.mozilla.javascript.internal.ast.ErrorCollector;
 import util.PrintUtil;
 import util.ScanUtil;
 import util.View;
