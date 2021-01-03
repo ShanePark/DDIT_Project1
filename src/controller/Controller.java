@@ -15,8 +15,8 @@ import dao.UserDao;
 public class Controller {
 
 	public static void main(String[] args) {
-//		LoadingUtil.loadingTest();
-//		LoadingUtil.loading();
+		LoadingUtil.loadingTest();
+		LoadingUtil.loading();
 		new Controller().start();
 		
 //		new Controller().Testing();		// 테스트용
