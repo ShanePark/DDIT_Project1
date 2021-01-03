@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import sun.org.mozilla.javascript.internal.ast.ErrorCollector;
 import util.PrintUtil;
 import util.ScanUtil;
 import util.View;
@@ -675,13 +676,25 @@ public class BoardService {
 			System.out.println("                        주소를 입력해주세요");
 			PrintUtil.boardbase2();
 			add1 = ScanUtil.nextLine();
-
+			
+	distan :while(true)
+			{
 			PrintUtil.title();
 			System.out.println("  📄건의사항✏️\n");
 			System.out.println("                       주소 : " + add1);
 			System.out.println("               학원으로부터 거리(m)를 숫자로 입력해주세요");
 			PrintUtil.boardbase2();
-			distance = Integer.parseInt(ScanUtil.nextLine());
+			try {
+				distance = Integer.parseInt(ScanUtil.nextLine());
+			} catch (Exception e) {
+				distance = -1;
+				PrintUtil.title();
+				System.out.println("\n거리는 숫자로 입력해주십시오\n");
+				PrintUtil.boardbase2();
+				ScanUtil.nextLine();
+			}
+			if(distance != -1){break distan;}
+			}
 
 			complete[1] = 1;
 
