@@ -9,16 +9,16 @@ public class PrintUtil {
 		System.out.println("");
 	}
 	static public void title(){
-		System.out.println("\n\n□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■\n");
-		System.out.println("                                    🍽️ 오늘 뭐먹지? 🍽️\n");
+		title3();
+		System.out.println();
 	}
 	static public void title2(){
-		System.out.println("\n\n□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■\n");
-		System.out.println("                                    🍽️ 오늘 뭐먹지? 🍽️");
+		title();
+		System.out.println();
 	}
 	static public void title3(){
 		System.out.println("\n\n□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■\n");
-		System.out.print("                                    🍽️ 오늘 뭐먹지? 🍽️");
+		System.out.print("               🍽️ 오늘 뭐먹지? 🍽️");
 	}
 
 	static public void joystick(){
@@ -77,38 +77,45 @@ public class PrintUtil {
 		System.out.print("□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■\n> ");
 	}
 	
+	static public void guest() {
+		System.out.println("\n\n\n              🧑 게스트로 접속중.   🧑\n\n\n\n");
+	}
+	
 	static public void guestLogin(){
 		title();
-		System.out.println("\n\n\n                              🧑 게스트로 접속중.   🧑\n\n\n\n");
+		guest();
 		printBar();
 		Util.wait(700);;
 		title();
-		System.out.println("\n\n\n                              🧑 게스트로 접속중..  🧑\n\n\n\n");
+		guest();
 		printBar();
 		Util.wait(700);;
 		title();
-		System.out.println("\n\n\n                              🧑 게스트로 접속중... 🧑\n\n\n\n");
+		guest();
 		printBar();
 	}
-
+	
+	public static void connecting() {
+		System.out.println("\n\n\n              🧑  접속중.   🧑\n\n\n\n");
+	}
 	public static void loading(){
 		title();
-		System.out.println("\n\n\n                              🧑  접속중.   🧑\n\n\n\n");
+		connecting();
 		printBar();
 		Util.wait(700);;
 		title();
-		System.out.println("\n\n\n                              🧑  접속중..  🧑\n\n\n\n");
+		connecting();
 		printBar();
 		Util.wait(700);;
 		title();
-		System.out.println("\n\n\n                              🧑  접속중... 🧑\n\n\n\n");
+		connecting();
 		printBar();
 	}
 	
 	public static void onlyForMember(){
 		title();
-		System.out.println("\n\n                         🧑  회원만 이용 가능한 서비스입니다. 🧑\n\n\n");
-		System.out.println("                    계속 하려면 엔터키를 눌러주세요.\n");
+		System.out.println("\n\n          🧑  회원만 이용 가능한 서비스입니다. 🧑\n\n\n");
+		System.out.println("           계속 하려면 엔터키를 눌러주세요.\n");
 		printBar();
 		ScanUtil.nextLine();
 	}
