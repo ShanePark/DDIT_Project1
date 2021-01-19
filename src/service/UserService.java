@@ -206,7 +206,7 @@ public class UserService {
 				orderby = "평점순";
 			}
 			PrintUtil.title3();
-			System.out.print("     "+Util.cutString2(nickname,nicknameLength));
+			System.out.print(Util.cutString2(nickname,nicknameLength));
 			System.out.print("(으)로 접속중\n\n");
 			for(int i=0; i<res.length; i++){
 				resName = list.get(i).get("RES_NAME").toString();
@@ -232,12 +232,12 @@ public class UserService {
 
 			if(selectMain ==3)		System.out.print("  ■");
 			else				System.out.print("  □");
-			System.out.print(" 거리기준             2. ");
+			System.out.print(" 거리기준           2. ");
 			System.out.println(res[1]);
 
 			if(selectMain ==4)		System.out.print("  ■");
 			else				System.out.print("  □");
-			System.out.print(" 검색                   3. ");
+			System.out.print(" 검색              3. ");
 			System.out.println(res[2]);
 
 			if(selectMain ==5)		System.out.print("  ■");
@@ -250,10 +250,10 @@ public class UserService {
 			if(selectMain ==6)		System.out.print("  ■");
 			else				System.out.print("  □");
 			if(nickname.equals("관리자"))
-				System.out.print(" 관리자전용          5. ");
+				System.out.print(" 관리자전용       5. ");
 			else if(nickname.equals("비회원"))
-				System.out.print(" 로그인                5. ");	// 비회원일때 마이페이지 대신 어떤 기능을 넣을지 정해야합니다
-			else System.out.print(" 마이페이지          5. ");
+				System.out.print(" 로그인             5. ");	// 비회원일때 마이페이지 대신 어떤 기능을 넣을지 정해야합니다
+			else System.out.print(" 마이페이지       5. ");
 
 			System.out.println(res[4]);
 
