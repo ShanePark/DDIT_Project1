@@ -3,7 +3,7 @@
 
 ## 오늘 뭐먹지 Project
 ### this repository reveals our first project named OMM
-### Our team work together from 21st DEC 2021, to 31st DEC 2021
+### Our team worked together since 21st DEC 2021, until 31st DEC 2021
 ### Please check it out, any feedbacks are appreciated
 
 >### Contributors
