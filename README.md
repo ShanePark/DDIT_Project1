@@ -7,6 +7,6 @@
 ### Please check it out, any feedbacks are appreciated
 
 >### Contributors
->[Shane](github.com/Shane-Park)   
+>[Shane](https://github.com/Shane-Park)   
 >[issac](https://github.com/chief7852)   
 >[Jeje](https://github.com/jeje0130)   
