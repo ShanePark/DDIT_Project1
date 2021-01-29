@@ -2,9 +2,10 @@
 <hr>
 
 ## 🍻오늘 뭐먹지 Project
-### this repository reveals our first project named OMM
+### thank you for visiting our collaboration page
+### this repository is about our first project called OMM
 ### Our team worked together since 21st DEC 2020 and demonstrated this on 31st DEC 2020
-### Please check it out, any feedbacks are appreciated
+### Please check it out, any feedbacks would be greatly appreciated
 
 >### Contributors
 >[Shane](https://github.com/Shane-Park)   
