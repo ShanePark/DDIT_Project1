@@ -11,3 +11,6 @@
 >[Shane](https://github.com/Shane-Park)   
 >[issac](https://github.com/chief7852)   
 >[Jeje](https://github.com/jeje0130)   
+
+### click Below to watch the video
+[![Video Label](http://img.youtube.com/vi/_W_-VTs9OgM/maxresdefault.jpg)](https://youtu.be/_W_-VTs9OgM)
